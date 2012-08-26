@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 25, 2012 at 11:56 PM
+-- Generation Time: Aug 26, 2012 at 12:38 PM
 -- Server version: 5.5.24-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.2
 
@@ -19,25 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `vdc`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `payment`
---
-
-CREATE TABLE IF NOT EXISTS `payment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_id` int(11) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `amount` int(11) NOT NULL,
-  `designer_price` int(11) NOT NULL,
-  `client_price` int(11) NOT NULL,
-  `debt` tinyint(1) NOT NULL,
-  `sort_order` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `order_id` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -61,9 +42,7 @@ CREATE TABLE IF NOT EXISTS `vdc_client` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `code` varchar(30) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -130,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `vdc_designer_status` (
 CREATE TABLE IF NOT EXISTS `vdc_difficulty` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
+  `sort_order` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -158,6 +138,7 @@ CREATE TABLE IF NOT EXISTS `vdc_manager` (
 CREATE TABLE IF NOT EXISTS `vdc_measure_unit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
+  `sort_order` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -180,11 +161,11 @@ CREATE TABLE IF NOT EXISTS `vdc_order` (
   `difficulty_id` int(11) NOT NULL,
   `priority_id` int(11) NOT NULL,
   `comment` varchar(200) NOT NULL,
-  `chromaticity_id` int(11) NOT NULL,
-  `density_id` int(11) NOT NULL,
-  `size_x` int(11) NOT NULL,
-  `size_y` int(11) NOT NULL,
-  `measure_unit_id` int(11) NOT NULL,
+  `chromaticity_id` int(11) DEFAULT NULL,
+  `density_id` int(11) DEFAULT NULL,
+  `size_x` int(11) DEFAULT NULL,
+  `size_y` int(11) DEFAULT NULL,
+  `measure_unit_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `client_id` (`client_id`),
   KEY `manager_id` (`manager_id`),
@@ -245,13 +226,31 @@ CREATE TABLE IF NOT EXISTS `vdc_order_type` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `vdc_payment`
+--
+
+CREATE TABLE IF NOT EXISTS `vdc_payment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `create_date` datetime NOT NULL,
+  `amount` int(11) NOT NULL,
+  `designer_price` int(11) NOT NULL,
+  `client_price` int(11) NOT NULL,
+  `debt` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vdc_payment_history`
 --
 
 CREATE TABLE IF NOT EXISTS `vdc_payment_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `payment_id` int(11) NOT NULL,
-  `create_date` int(11) NOT NULL,
+  `create_date` datetime NOT NULL,
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `payment_id` (`payment_id`)
@@ -283,6 +282,7 @@ CREATE TABLE IF NOT EXISTS `vdc_price` (
 CREATE TABLE IF NOT EXISTS `vdc_priority` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
+  `sort_order` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -306,24 +306,12 @@ CREATE TABLE IF NOT EXISTS `vdc_user` (
 --
 
 --
--- Constraints for table `payment`
---
-ALTER TABLE `payment`
-  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `vdc_order` (`id`);
-
---
--- Constraints for table `vdc_client`
---
-ALTER TABLE `vdc_client`
-  ADD CONSTRAINT `vdc_client_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `vdc_user` (`id`);
-
---
 -- Constraints for table `vdc_designer`
 --
 ALTER TABLE `vdc_designer`
-  ADD CONSTRAINT `vdc_designer_ibfk_3` FOREIGN KEY (`designer_status_id`) REFERENCES `vdc_designer_status` (`id`),
   ADD CONSTRAINT `vdc_designer_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `vdc_user` (`id`),
-  ADD CONSTRAINT `vdc_designer_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `vdc_client` (`id`);
+  ADD CONSTRAINT `vdc_designer_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `vdc_client` (`id`),
+  ADD CONSTRAINT `vdc_designer_ibfk_3` FOREIGN KEY (`designer_status_id`) REFERENCES `vdc_designer_status` (`id`);
 
 --
 -- Constraints for table `vdc_manager`
@@ -351,14 +339,20 @@ ALTER TABLE `vdc_order`
 -- Constraints for table `vdc_order_status_history`
 --
 ALTER TABLE `vdc_order_status_history`
-  ADD CONSTRAINT `vdc_order_status_history_ibfk_2` FOREIGN KEY (`order_status_id`) REFERENCES `vdc_order_status` (`id`),
-  ADD CONSTRAINT `vdc_order_status_history_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `vdc_order` (`id`);
+  ADD CONSTRAINT `vdc_order_status_history_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `vdc_order` (`id`),
+  ADD CONSTRAINT `vdc_order_status_history_ibfk_2` FOREIGN KEY (`order_status_id`) REFERENCES `vdc_order_status` (`id`);
+
+--
+-- Constraints for table `vdc_payment`
+--
+ALTER TABLE `vdc_payment`
+  ADD CONSTRAINT `vdc_payment_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `vdc_order` (`id`);
 
 --
 -- Constraints for table `vdc_payment_history`
 --
 ALTER TABLE `vdc_payment_history`
-  ADD CONSTRAINT `vdc_payment_history_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`);
+  ADD CONSTRAINT `vdc_payment_history_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `vdc_payment` (`id`);
 
 --
 -- Constraints for table `vdc_price`
