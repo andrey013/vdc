@@ -7,27 +7,33 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'VDC',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+    'preload'=>array(
+        'log',
+        'bootstrap',
+    ),
 
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+        'ext.giix-components.*', // giix components
+        'application.extensions.yiidebugtb.*', //our extension
 	),
 
 	'modules'=>array(
-		// uncomment the following to enable the Gii tool
-		/*
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
-			'password'=>'Enter Your Password Here',
+			'password'=>'123',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
+            'generatorPaths'=>array(
+                'bootstrap.gii',
+                'ext.giix-core', // giix generators
+            ),
 		),
-		*/
 	),
 
 	// application components
@@ -47,19 +53,16 @@ return array(
 			),
 		),
 		*/
+		//'db'=>array(
+			//'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
+		//),
 		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
-		// uncomment the following to use a MySQL database
-		/*
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
+			'connectionString' => 'mysql:host=localhost;dbname=vdc',
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
+			'username' => 'vdc',
+			'password' => '123',
 			'charset' => 'utf8',
 		),
-		*/
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
@@ -67,18 +70,30 @@ return array(
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
+                /*
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'levels'=>'error, warning, trace',
 				),
+                */
 				// uncomment the following to show log messages on web pages
 				/*
 				array(
 					'class'=>'CWebLogRoute',
 				),
 				*/
+                array( // configuration for the toolbar
+                    'class'=>'XWebDebugRouter',
+                    'config'=>'alignLeft, opaque, runInDebug, fixedPos, collapsed, yamlStyle',
+                    'levels'=>'error, warning, profile, info',
+                    //'levels'=>'error, warning, trace, profile, info',
+                    'allowedIPs'=>array('127.0.0.1','::1','192.168.1.54','192\.168\.1[0-5]\.[0-9]{3}'),
+                ),
 			),
 		),
+        'bootstrap'=>array(
+            'class'=>'ext.bootstrap.components.Bootstrap', // assuming you extracted bootstrap under extensions
+        ),
 	),
 
 	// application-level parameters that can be accessed
