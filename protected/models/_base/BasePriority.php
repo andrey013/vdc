@@ -11,6 +11,7 @@
  *
  * @property integer $id
  * @property string $name
+ * @property string $code
  * @property integer $sort_order
  *
  * @property Order[] $orders
@@ -35,10 +36,11 @@ abstract class BasePriority extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('name, sort_order', 'required'),
+			array('name, code, sort_order', 'required'),
 			array('sort_order', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>30),
-			array('id, name, sort_order', 'safe', 'on'=>'search'),
+			array('code', 'length', 'max'=>10),
+			array('id, name, code, sort_order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,6 +59,7 @@ abstract class BasePriority extends GxActiveRecord {
 		return array(
 			'id' => Yii::t('app', 'ID'),
 			'name' => Yii::t('app', 'Name'),
+			'code' => Yii::t('app', 'Code'),
 			'sort_order' => Yii::t('app', 'Sort Order'),
 			'orders' => null,
 		);
@@ -67,6 +70,7 @@ abstract class BasePriority extends GxActiveRecord {
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('name', $this->name, true);
+		$criteria->compare('code', $this->code, true);
 		$criteria->compare('sort_order', $this->sort_order);
 
 		return new CActiveDataProvider($this, array(

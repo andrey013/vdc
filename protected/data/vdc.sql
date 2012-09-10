@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 26, 2012 at 12:38 PM
+-- Generation Time: Aug 26, 2012 at 06:23 PM
 -- Server version: 5.5.24-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.2
 
@@ -282,6 +282,7 @@ CREATE TABLE IF NOT EXISTS `vdc_price` (
 CREATE TABLE IF NOT EXISTS `vdc_priority` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
+  `code` varchar(10) NOT NULL,
   `sort_order` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
