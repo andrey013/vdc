@@ -12,15 +12,14 @@ return array(
 	// preloading 'log' component
     'preload'=>array(
         'log',
-        'bootstrap',
     ),
 
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-        'ext.giix-components.*', // giix components
-        'application.extensions.yiidebugtb.*', //our extension
+                'ext.giix-components.*', // giix components
+                'application.extensions.yiidebugtb.*', //our extension
 	),
 
 	'modules'=>array(
@@ -30,7 +29,6 @@ return array(
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
             'generatorPaths'=>array(
-                'bootstrap.gii',
                 'ext.giix-core', // giix generators
             ),
 		),
@@ -91,9 +89,6 @@ return array(
                 ),
 			),
 		),
-        'bootstrap'=>array(
-            'class'=>'ext.bootstrap.components.Bootstrap', // assuming you extracted bootstrap under extensions
-        ),
 	),
 
 	// application-level parameters that can be accessed
