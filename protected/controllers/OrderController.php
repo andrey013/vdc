@@ -11,7 +11,7 @@ public function filters() {
 public function accessRules() {
 	return array(
 			array('allow',
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','list'),
 				'users'=>array('*'),
 				),
 			array('allow', 
@@ -100,4 +100,10 @@ public function accessRules() {
 		));
 	}
 
+	public function actionList() {
+		$dataProvider = new CActiveDataProvider('Order');
+		$this->render('list', array(
+			'dataProvider' => $dataProvider,
+		));
+	}
 }

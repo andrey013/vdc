@@ -34,7 +34,7 @@ $(function(){
 		<div class="navbar-inner">
 			<a class="brand" href="#">ВДЦ</a>
 			<ul class="nav">
-				<li class="active"><a href="<?php echo $this->createUrl('/site/index'); ?>">Заказы</a></li>
+				<li class="active"><a href="<?php echo $this->createUrl('/order/list'); ?>">Заказы</a></li>
 				<li><a href="<?php echo $this->createUrl('/site/page', array('view'=>'about')); ?>">Настройки</a></li>
 				<li><a href="<?php echo $this->createUrl('/site/contact'); ?>">Дизайнеры</a></li>
 				<li><a href="<?php echo $this->createUrl('/site/login'); ?>">Пользователи</a></li>
@@ -56,7 +56,7 @@ $(function(){
 				<li class="dropdown">
 					<div class="btn-group">
     				<a class="btn btn-success dropdown-toggle" id="status" role="button" data-toggle="dropdown" href="#">
-    					Виктория К. <i class="icon-ok"></i> Свободен <b class="caret"></b>
+    					<i class="icon-ok icon-white"></i> Виктория К. Свободен <b class="caret"></b>
     				</a>
     				<ul class="dropdown-menu" role="menu" aria-labelledby="status">
     					<li><a href="#"><i class="icon-ok"></i> Свободен</a></li>
@@ -68,7 +68,7 @@ $(function(){
 				<li><a href="<?php echo $this->createUrl('/site/login'); ?>">Login</a></li>
 				<?php }else{ ?>
 				<li><a href="<?php echo $this->createUrl('/site/logout'); ?>">
-					<?php echo 'Logout ('.Yii::app()->user->name.')' ?>
+					<?php echo 'Выход' /* ('.Yii::app()->user->name.')'*/ ?>
 					</a>
 				</li>
 				<?php } ?>
