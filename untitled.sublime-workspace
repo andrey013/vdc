@@ -1,0 +1,411 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "protected/views/layouts/column2.php",
+			"settings":
+			{
+				"buffer_size": 530,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/components/UserIdentity.php",
+			"settings":
+			{
+				"buffer_size": 930,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/views/layouts/main.php",
+			"settings":
+			{
+				"buffer_size": 1948,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/views/layouts/column1.php",
+			"settings":
+			{
+				"buffer_size": 181,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/modules/user/models/User.php",
+			"settings":
+			{
+				"buffer_size": 7141,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/modules/rights/components/RWebUser.php",
+			"settings":
+			{
+				"buffer_size": 2945,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 306.0,
+		"selected_items":
+		[
+			[
+				":w",
+				":w - Save"
+			]
+		],
+		"width": 440.0
+	},
+	"console":
+	{
+		"height": 132.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/andrey/yii/vdc/protected/views/layouts/main.php",
+		"/home/andrey/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/andrey/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/andrey/nikki/nikki/src/Utils.hs",
+		"/home/andrey/nikki/nikki/src/Main.hs"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"modify",
+			"color",
+			"<$>"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "protected/views/layouts/column2.php",
+					"settings":
+					{
+						"buffer_size": 530,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								530,
+								530
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"file": "protected/components/UserIdentity.php",
+					"settings":
+					{
+						"buffer_size": 930,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								859,
+								859
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "protected/views/layouts/main.php",
+					"settings":
+					{
+						"buffer_size": 1948,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1041,
+								1041
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 3,
+					"file": "protected/views/layouts/column1.php",
+					"settings":
+					{
+						"buffer_size": 181,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"rulers":
+							[
+							],
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 4,
+					"file": "protected/modules/user/models/User.php",
+					"settings":
+					{
+						"buffer_size": 7141,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5255,
+								5255
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2295.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "protected/modules/rights/components/RWebUser.php",
+					"settings":
+					{
+						"buffer_size": 2945,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								412,
+								412
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			],
+			[
+				0,
+				1,
+				1,
+				2
+			],
+			[
+				1,
+				1,
+				2,
+				2
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.334375,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			0.8638996139,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"main",
+				"protected/views/layouts/main.php"
+			],
+			[
+				"webu",
+				"protected/modules/rights/components/RWebUser.php"
+			],
+			[
+				"main.p",
+				"protected/views/layouts/main.php"
+			],
+			[
+				"modeluse",
+				"protected/modules/user/models/User.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 207.0,
+	"status_bar_visible": true
+}
