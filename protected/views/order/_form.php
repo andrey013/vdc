@@ -7,31 +7,18 @@
 ));
 ?>
 
-	<p class="note">
-		<?php echo Yii::t('app', 'Fields with'); ?> <span class="required">*</span> <?php echo Yii::t('app', 'are required'); ?>.
-	</p>
-
 	<?php echo $form->errorSummary($model); ?>
 
 		<div class="controls controls-row">
-			<label><b><?php echo $model->getAttribute('create_date'); ?></b></label>
-			<label>Заказ № <?php echo $model->getAttribute('global_number'); ?></label>
+			<label class="span1"><b><?php echo Yii::app()->dateFormatter->format('d.MM.yyyy', $model->create_date); ?></b></label>
+			<label class="span2">Заказ № <b><?php echo $model->global_number.'_kl'; ?><b></label>
 		</div>
-		<div class="row">
-		<?php echo $form->labelEx($model,'create_date'); ?>
-		<?php echo $form->textField($model, 'create_date'); ?>
-		<?php echo $form->error($model,'create_date'); ?>
-		</div><!-- row -->
-		<div class="row">
-		<?php echo $form->labelEx($model,'global_number'); ?>
-		<?php echo $form->textField($model, 'global_number'); ?>
-		<?php echo $form->error($model,'global_number'); ?>
-		</div><!-- row -->
-		<div class="row">
-		<?php echo $form->labelEx($model,'client_number'); ?>
-		<?php echo $form->textField($model, 'client_number'); ?>
-		<?php echo $form->error($model,'client_number'); ?>
-		</div><!-- row -->
+		<div class="controls controls-row">
+			<label class="span2" for="client_number">№ заказа оформленный у клиента</label>
+			<input type="text" id="client_number">
+			
+		</div>
+		
 		<div class="row">
 		<?php echo $form->labelEx($model,'client_id'); ?>
 		<?php echo $form->dropDownList($model, 'client_id', GxHtml::listDataEx(Client::model()->findAllAttributes(null, true))); ?>

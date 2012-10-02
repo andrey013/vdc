@@ -36,7 +36,7 @@ public function accessRules() {
 
 	public function actionCreate() {
 		$model = new Order();
-		$model->create_date = date(time());
+		$model->create_date = time();
 
 		$this->performAjaxValidation($model, 'order-form');
 
