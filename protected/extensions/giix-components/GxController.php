@@ -19,7 +19,7 @@ abstract class GxController extends Controller {
 	/**
 	 * @var string The layout for the controller view.
 	 */
-	public $layout = '//layouts/column2';
+	public $layout = '//layouts/column1';
 	/**
 	 * @var array Context menu items. This property will be assigned to {@link CMenu::items}.
 	 */

@@ -17,6 +17,7 @@ header("Last-Modified: $last_modified GMT time");
 
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.min.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.min.js"></script>
+	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/editablegrid.min.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/live.js"></script>
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -30,7 +31,7 @@ $(function(){
 
 <body>
 
-	<div class="navbar navbar-static-top">
+	<div class="navbar navbar-static-top clearfix">
 		<div class="navbar-inner">
 			<a class="brand" href="#">ВДЦ</a>
 			<ul class="nav">
@@ -56,7 +57,7 @@ $(function(){
 				<li class="dropdown">
 					<div class="btn-group">
     				<a class="btn btn-success dropdown-toggle" id="status" role="button" data-toggle="dropdown" href="#">
-    					<i class="icon-ok icon-white"></i> Виктория К. Свободен <b class="caret"></b>
+    					<i class="icon-ok icon-white"></i> Виктория К. <b class="caret"></b>
     				</a>
     				<ul class="dropdown-menu" role="menu" aria-labelledby="status">
     					<li><a href="#"><i class="icon-ok"></i> Свободен</a></li>
@@ -68,7 +69,8 @@ $(function(){
 				<li><a href="<?php echo $this->createUrl('/site/login'); ?>">Login</a></li>
 				<?php }else{ ?>
 				<li><a href="<?php echo $this->createUrl('/site/logout'); ?>">
-					<?php echo 'Выход' /* ('.Yii::app()->user->name.')'*/ ?>
+					<!-- <?php echo 'Выход' /* ('.Yii::app()->user->name.')'*/ ?> -->
+					Выход
 					</a>
 				</li>
 				<?php } ?>

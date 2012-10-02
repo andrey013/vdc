@@ -13,6 +13,10 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
+		<div class="controls controls-row">
+			<label><b><?php echo $model->getAttribute('create_date'); ?></b></label>
+			<label>Заказ № <?php echo $model->getAttribute('global_number'); ?></label>
+		</div>
 		<div class="row">
 		<?php echo $form->labelEx($model,'create_date'); ?>
 		<?php echo $form->textField($model, 'create_date'); ?>
