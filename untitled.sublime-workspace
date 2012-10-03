@@ -35,7 +35,7 @@
 			"file": "protected/views/layouts/main.php",
 			"settings":
 			{
-				"buffer_size": 4053,
+				"buffer_size": 4552,
 				"line_ending": "Unix"
 			}
 		},
@@ -43,7 +43,7 @@
 			"file": "css/main.css",
 			"settings":
 			{
-				"buffer_size": 163,
+				"buffer_size": 1356,
 				"line_ending": "Unix"
 			}
 		},
@@ -67,7 +67,7 @@
 			"file": "protected/controllers/OrderController.php",
 			"settings":
 			{
-				"buffer_size": 2353,
+				"buffer_size": 2355,
 				"line_ending": "Unix"
 			}
 		},
@@ -99,7 +99,7 @@
 			"file": "protected/views/order/_form.php",
 			"settings":
 			{
-				"buffer_size": 4639,
+				"buffer_size": 4261,
 				"line_ending": "Unix"
 			}
 		},
@@ -107,7 +107,7 @@
 			"file": "protected/models/Order.php",
 			"settings":
 			{
-				"buffer_size": 185,
+				"buffer_size": 338,
 				"line_ending": "Unix"
 			}
 		},
@@ -116,6 +116,14 @@
 			"settings":
 			{
 				"buffer_size": 5643,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/extensions/giix-components/GxActiveRecord.php",
+			"settings":
+			{
+				"buffer_size": 27614,
 				"line_ending": "Unix"
 			}
 		},
@@ -172,6 +180,9 @@
 	},
 	"file_history":
 	[
+		"/home/andrey/yii/vdc/protected/models/_base/BaseCustomer.php",
+		"/home/andrey/yii/vdc/protected/extensions/giix-components/GxHtml.php",
+		"/home/andrey/yii/vdc/protected/extensions/giix-components/GxActiveRecord.php",
 		"/home/andrey/yii/vdc/protected/extensions/giix-components/GxActiveForm.php",
 		"/home/andrey/yii/vdc/protected/models/Order.php",
 		"/home/andrey/yii/vdc/protected/models/_base/BaseOrder.php",
@@ -220,7 +231,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -284,15 +295,15 @@
 					"file": "protected/views/layouts/main.php",
 					"settings":
 					{
-						"buffer_size": 4053,
+						"buffer_size": 4552,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1789,
-								1789
+								1976,
+								1976
 							]
 						],
 						"settings":
@@ -301,7 +312,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 312.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -311,15 +322,15 @@
 					"file": "css/main.css",
 					"settings":
 					{
-						"buffer_size": 163,
+						"buffer_size": 1356,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								163,
-								163
+								614,
+								614
 							]
 						],
 						"settings":
@@ -356,7 +367,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 182.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -364,7 +375,7 @@
 			]
 		},
 		{
-			"selected": 8,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -399,15 +410,15 @@
 					"file": "protected/controllers/OrderController.php",
 					"settings":
 					{
-						"buffer_size": 2353,
+						"buffer_size": 2355,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								738,
-								738
+								742,
+								742
 							]
 						],
 						"settings":
@@ -416,7 +427,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 273.0,
+						"translation.y": 117.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -505,15 +516,15 @@
 					"file": "protected/views/order/_form.php",
 					"settings":
 					{
-						"buffer_size": 4639,
+						"buffer_size": 4261,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								757,
-								767
+								488,
+								488
 							]
 						],
 						"settings":
@@ -532,15 +543,15 @@
 					"file": "protected/models/Order.php",
 					"settings":
 					{
-						"buffer_size": 185,
+						"buffer_size": 338,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								185,
-								185
+								144,
+								144
 							]
 						],
 						"settings":
@@ -565,8 +576,8 @@
 						"selection":
 						[
 							[
-								1830,
-								1830
+								3003,
+								3003
 							]
 						],
 						"settings":
@@ -582,6 +593,33 @@
 				},
 				{
 					"buffer": 13,
+					"file": "protected/extensions/giix-components/GxActiveRecord.php",
+					"settings":
+					{
+						"buffer_size": 27614,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9669,
+								9669
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2781.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
 					"file": "protected/extensions/giix-components/GxHtml.php",
 					"settings":
 					{
@@ -592,8 +630,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								3704,
+								3704
 							]
 						],
 						"settings":
@@ -602,7 +640,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 702.0,
+						"translation.y": 780.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -614,7 +652,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 14,
+					"buffer": 15,
 					"file": "protected/modules/user/models/User.php",
 					"settings":
 					{
@@ -634,7 +672,7 @@
 							"syntax": "Packages/PHP/PHP.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1755.0,
+						"translation.y": 1392.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -646,7 +684,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 15,
+					"buffer": 16,
 					"file": "protected/modules/rights/components/RWebUser.php",
 					"settings":
 					{
@@ -715,13 +753,13 @@
 		"cols":
 		[
 			0.0,
-			0.33449900437,
+			0.453679535602,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.761475761476,
+			0.754719004719,
 			1.0
 		]
 	},
@@ -737,6 +775,22 @@
 		"selected_items":
 		[
 			[
+				"custo",
+				"protected/models/_base/BaseCustomer.php"
+			],
+			[
+				"gxht",
+				"protected/extensions/giix-components/GxHtml.php"
+			],
+			[
+				"gxac",
+				"protected/extensions/giix-components/GxActiveRecord.php"
+			],
+			[
+				"gxa",
+				"protected/extensions/giix-components/GxActiveRecord.php"
+			],
+			[
 				"gxh",
 				"protected/extensions/giix-components/GxHtml.php"
 			],
@@ -751,10 +805,6 @@
 			[
 				"ord",
 				"protected/models/Order.php"
-			],
-			[
-				"gxac",
-				"protected/extensions/giix-components/GxActiveForm.php"
 			],
 			[
 				"baseoe",

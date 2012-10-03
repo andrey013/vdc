@@ -11,21 +11,34 @@ header("Last-Modified: $last_modified GMT time");
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="language" content="en" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.min.css" />
+	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" rel="stylesheet"/>
+	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-responsive.css" rel="stylesheet">
 
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.min.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.min.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/editablegrid.min.js"></script>
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/live.js"></script>
-
+	<!-- <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/live.js"></script>
+ -->
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <script>
 $(function(){
-	$('.dropdown-toggle').dropdown();
+	//$('.dropdown-toggle').dropdown();
+	$('select').addClass('shadow_select');
+	//$('select').wrap('<span class="select-wrapper" />');
+	//$('.select-wrapper').width($(this).width());
+
+	/*$('select').focusin(function() {
+    	$('.select-wrapper').addClass('webkit_specific');
+	});
+
+	$('select').focusout(function() {
+	    $('.select-wrapper').removeClass('webkit_specific');
+	});*/
 });
 </script>
 
