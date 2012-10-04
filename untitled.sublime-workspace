@@ -35,7 +35,7 @@
 			"file": "protected/views/layouts/main.php",
 			"settings":
 			{
-				"buffer_size": 4552,
+				"buffer_size": 4561,
 				"line_ending": "Unix"
 			}
 		},
@@ -43,7 +43,7 @@
 			"file": "css/main.css",
 			"settings":
 			{
-				"buffer_size": 1356,
+				"buffer_size": 8602,
 				"line_ending": "Unix"
 			}
 		},
@@ -99,7 +99,7 @@
 			"file": "protected/views/order/_form.php",
 			"settings":
 			{
-				"buffer_size": 4261,
+				"buffer_size": 4990,
 				"line_ending": "Unix"
 			}
 		},
@@ -210,6 +210,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			";",
 			"BaseOrder",
 			"modify",
 			"color",
@@ -221,6 +222,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			" !important;"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -295,15 +297,15 @@
 					"file": "protected/views/layouts/main.php",
 					"settings":
 					{
-						"buffer_size": 4552,
+						"buffer_size": 4561,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1976,
-								1976
+								4002,
+								4002
 							]
 						],
 						"settings":
@@ -312,7 +314,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 390.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -322,21 +324,22 @@
 					"file": "css/main.css",
 					"settings":
 					{
-						"buffer_size": 1356,
+						"buffer_size": 8602,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								614,
-								614
+								873,
+								873
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -516,15 +519,15 @@
 					"file": "protected/views/order/_form.php",
 					"settings":
 					{
-						"buffer_size": 4261,
+						"buffer_size": 4990,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								488,
-								488
+								628,
+								628
 							]
 						],
 						"settings":
@@ -556,7 +559,8 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -753,7 +757,7 @@
 		"cols":
 		[
 			0.0,
-			0.453679535602,
+			0.453158702269,
 			1.0
 		],
 		"rows":
@@ -766,7 +770,7 @@
 	"menu_visible": true,
 	"replace":
 	{
-		"height": 0.0
+		"height": 64.0
 	},
 	"save_all_on_build": true,
 	"select_file":
