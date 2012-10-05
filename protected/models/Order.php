@@ -17,4 +17,38 @@ class Order extends BaseOrder
 			return $customer->name;
 		}
 	}
+
+	public function setCustomerName($name)
+	{
+		Yii::log('setCustomerName', 'info');
+		$customer = Customer::model()->find('name=:name', array(':name'=>$name));
+		if(is_null($customer)){
+			Yii::log('create CustomerName', 'info');
+			$customer = new Customer();
+			$customer->name = $name;
+			$customer->save();
+		}
+		$this->customer = $customer;
+		$this->customer_id = $customer->id;
+	}
+
+	public function getChromaticityName()
+	{
+		$chromaticity = $this->chromaticity;
+		if(is_null($chromaticity)){
+			return '';
+		}else{
+			return $chromaticity->name;
+		}
+	}
+
+	public function getDensityName()
+	{
+		$density = $this->density;
+		if(is_null($density)){
+			return '';
+		}else{
+			return $density->name;
+		}
+	}
 }

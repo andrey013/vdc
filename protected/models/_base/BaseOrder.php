@@ -27,10 +27,10 @@
  * @property integer $size_y
  * @property integer $measure_unit_id
  *
- * @property Users $designer
  * @property MeasureUnit $measureUnit
  * @property Client $client
- * @property Users $manager
+ * @property User $manager
+ * @property User $designer
  * @property Customer $customer
  * @property OrderType $orderType
  * @property Difficulty $difficulty
@@ -70,10 +70,10 @@ abstract class BaseOrder extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'designer' => array(self::BELONGS_TO, 'Users', 'designer_id'),
 			'measureUnit' => array(self::BELONGS_TO, 'MeasureUnit', 'measure_unit_id'),
 			'client' => array(self::BELONGS_TO, 'Client', 'client_id'),
-			'manager' => array(self::BELONGS_TO, 'Users', 'manager_id'),
+			'manager' => array(self::BELONGS_TO, 'User', 'manager_id'),
+			'designer' => array(self::BELONGS_TO, 'User', 'designer_id'),
 			'customer' => array(self::BELONGS_TO, 'Customer', 'customer_id'),
 			'orderType' => array(self::BELONGS_TO, 'OrderType', 'order_type_id'),
 			'difficulty' => array(self::BELONGS_TO, 'Difficulty', 'difficulty_id'),
@@ -109,10 +109,10 @@ abstract class BaseOrder extends GxActiveRecord {
 			'size_x' => Yii::t('app', 'Size X'),
 			'size_y' => Yii::t('app', 'Size Y'),
 			'measure_unit_id' => null,
-			'designer' => null,
 			'measureUnit' => null,
 			'client' => null,
 			'manager' => null,
+			'designer' => null,
 			'customer' => null,
 			'orderType' => null,
 			'difficulty' => null,

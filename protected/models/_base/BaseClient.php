@@ -14,7 +14,7 @@
  * @property string $code
  *
  * @property Order[] $orders
- * @property Profiles[] $profiles
+ * @property Profile[] $profiles
  */
 abstract class BaseClient extends GxActiveRecord {
 
@@ -46,7 +46,7 @@ abstract class BaseClient extends GxActiveRecord {
 	public function relations() {
 		return array(
 			'orders' => array(self::HAS_MANY, 'Order', 'client_id'),
-			'profiles' => array(self::HAS_MANY, 'Profiles', 'client_id'),
+			'profiles' => array(self::HAS_MANY, 'Profile', 'client_id'),
 		);
 	}
 

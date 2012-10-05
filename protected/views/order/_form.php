@@ -1,10 +1,31 @@
-<div class="container">
 
-
-<?php $form = $this->beginWidget('GxActiveForm', array(
-	'id' => 'order-form',
-	'enableAjaxValidation' => true,
-));
+<?php 
+	$form = $this->beginWidget('GxActiveForm', array(
+		'id' => 'order-form',
+		'enableAjaxValidation' => true,
+	));
+	$managers=User2::model()->with(array(
+			'authAssignments'=>array(
+				// we don't want to select posts
+				'select'=>false,
+				// but want to get only users with published posts
+				'joinType'=>'INNER JOIN',
+				'condition'=>'authAssignments.itemname=\'Manager\'',
+			),
+		),
+		'profile'
+	)->findAll();
+	$designers=User2::model()->with(array(
+			'authAssignments'=>array(
+				// we don't want to select posts
+				'select'=>false,
+				// but want to get only users with published posts
+				'joinType'=>'INNER JOIN',
+				'condition'=>'authAssignments.itemname=\'Designer\'',
+			),
+		),
+		'profile'
+	)->findAll();
 ?>
 
 	<?php echo $form->errorSummary($model); ?>
@@ -13,7 +34,9 @@
 		</div>
 		<div class="controls controls-row row">
 			<label class="span1"><b><?php echo Yii::app()->dateFormatter->format('d.MM.yyyy', $model->create_date); ?></b></label>
-			<label class="span2">Заказ № <b><?php echo $model->global_number.'_kl'; ?><b></label>
+			<?php echo $form->textField($model, 'create_date', array('class' => 'hidden')); ?>
+			<label class="span2">Заказ № <b><?php echo $model->global_number.'_'.$model->client->code; ?><b></label>
+			<?php echo $form->textField($model, 'global_number', array('class' => 'hidden')); ?>
 		</div>
 		<div class="controls controls-row row">
 			&nbsp;
@@ -26,10 +49,10 @@
 				GxHtml::listDataEx(Client::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
 			<label class="span1" for="Order_manager_id">менеджер</label>
 			<?php echo $form->dropDownList($model, 'manager_id',
-				GxHtml::listDataEx(Users::model()->findAllAttributes(null, true), null, 'username'), array('class' => 'span2')); ?>
+				GxHtml::listDataEx($managers, null, 'profile.lastname'), array('class' => 'span2')); ?>
 			<label class="span1" for="Order_designer_id">дизайнер</label>
 			<?php echo $form->dropDownList($model, 'designer_id',
-				GxHtml::listDataEx(Users::model()->findAllAttributes(null, true), null, 'username'), array('class' => 'span2')); ?>
+				GxHtml::listDataEx($designers, null, 'profile.lastname'), array('class' => 'span2')); ?>
 		</div>
 		<hr>
 		<div class="controls controls-row row">
@@ -52,11 +75,15 @@
 		<hr>
 		<div class="controls controls-row row">
 			<label class="span1" for="Order_chromaticity_id">Цветность</label>
-			<?php echo $form->dropDownList($model, 'chromaticity_id',
+			<?php echo $form->textField($model, 'chromaticityname', array('class' => 'span2')); ?>
+			<!-- <?php echo $form->dropDownList($model, 'chromaticity_id',
 				GxHtml::listDataEx(Chromatisity::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
+			-->
 			<label class="span1" for="Order_density_id">Разрешение</label>
-			<?php echo $form->dropDownList($model, 'density_id',
+			<?php echo $form->textField($model, 'densityname', array('class' => 'span2')); ?>
+			<!-- <?php echo $form->dropDownList($model, 'density_id',
 				GxHtml::listDataEx(Density::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
+			-->
 			<label class="spanq" for="Order_size_x">Формат</label>
 			<?php echo $form->textField($model, 'size_x', array('class' => 'span1')); ?>
 			<label class="spanq" for="Order_size_y">x</label>
@@ -86,4 +113,3 @@
 echo GxHtml::submitButton(Yii::t('app', 'Save'));
 $this->endWidget();
 ?>
-</div><!-- form -->

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 04, 2012 at 10:42 PM
+-- Generation Time: Oct 05, 2012 at 10:59 PM
 -- Server version: 5.5.24-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -23,33 +23,37 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `AuthAssignment`
+-- Table structure for table `vdc_AuthAssignment`
 --
 
-CREATE TABLE IF NOT EXISTS `AuthAssignment` (
+CREATE TABLE IF NOT EXISTS `vdc_AuthAssignment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `itemname` varchar(64) NOT NULL,
-  `userid` varchar(64) NOT NULL,
+  `userid` int(11) NOT NULL,
   `bizrule` text,
   `data` text,
-  PRIMARY KEY (`itemname`,`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `userid` (`userid`),
+  KEY `itemname` (`itemname`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
--- Dumping data for table `AuthAssignment`
+-- Dumping data for table `vdc_AuthAssignment`
 --
 
-INSERT INTO `AuthAssignment` (`itemname`, `userid`, `bizrule`, `data`) VALUES
-('Admin', '1', NULL, 'N;'),
-('Authenticated', '2', NULL, 'N;'),
-('Guest', '2', NULL, 'N;');
+INSERT INTO `vdc_AuthAssignment` (`id`, `itemname`, `userid`, `bizrule`, `data`) VALUES
+(1, 'Admin', 1, NULL, 'N;'),
+(3, 'Guest', 2, NULL, 'N;'),
+(6, 'Manager', 3, NULL, 'N;'),
+(7, 'Designer', 4, NULL, 'N;');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `AuthItem`
+-- Table structure for table `vdc_AuthItem`
 --
 
-CREATE TABLE IF NOT EXISTS `AuthItem` (
+CREATE TABLE IF NOT EXISTS `vdc_AuthItem` (
   `name` varchar(64) NOT NULL,
   `type` int(11) NOT NULL,
   `description` text,
@@ -59,39 +63,27 @@ CREATE TABLE IF NOT EXISTS `AuthItem` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `AuthItem`
+-- Dumping data for table `vdc_AuthItem`
 --
 
-INSERT INTO `AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES
-('Admin', 2, NULL, NULL, 'N;'),
+INSERT INTO `vdc_AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES
+('Admin', 2, 'Администратор', NULL, 'N;'),
 ('Authenticated', 2, NULL, NULL, 'N;'),
+('Designer', 2, 'Дизайнер', NULL, 'N;'),
 ('Guest', 2, NULL, NULL, 'N;'),
-('Order.View', 0, NULL, NULL, 'N;');
+('Manager', 2, 'Менеджер', NULL, 'N;');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `AuthItemChild`
+-- Table structure for table `vdc_AuthItemChild`
 --
 
-CREATE TABLE IF NOT EXISTS `AuthItemChild` (
+CREATE TABLE IF NOT EXISTS `vdc_AuthItemChild` (
   `parent` varchar(64) NOT NULL,
   `child` varchar(64) NOT NULL,
   PRIMARY KEY (`parent`,`child`),
   KEY `child` (`child`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Rights`
---
-
-CREATE TABLE IF NOT EXISTS `Rights` (
-  `itemname` varchar(64) NOT NULL,
-  `type` int(11) NOT NULL,
-  `weight` int(11) NOT NULL,
-  PRIMARY KEY (`itemname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -117,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `vdc_client` (
   `name` varchar(50) NOT NULL,
   `code` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `vdc_client`
@@ -136,7 +128,14 @@ CREATE TABLE IF NOT EXISTS `vdc_customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `vdc_customer`
+--
+
+INSERT INTO `vdc_customer` (`id`, `name`) VALUES
+(1, 'ddd');
 
 -- --------------------------------------------------------
 
@@ -227,7 +226,14 @@ CREATE TABLE IF NOT EXISTS `vdc_order` (
   KEY `chromaticity_id` (`chromaticity_id`),
   KEY `density_id` (`density_id`),
   KEY `measure_unit_id` (`measure_unit_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `vdc_order`
+--
+
+INSERT INTO `vdc_order` (`id`, `create_date`, `global_number`, `client_number`, `client_id`, `manager_id`, `designer_id`, `customer_id`, `order_type_id`, `difficulty_id`, `priority_id`, `comment`, `chromaticity_id`, `density_id`, `size_x`, `size_y`, `measure_unit_id`) VALUES
+(1, '0000-00-00 00:00:00', 5, 123, 0, 3, 4, 1, 1, 1, 1, '123', NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -356,10 +362,10 @@ INSERT INTO `vdc_priority` (`id`, `name`, `code`, `sort_order`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vdc_profiles`
+-- Table structure for table `vdc_profile`
 --
 
-CREATE TABLE IF NOT EXISTS `vdc_profiles` (
+CREATE TABLE IF NOT EXISTS `vdc_profile` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `lastname` varchar(50) NOT NULL DEFAULT '',
   `firstname` varchar(50) NOT NULL DEFAULT '',
@@ -368,23 +374,25 @@ CREATE TABLE IF NOT EXISTS `vdc_profiles` (
   PRIMARY KEY (`user_id`),
   KEY `client_id` (`client_id`),
   KEY `user_status_id` (`user_status_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vdc_profiles`
+-- Dumping data for table `vdc_profile`
 --
 
-INSERT INTO `vdc_profiles` (`user_id`, `lastname`, `firstname`, `client_id`, `user_status_id`) VALUES
+INSERT INTO `vdc_profile` (`user_id`, `lastname`, `firstname`, `client_id`, `user_status_id`) VALUES
 (1, 'Admin', 'Administrator', 0, 0),
-(2, 'Demo', 'Demo', 0, 0);
+(2, 'Demo', 'Demo', 0, 0),
+(3, 'Лапшина', 'Ольга', 0, 0),
+(4, 'Ккк', 'Виктория', 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vdc_profiles_fields`
+-- Table structure for table `vdc_profiles_field`
 --
 
-CREATE TABLE IF NOT EXISTS `vdc_profiles_fields` (
+CREATE TABLE IF NOT EXISTS `vdc_profiles_field` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `varname` varchar(50) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -406,10 +414,10 @@ CREATE TABLE IF NOT EXISTS `vdc_profiles_fields` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vdc_profiles_fields`
+-- Dumping data for table `vdc_profiles_field`
 --
 
-INSERT INTO `vdc_profiles_fields` (`id`, `varname`, `title`, `field_type`, `field_size`, `field_size_min`, `required`, `match`, `range`, `error_message`, `other_validator`, `default`, `widget`, `widgetparams`, `position`, `visible`) VALUES
+INSERT INTO `vdc_profiles_field` (`id`, `varname`, `title`, `field_type`, `field_size`, `field_size_min`, `required`, `match`, `range`, `error_message`, `other_validator`, `default`, `widget`, `widgetparams`, `position`, `visible`) VALUES
 (1, 'lastname', 'Last Name', 'VARCHAR', '50', '3', 1, '', '', 'Incorrect Last Name (length between 3 and 50 characters).', '', '', '', '', 1, 3),
 (2, 'firstname', 'First Name', 'VARCHAR', '50', '3', 1, '', '', 'Incorrect First Name (length between 3 and 50 characters).', '', '', '', '', 0, 3),
 (3, 'client_id', 'Client', 'INTEGER', '11', '0', 1, '', '', '', '', '0', '', '', 3, 3),
@@ -418,10 +426,23 @@ INSERT INTO `vdc_profiles_fields` (`id`, `varname`, `title`, `field_type`, `fiel
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vdc_users`
+-- Table structure for table `vdc_Rights`
 --
 
-CREATE TABLE IF NOT EXISTS `vdc_users` (
+CREATE TABLE IF NOT EXISTS `vdc_Rights` (
+  `itemname` varchar(64) NOT NULL,
+  `type` int(11) NOT NULL,
+  `weight` int(11) NOT NULL,
+  PRIMARY KEY (`itemname`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vdc_user`
+--
+
+CREATE TABLE IF NOT EXISTS `vdc_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) NOT NULL,
   `password` varchar(128) NOT NULL,
@@ -436,15 +457,17 @@ CREATE TABLE IF NOT EXISTS `vdc_users` (
   UNIQUE KEY `email` (`email`),
   KEY `status` (`status`),
   KEY `superuser` (`superuser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vdc_users`
+-- Dumping data for table `vdc_user`
 --
 
-INSERT INTO `vdc_users` (`id`, `username`, `password`, `email`, `activkey`, `create_at`, `lastvisit_at`, `superuser`, `status`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'webmaster@example.com', '9a24eff8c15a6a141ece27eb6947da0f', '2012-09-26 17:39:22', '2012-10-04 13:35:04', 1, 1),
-(2, 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', 'demo@example.com', '099f825543f7850cc038b90aaff39fac', '2012-09-26 17:39:22', '0000-00-00 00:00:00', 0, 1);
+INSERT INTO `vdc_user` (`id`, `username`, `password`, `email`, `activkey`, `create_at`, `lastvisit_at`, `superuser`, `status`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'webmaster@example.com', '9a24eff8c15a6a141ece27eb6947da0f', '2012-09-26 17:39:22', '2012-10-05 17:50:16', 1, 1),
+(2, 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', 'demo@example.com', '099f825543f7850cc038b90aaff39fac', '2012-09-26 17:39:22', '2012-10-05 15:32:39', 0, 1),
+(3, 'demo1', 'e368b9938746fa090d6afd3628355133', 'aaa@aaa.aaa', '5253692b4a26207ddd79de8d8d3a8a4a', '2012-10-05 15:56:05', '0000-00-00 00:00:00', 0, 1),
+(4, 'demo2', '1066726e7160bd9c987c9968e0cc275a', 'aaa1@aaa.aaa', 'adf8dff743b0dfec8ce9e5b07a9607bd', '2012-10-05 15:57:19', '0000-00-00 00:00:00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -457,7 +480,7 @@ CREATE TABLE IF NOT EXISTS `vdc_user_status` (
   `name` varchar(30) NOT NULL,
   `key` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `vdc_user_status`
@@ -467,37 +490,52 @@ INSERT INTO `vdc_user_status` (`id`, `name`, `key`) VALUES
 (0, 'Занят', 'busy'),
 (1, 'Свободен', 'free');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vdc_variables`
+--
+
+CREATE TABLE IF NOT EXISTS `vdc_variables` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `max_global_number` int(11) NOT NULL,
+  `prev_designer_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `vdc_variables`
+--
+
+INSERT INTO `vdc_variables` (`id`, `max_global_number`, `prev_designer_id`) VALUES
+(1, 6, 0);
+
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `AuthAssignment`
+-- Constraints for table `vdc_AuthAssignment`
 --
-ALTER TABLE `AuthAssignment`
-  ADD CONSTRAINT `AuthAssignment_ibfk_1` FOREIGN KEY (`itemname`) REFERENCES `AuthItem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `vdc_AuthAssignment`
+  ADD CONSTRAINT `vdc_AuthAssignment_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `vdc_user` (`id`),
+  ADD CONSTRAINT `vdc_AuthAssignment_ibfk_1` FOREIGN KEY (`itemname`) REFERENCES `vdc_AuthItem` (`name`);
 
 --
--- Constraints for table `AuthItemChild`
+-- Constraints for table `vdc_AuthItemChild`
 --
-ALTER TABLE `AuthItemChild`
-  ADD CONSTRAINT `AuthItemChild_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `AuthItem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `AuthItemChild_ibfk_2` FOREIGN KEY (`child`) REFERENCES `AuthItem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `Rights`
---
-ALTER TABLE `Rights`
-  ADD CONSTRAINT `Rights_ibfk_1` FOREIGN KEY (`itemname`) REFERENCES `AuthItem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `vdc_AuthItemChild`
+  ADD CONSTRAINT `vdc_AuthItemChild_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `vdc_AuthItem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `vdc_AuthItemChild_ibfk_2` FOREIGN KEY (`child`) REFERENCES `vdc_AuthItem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `vdc_order`
 --
 ALTER TABLE `vdc_order`
-  ADD CONSTRAINT `vdc_order_ibfk_14` FOREIGN KEY (`designer_id`) REFERENCES `vdc_users` (`id`),
   ADD CONSTRAINT `vdc_order_ibfk_11` FOREIGN KEY (`measure_unit_id`) REFERENCES `vdc_measure_unit` (`id`),
   ADD CONSTRAINT `vdc_order_ibfk_12` FOREIGN KEY (`client_id`) REFERENCES `vdc_client` (`id`),
-  ADD CONSTRAINT `vdc_order_ibfk_13` FOREIGN KEY (`manager_id`) REFERENCES `vdc_users` (`id`),
+  ADD CONSTRAINT `vdc_order_ibfk_13` FOREIGN KEY (`manager_id`) REFERENCES `vdc_user` (`id`),
+  ADD CONSTRAINT `vdc_order_ibfk_14` FOREIGN KEY (`designer_id`) REFERENCES `vdc_user` (`id`),
   ADD CONSTRAINT `vdc_order_ibfk_4` FOREIGN KEY (`customer_id`) REFERENCES `vdc_customer` (`id`),
   ADD CONSTRAINT `vdc_order_ibfk_5` FOREIGN KEY (`order_type_id`) REFERENCES `vdc_order_type` (`id`),
   ADD CONSTRAINT `vdc_order_ibfk_6` FOREIGN KEY (`difficulty_id`) REFERENCES `vdc_difficulty` (`id`),
@@ -532,12 +570,18 @@ ALTER TABLE `vdc_price`
   ADD CONSTRAINT `vdc_price_ibfk_2` FOREIGN KEY (`difficulty_id`) REFERENCES `vdc_difficulty` (`id`);
 
 --
--- Constraints for table `vdc_profiles`
+-- Constraints for table `vdc_profile`
 --
-ALTER TABLE `vdc_profiles`
-  ADD CONSTRAINT `vdc_profiles_ibfk_2` FOREIGN KEY (`user_status_id`) REFERENCES `vdc_user_status` (`id`),
-  ADD CONSTRAINT `user_profile_id` FOREIGN KEY (`user_id`) REFERENCES `vdc_users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `vdc_profiles_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `vdc_client` (`id`);
+ALTER TABLE `vdc_profile`
+  ADD CONSTRAINT `user_profile_id` FOREIGN KEY (`user_id`) REFERENCES `vdc_user` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `vdc_profile_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `vdc_client` (`id`),
+  ADD CONSTRAINT `vdc_profile_ibfk_2` FOREIGN KEY (`user_status_id`) REFERENCES `vdc_user_status` (`id`);
+
+--
+-- Constraints for table `vdc_Rights`
+--
+ALTER TABLE `vdc_Rights`
+  ADD CONSTRAINT `vdc_Rights_ibfk_1` FOREIGN KEY (`itemname`) REFERENCES `vdc_AuthItem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

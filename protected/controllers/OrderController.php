@@ -36,19 +36,27 @@ public function accessRules() {
 
 	public function actionCreate() {
 		$model = new Order();
-		$model->create_date = time();
-		
 		$this->performAjaxValidation($model, 'order-form');
 
 		if (isset($_POST['Order'])) {
+			Yii::log('post is here', 'info');
 			$model->setAttributes($_POST['Order']);
-
+			Yii::log('attributes set', 'info');
+			$model->setCustomerName($_POST['Order']['customername']);
 			if ($model->save()) {
 				if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
 				else
 					$this->redirect(array('view', 'id' => $model->id));
 			}
+		} else {
+			$model->create_date = time();
+			$model->client = Client::model()->findByPk(User2::model()->findByPk(Yii::app()->user->id)->profile->client_id);
+			$variables = Variables::model()->find();
+			$number = $variables->max_global_number + 1;
+			$model->global_number = $number;
+			$variables->max_global_number = $number;
+			$variables->save();
 		}
 
 		$this->render('create', array( 'model' => $model));

@@ -13,7 +13,7 @@
  * @property string $name
  * @property string $key
  *
- * @property Profiles[] $profiles
+ * @property Profile[] $profiles
  */
 abstract class BaseUserStatus extends GxActiveRecord {
 
@@ -43,7 +43,7 @@ abstract class BaseUserStatus extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'profiles' => array(self::HAS_MANY, 'Profiles', 'user_status_id'),
+			'profiles' => array(self::HAS_MANY, 'Profile', 'user_status_id'),
 		);
 	}
 

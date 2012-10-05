@@ -49,9 +49,9 @@ return array(
             'loginUrl' => array('/user/login'),
             'returnUrl' => array('/user/profile'),
             'returnLogoutUrl' => array('/user/login'),
-            'tableUsers' => 'vdc_users',
-            'tableProfiles' => 'vdc_profiles',
-            'tableProfileFields' => 'vdc_profiles_fields',
+            'tableUsers' => 'vdc_user',
+            'tableProfiles' => 'vdc_profile',
+            'tableProfileFields' => 'vdc_profiles_field',
         ),
         'rights'=>array(
             //'install'=>true,
@@ -68,6 +68,10 @@ return array(
         ),
         'authManager'=>array(
             'class'=>'RDbAuthManager',
+            'itemTable' => 'vdc_AuthItem',
+            'itemChildTable' => 'vdc_AuthItemChild',
+            'assignmentTable' => 'vdc_AuthAssignment',
+            'rightsTable'   => 'vdc_Rights',
         ),
         // uncomment the following to enable URLs in path-format
         /*

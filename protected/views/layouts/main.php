@@ -44,7 +44,7 @@ $(function(){
 
 <body>
 
-	<div class="navbar navbar-static-top clearfix">
+	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<a class="brand" href="#">ВДЦ</a>
 			<ul class="nav">
@@ -92,8 +92,11 @@ $(function(){
 			</ul>
 		</div>
 	</div>
-	
-	<?php echo $content; ?>
+	<div class="clearfix"></div>
+
+	<div class="container">
+		<?php echo $content; ?>
+	</div><!-- container -->
 
 	<div class="clearfix"></div>
 
