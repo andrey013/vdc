@@ -49,35 +49,67 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
    
 
 
-function DatabaseGrid() 
-{ 
+function DatabaseGrid(link) 
+{
+
 	this.editableGrid = new EditableGrid("demo", {
-		enableSort: true,
+		enableSort: false,
+		pageSize: 20,
    	    tableLoaded: function() { datagrid.initializeGrid(this); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
    	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row);
-       	}
+       	},
+       	tableRendered: function() {
+   	    	updatePaginator(this);
+       	},
  	});
-	this.fetchGrid(); 
+	this.fetchGrid(link); 
 	
 }
 
-DatabaseGrid.prototype.fetchGrid = function()  {
+DatabaseGrid.prototype.fetchGrid = function(link)  {
 	// call a PHP script to get the data
-	this.editableGrid.loadXML("loaddata.php");
+	this.editableGrid.loadJSON(link);
 };
 
 DatabaseGrid.prototype.initializeGrid = function(grid) {
-	grid.renderGrid("tablecontent", "testgrid");
+	grid.renderGrid("tablecontent", "table");
 };    
-   
 
-
-$(function(){
-	datagrid = new DatabaseGrid();
-});
-
-  
-
-
-
+// function to render the paginator control
+function updatePaginator (editableGrid)
+{
+	var paginator = $("#paginator").empty();
+	var nbPages = editableGrid.getPageCount();
+	// get interval
+	var interval = editableGrid.getSlidingPageInterval(20);
+	if (interval == null) return;
+	// get pages in interval (with links except for the current page)
+	var pages = editableGrid.getPagesInInterval(interval, function(pageIndex, isCurrent) {
+		if (isCurrent)
+		return $("<li>").append($("<a>").html(pageIndex + 1)).addClass("active");
+		return $("<li>").append($("<a>").html(pageIndex + 1).click(function(event) { editableGrid.setPageIndex(parseInt($(this).html()) - 1); }));
+	});
+	// "first" link
+	var link = $("<li>").append($("<a>").html("<<"));
+	if (!editableGrid.canGoBack()) link.addClass("disabled");
+	else link.click(function(event) { editableGrid.firstPage(); });
+	paginator.append(link);
+	// "prev" link
+	link = $("<li>").append($("<a>").html("<"));
+	if (!editableGrid.canGoBack()) link.addClass("disabled");
+	else link.click(function(event) { editableGrid.prevPage(); });
+	paginator.append(link);
+	// pages
+	for (var p = 0; p < pages.length; p++) paginator.append(pages[p]);
+	// "next" link
+	link = $("<li>").append($("<a>").html(">"));
+	if (!editableGrid.canGoForward()) link.addClass("disabled");
+	else link.click(function(event) { editableGrid.nextPage(); });
+	paginator.append(link);
+	// "last" link
+	link = $("<li>").append($("<a>").html(">>"));
+	if (!editableGrid.canGoForward()) link.addClass("disabled");
+	else link.click(function(event) { editableGrid.lastPage(); });
+	paginator.append(link);
+}; 

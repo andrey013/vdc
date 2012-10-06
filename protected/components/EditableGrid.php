@@ -32,14 +32,36 @@ class EditableGrid {
 		return $str;
 	}
 
-	public function addColumn($name, $label, $type, $values = NULL, $editable = true, $field = NULL, $bar = true)
+	public function addColumn($name, $label, $type, $values = NULL, $editable = false, $field = NULL, $bar = true)
 	{
-		$this->columns[$name] = array("field" => $field ? $field : $name, "label" => $label, "type" => $type, "editable" => $editable, "bar" => $bar, "values" => $values );
+		$this->columns[$name] =
+			array(
+				"field" => $field ? $field : $name,
+				"label" => $label,
+				"type" => $type,
+				"editable" => $editable,
+				"bar" => $bar,
+				"values" => $values,
+
+			);
 	}
 
 	private function _getRowField($row, $field)
 	{
-		$value = is_array($row) ? (isset($row[$field]) ? $row[$field] : '') : (isset($row->$field) ? $row->$field : '');
+		$names = explode('.', $field);
+		if(count($names)==1){
+			$value = isset($row->$names[0]) ? $row->$names[0] : '';
+		} else {
+			$value1 = isset($row->$names[0]) ? ($row->$names[0]) : NULL;
+			if(!is_null($value1))
+				$value = isset($value1->$names[1]) ? ($value1->$names[1]) : '';
+		}
+		//else {
+		//	$value1 = $row->hasRelated($names[0]) ? ($row->getRelated($names[0])) : NULL;
+		//	//if(!is_null($value1))
+		//		$value = $value1->hasAttribute($names[1]) ? ($value1->getAttribute($names[1])) : '';
+		//}
+		
 
 		// to avoid any issue with javascript not able to parse XML, ensure data is valid for encoding
 		return @iconv($this->encoding, $this->encoding."//IGNORE", $value);
@@ -286,4 +308,24 @@ class EditableGrid {
 		if ($precision == 0) return $before . '#,##0' . $after;
 		return $before . '#,##0.0' . self::repeat($precision - 1, $pattern) . $after;
 	}
+
+	/**
+	 * fetch_pairs is a simple method that transforms a mysqli_result object in an array.
+	 * It will be used to generate possible values for some columns.
+	 */
+	function fetch_pairs($mysqli,$query){
+		if (!($res = $mysqli->query($query)))return FALSE;
+		$rows = array();
+		while ($row = $res->fetch_assoc()) {
+			$first = true;
+			$key = $value = null;
+			foreach ($row as $val) {
+				if ($first) { $key = $val; $first = false; }
+				else { $value = $val; break; } 
+			}
+			$rows[$key] = $value;
+		}
+		return $rows;
+	}
+
 }

@@ -8,6 +8,24 @@ class Order extends BaseOrder
 		return parent::model($className);
 	}
 
+	public function relations() {
+		return parent::relations() + array(
+			'orderStatus' => array(self::HAS_ONE, 'OrderStatusHistory', 'order_id'),//, 'order' => 'change_date DESC'),
+		);
+	}
+
+	public function setOrderStatus($key)
+	{
+		$orderStatus = OrderStatus::model()->find('`key`=:key', array(':key'=>$key));
+		if(!is_null($orderStatus)){
+			$orderStatusHistory = new OrderStatusHistory();
+			$orderStatusHistory->order_id = $this->id;
+			$orderStatusHistory->change_date = time();
+			$orderStatusHistory->order_status_id = $orderStatus->id;
+			$orderStatusHistory->save();
+		}
+	}
+
 	public function getCustomerName()
 	{
 		$customer = $this->customer;
@@ -50,6 +68,11 @@ class Order extends BaseOrder
 		}else{
 			return $density->name;
 		}
+	}
+
+	public function getCreateDateFormatted()
+	{
+		return Yii::app()->dateFormatter->format('d.MM.yyyy', $this->create_date);
 	}
 
 	protected function beforeSave()

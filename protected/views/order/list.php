@@ -1,15 +1,17 @@
-
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/pageOrderList.js"></script>
 
-<a class="btn-large btn-success" id="add" href="<?php echo $this->createUrl('/order/create'); ?>">
+<script>
+	$(function(){
+		datagrid = new DatabaseGrid("<?php echo $this->createUrl('/order/jsonlist'); ?>");
+	});
+</script>
+
+<a class="btn btn-large btn-success" id="add" href="<?php echo $this->createUrl('/order/create'); ?>">
     Оформить заказ
 </a>
 
 <div id="tablecontent"></div>
-<div id="paginator"></div>
-
-<?php /*$this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); */ ?>
-aa
+<div class="pagination pagination-centered">
+	<ul id="paginator">
+	</ul>
+</div>

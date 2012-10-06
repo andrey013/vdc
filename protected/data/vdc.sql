@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 05, 2012 at 10:59 PM
+-- Generation Time: Oct 06, 2012 at 11:00 PM
 -- Server version: 5.5.24-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -128,14 +128,19 @@ CREATE TABLE IF NOT EXISTS `vdc_customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `vdc_customer`
 --
 
 INSERT INTO `vdc_customer` (`id`, `name`) VALUES
-(1, 'ddd');
+(1, 'ddd'),
+(2, 'qwe'),
+(3, 'asdff'),
+(4, '123'),
+(5, '234'),
+(6, '45463');
 
 -- --------------------------------------------------------
 
@@ -226,14 +231,23 @@ CREATE TABLE IF NOT EXISTS `vdc_order` (
   KEY `chromaticity_id` (`chromaticity_id`),
   KEY `density_id` (`density_id`),
   KEY `measure_unit_id` (`measure_unit_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `vdc_order`
 --
 
 INSERT INTO `vdc_order` (`id`, `create_date`, `global_number`, `client_number`, `client_id`, `manager_id`, `designer_id`, `customer_id`, `order_type_id`, `difficulty_id`, `priority_id`, `comment`, `chromaticity_id`, `density_id`, `size_x`, `size_y`, `measure_unit_id`) VALUES
-(1, '0000-00-00 00:00:00', 5, 123, 0, 3, 4, 1, 1, 1, 1, '123', NULL, NULL, NULL, NULL, 1);
+(1, '0000-00-00 00:00:00', 5, 123, 0, 3, 4, 1, 1, 1, 1, '123', NULL, NULL, NULL, NULL, 1),
+(2, '2012-10-06 00:00:00', 11, 234, 0, 3, 4, 2, 1, 1, 1, '4u654h', NULL, NULL, 23, 45, 1),
+(3, '0000-00-00 00:00:00', 19, 4567, 0, 3, 4, 3, 1, 1, 1, '123124', NULL, NULL, NULL, NULL, 1),
+(4, '2012-10-06 11:50:09', 20, 123, 0, 3, 4, 2, 1, 1, 1, 'qw', NULL, NULL, NULL, NULL, 1),
+(5, '2012-10-06 12:00:02', 21, 345, 0, 3, 4, 3, 1, 1, 1, '67 ahjgskh skjhsd   dhkjhsjksh iuhs: jhdjhduid s()jh.', NULL, NULL, NULL, NULL, 1),
+(6, '2012-10-06 21:55:56', 69, 123, 0, 3, 4, 4, 1, 1, 1, '123', NULL, NULL, NULL, NULL, 1),
+(7, '2012-10-06 21:55:56', 69, 123, 0, 3, 4, 4, 1, 1, 1, '123', NULL, NULL, NULL, NULL, 1),
+(8, '2012-10-06 21:55:56', 69, 123, 0, 3, 4, 4, 1, 1, 1, '123', NULL, NULL, NULL, NULL, 1),
+(9, '2012-10-06 22:09:30', 70, 5678, 0, 3, 4, 5, 1, 1, 1, 'dfgs fdgsfg', NULL, NULL, NULL, NULL, 1),
+(10, '2012-10-06 22:11:32', 71, 565, 0, 3, 4, 6, 1, 1, 1, '45373', NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -248,7 +262,20 @@ CREATE TABLE IF NOT EXISTS `vdc_order_status` (
   `color` varchar(30) NOT NULL,
   `sort_order` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `vdc_order_status`
+--
+
+INSERT INTO `vdc_order_status` (`id`, `name`, `key`, `color`, `sort_order`) VALUES
+(2, 'на утверждение', 'confirm', '', 0),
+(3, 'в разработку', 'work', '', 0),
+(4, 'согласовано', 'agreed', '', 0),
+(5, 'изменения', 'changed', '', 0),
+(6, 'отменено', 'cancelled', '', 0),
+(7, 'приостановлено', 'paused', '', 0),
+(8, 'готово', 'done', '', 0);
 
 -- --------------------------------------------------------
 
@@ -265,7 +292,15 @@ CREATE TABLE IF NOT EXISTS `vdc_order_status_history` (
   KEY `change_date` (`change_date`,`order_status_id`),
   KEY `order_id` (`order_id`),
   KEY `order_status_id` (`order_status_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `vdc_order_status_history`
+--
+
+INSERT INTO `vdc_order_status_history` (`id`, `order_id`, `change_date`, `order_status_id`) VALUES
+(1, 9, '0000-00-00 00:00:00', 5),
+(2, 10, '2012-10-06 22:11:43', 7);
 
 -- --------------------------------------------------------
 
@@ -464,7 +499,7 @@ CREATE TABLE IF NOT EXISTS `vdc_user` (
 --
 
 INSERT INTO `vdc_user` (`id`, `username`, `password`, `email`, `activkey`, `create_at`, `lastvisit_at`, `superuser`, `status`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'webmaster@example.com', '9a24eff8c15a6a141ece27eb6947da0f', '2012-09-26 17:39:22', '2012-10-05 17:50:16', 1, 1),
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'webmaster@example.com', '9a24eff8c15a6a141ece27eb6947da0f', '2012-09-26 17:39:22', '2012-10-06 17:55:56', 1, 1),
 (2, 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', 'demo@example.com', '099f825543f7850cc038b90aaff39fac', '2012-09-26 17:39:22', '2012-10-05 15:32:39', 0, 1),
 (3, 'demo1', 'e368b9938746fa090d6afd3628355133', 'aaa@aaa.aaa', '5253692b4a26207ddd79de8d8d3a8a4a', '2012-10-05 15:56:05', '0000-00-00 00:00:00', 0, 1),
 (4, 'demo2', '1066726e7160bd9c987c9968e0cc275a', 'aaa1@aaa.aaa', 'adf8dff743b0dfec8ce9e5b07a9607bd', '2012-10-05 15:57:19', '0000-00-00 00:00:00', 0, 1);
@@ -508,7 +543,7 @@ CREATE TABLE IF NOT EXISTS `vdc_variables` (
 --
 
 INSERT INTO `vdc_variables` (`id`, `max_global_number`, `prev_designer_id`) VALUES
-(1, 6, 0);
+(1, 71, 0);
 
 --
 -- Constraints for dumped tables
@@ -518,8 +553,8 @@ INSERT INTO `vdc_variables` (`id`, `max_global_number`, `prev_designer_id`) VALU
 -- Constraints for table `vdc_AuthAssignment`
 --
 ALTER TABLE `vdc_AuthAssignment`
-  ADD CONSTRAINT `vdc_AuthAssignment_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `vdc_user` (`id`),
-  ADD CONSTRAINT `vdc_AuthAssignment_ibfk_1` FOREIGN KEY (`itemname`) REFERENCES `vdc_AuthItem` (`name`);
+  ADD CONSTRAINT `vdc_AuthAssignment_ibfk_1` FOREIGN KEY (`itemname`) REFERENCES `vdc_AuthItem` (`name`),
+  ADD CONSTRAINT `vdc_AuthAssignment_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `vdc_user` (`id`);
 
 --
 -- Constraints for table `vdc_AuthItemChild`

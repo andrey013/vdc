@@ -169,3 +169,8 @@ body
 button.active i.icon-active-ok {
   background-position: -288px 0;
 }
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}

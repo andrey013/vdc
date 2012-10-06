@@ -93,6 +93,8 @@ return array(
             'username' => 'vdc',
             'password' => '123',
             'charset' => 'utf8',
+            'enableProfiling'=>true,
+            'enableParamLogging'=>true,
         ),
         'errorHandler'=>array(
             // use 'site/error' action to display errors
@@ -112,7 +114,7 @@ return array(
                 array(
                     'class'=>'CWebLogRoute',
                 ),
-                */
+                
                 array( // configuration for the toolbar
                     'class'=>'XWebDebugRouter',
                     'config'=>'alignLeft, opaque, runInDebug, fixedPos, collapsed, yamlStyle',
@@ -120,6 +122,7 @@ return array(
                     //'levels'=>'error, warning, trace, profile, info',
                     'allowedIPs'=>array('127.0.0.1','::1','192.168.1.54','192\.168\.1[0-5]\.[0-9]{3}'),
                 ),
+                */
             ),
         ),
     ),

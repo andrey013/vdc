@@ -1,5 +1,13 @@
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/pageOrderCreate.js"></script>
 
-<!-- <h1><?php echo Yii::t('app', 'Create') . ' ' . GxHtml::encode($model->label()); ?></h1> -->
+<script>
+	$(function(){
+		var status = $("#Order_orderStatus")
+		$(".statusRadio").bind('click', function(){
+				status.val(this.value);
+			});
+	});
+</script>
 
 <?php
 $this->renderPartial('_form', array(
