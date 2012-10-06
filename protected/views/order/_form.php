@@ -99,13 +99,13 @@
 		<?php echo $form->checkBoxList($model, 'payments', GxHtml::encodeEx(GxHtml::listDataEx(Payment::model()->findAllAttributes(null, true)), false, true)); ?>
 
 		<div class="btn-group" data-toggle="buttons-radio">
-			<button type="button" class="btn btn-work"><i class="icon-ok"></i> в разработку</button>
-			<button type="button" class="btn btn-confirm">на утверждение</button>
-			<button type="button" class="btn btn-agreed">согласовано</button>
-			<button type="button" class="btn btn-changed">изменения</button>
-			<button type="button" class="btn btn-cancelled">отменено</button>
-			<button type="button" class="btn btn-paused">приостановлено</button>
-			<button type="button" class="btn btn-done">готово</button>
+			<button type="button" class="btn btn-work"><i class="icon-active-ok"></i> в разработку</button>
+			<button type="button" class="btn btn-confirm"><i class="icon-active-ok"></i> на утверждение</button>
+			<button type="button" class="btn btn-agreed"><i class="icon-active-ok"></i> согласовано</button>
+			<button type="button" class="btn btn-changed"><i class="icon-active-ok"></i> изменения</button>
+			<button type="button" class="btn btn-cancelled"><i class="icon-active-ok"></i> отменено</button>
+			<button type="button" class="btn btn-paused"><i class="icon-active-ok"></i> приостановлено</button>
+			<button type="button" class="btn btn-done"><i class="icon-active-ok"></i> готово</button>
 			
 			
 		</div>

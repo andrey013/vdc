@@ -43,6 +43,7 @@ public function accessRules() {
 			$model->setAttributes($_POST['Order']);
 			Yii::log('attributes set', 'info');
 			$model->setCustomerName($_POST['Order']['customername']);
+			//$model->create_date = date('Y-m-d H:i:s', $model->create_date);
 			if ($model->save()) {
 				if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
@@ -50,7 +51,7 @@ public function accessRules() {
 					$this->redirect(array('view', 'id' => $model->id));
 			}
 		} else {
-			$model->create_date = time();
+			$model->create_date = time(); //Yii::app()->dateFormatter->format('d.MM.yyyy H:m:s', time());
 			$model->client = Client::model()->findByPk(User2::model()->findByPk(Yii::app()->user->id)->profile->client_id);
 			$variables = Variables::model()->find();
 			$number = $variables->max_global_number + 1;

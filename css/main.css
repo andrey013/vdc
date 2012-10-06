@@ -165,3 +165,7 @@ body
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.33) !important;
   -webkit-font-smoothing: antialiased !important;
 }
+
+button.active i.icon-active-ok {
+  background-position: -288px 0;
+}
