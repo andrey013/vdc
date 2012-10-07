@@ -80,13 +80,13 @@ DatabaseGrid.prototype.fetchGrid = function(link)  {
 };
 
 DatabaseGrid.prototype.initializeGrid = function(grid, editlink) {
-	render for the action column
-	grid.setCellRenderer("action", new CellRenderer({render: function(cell, value) {
-		var rowId = grid.getRowId(cell.rowIndex);
-		
-		cell.innerHTML = "<a href=\"" + editlink + "/id/" + rowId + "\">" +
-		 "<i class='icon-edit'><i></a>";
-	}}));
+	//render for the action column
+	//grid.setCellRenderer("action", new CellRenderer({render: function(cell, value) {
+	//	var rowId = grid.getRowId(cell.rowIndex);
+	//	
+	//	cell.innerHTML = "<a href=\"" + editlink + "/id/" + rowId + "\">" +
+	//	 "<i class='icon-edit'><i></a>";
+	//}}));
 	grid.renderGrid("tablecontent", "table");
 };    
 

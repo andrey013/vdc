@@ -22,7 +22,7 @@
 	<div class="controls-group ">
 		<label class="control-label" for="LoginForm_password">Пароль: </label>
 		<div class="controls">
-			<?php echo $form->textField($model, 'password', array('class' => 'span3')); ?>
+			<?php echo $form->passwordField($model, 'password', array('class' => 'span3')); ?>
 		</div>
 	</div>
 

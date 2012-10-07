@@ -5,7 +5,7 @@
 		var status = $("#Order_orderStatus")
 		$(".statusRadio").removeClass("active");
 		$(".statusRadio[value="+status.val()+"]").addClass("active");
-		datagrid = new DatabaseGrid("<?php echo $this->createUrl('/payment/jsonlist').'?id='.$model->id; ?>");
+		var datagrid = new DatabaseGrid("<?php echo $this->createUrl('/payment/jsonlist').'?id='.$model->id; ?>");
 	});
 </script>
 

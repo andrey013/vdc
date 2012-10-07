@@ -1,9 +1,9 @@
-<?php                                                                                                                                   
-$length = ob_get_length();
+<?php  
+/*$length = ob_get_length();
 $filename = '/home/andrey/yii/vdc/protected/views/layouts/main.php';
 $last_modified = date ("F d Y H:i:s", filemtime($filename));//, getlastmod());                                                                                    
 header("Content-Length: $length");                                                                                                      
-header("Last-Modified: $last_modified GMT time");                                                                                       
+header("Last-Modified: $last_modified GMT time");*/      
 ?>
 <?php /* @var $this Controller */ ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -22,7 +22,7 @@ header("Last-Modified: $last_modified GMT time");
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/editablegrid.min.js"></script>
 	<!-- <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/live.js"></script>
  -->
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+	<title>ВДЦ<?php // echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <script>
