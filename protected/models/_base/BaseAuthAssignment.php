@@ -15,8 +15,8 @@
  * @property string $bizrule
  * @property string $data
  *
- * @property User $user
  * @property AuthItem $itemname0
+ * @property User $user
  */
 abstract class BaseAuthAssignment extends GxActiveRecord {
 
@@ -49,8 +49,8 @@ abstract class BaseAuthAssignment extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'userid'),
 			'itemname0' => array(self::BELONGS_TO, 'AuthItem', 'itemname'),
+			'user' => array(self::BELONGS_TO, 'User', 'userid'),
 		);
 	}
 
@@ -66,8 +66,8 @@ abstract class BaseAuthAssignment extends GxActiveRecord {
 			'userid' => null,
 			'bizrule' => Yii::t('app', 'Bizrule'),
 			'data' => Yii::t('app', 'Data'),
-			'user' => null,
 			'itemname0' => null,
+			'user' => null,
 		);
 	}
 

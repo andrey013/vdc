@@ -74,7 +74,7 @@
 			<label class="span1" for="Order_chromaticity_id">Цветность</label>
 			<?php echo $form->textField($model, 'chromaticityname', array('class' => 'span2')); ?>
 			<!-- <?php echo $form->dropDownList($model, 'chromaticity_id',
-				GxHtml::listDataEx(Chromatisity::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
+				GxHtml::listDataEx(Chromaticity::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
 			-->
 			<label class="span1" for="Order_density_id">Разрешение</label>
 			<?php echo $form->textField($model, 'densityname', array('class' => 'span2')); ?>
@@ -89,16 +89,27 @@
 			<?php echo $form->dropDownList($model, 'measure_unit_id',
 				GxHtml::listDataEx(MeasureUnit::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span1')); ?>
 		</div>
+		<hr>
+		
+		<?php if(isset($buttons)) { ?>
 		<div class="controls controls-row row">
-			<label><?php echo GxHtml::encode($model->getRelationLabel('orderStatusHistories')); ?></label>
-			<?php echo $form->checkBoxList($model, 'orderStatusHistories', GxHtml::encodeEx(GxHtml::listDataEx(OrderStatusHistory::model()->findAllAttributes(null, true)), false, true)); ?>
-			<label><?php echo GxHtml::encode($model->getRelationLabel('payments')); ?></label>
-			<?php echo $form->checkBoxList($model, 'payments', GxHtml::encodeEx(GxHtml::listDataEx(Payment::model()->findAllAttributes(null, true)), false, true)); ?>
+			<label class="span2" for="Order_clientPrice">Общая стоимость, руб.</label>
+			<label class="span2" for="Order_designerPrice">Дизайнеру</label>
 		</div>
+		<div class="controls controls-row">
+			<?php echo $form->textField($model, 'clientPrice', array('class' => 'span2')); ?>
+			<?php echo $form->textField($model, 'designerPrice', array('class' => 'span2')); ?>
+		</div>
+		<?php } else { ?>
+		<div class="controls controls-row row">
+			<label class="lead span2">Оплата: </label>
+			<div class="span10" id="tablecontent"></div>
+		</div>
+		<?php } ?>
 		<hr>
 		<div class="controls controls-row row">
 			<label class="lead span2">Статус: </label>
-			<div class="btn-group span10" data-toggle="buttons-radio">
+			<div class="btn-group  pull-right" data-toggle="buttons-radio">
 				<button type="button" class="statusRadio btn btn-work" value="work"><i class="icon-active-ok"></i> в разработку</button>
 				<button type="button" class="statusRadio btn btn-confirm active" value="confirm"><i class="icon-active-ok"></i> на утверждение</button>
 				<button type="button" class="statusRadio btn btn-agreed" value="agreed"><i class="icon-active-ok"></i> согласовано</button>
@@ -110,12 +121,19 @@
 			<?php echo $form->textField($model, 'orderStatus', array('class' => 'hidden')); ?>
 		</div>
 <!-- echo GxHtml::submitButton(Yii::t('app', 'Save')); -->
+		<?php if(isset($buttons)) { ?>
 		<div class="controls controls-row row pull-right">
 			<button class="btn btn-large btn-primary span3">
 				Оформить
 			</button>
 		</div>
-
+		<?php } else { ?>
+		<div class="controls controls-row row pull-right">
+			<button class="btn btn-large btn-primary span3">
+				Сохранить
+			</button>
+		</div>
+		<?php } ?>
 <?php
 $this->endWidget();
 ?>

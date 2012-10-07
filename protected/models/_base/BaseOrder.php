@@ -35,7 +35,7 @@
  * @property OrderType $orderType
  * @property Difficulty $difficulty
  * @property Priority $priority
- * @property Chromatisity $chromaticity
+ * @property Chromaticity $chromaticity
  * @property Density $density
  * @property OrderStatusHistory[] $orderStatusHistories
  * @property Payment[] $payments
@@ -78,7 +78,7 @@ abstract class BaseOrder extends GxActiveRecord {
 			'orderType' => array(self::BELONGS_TO, 'OrderType', 'order_type_id'),
 			'difficulty' => array(self::BELONGS_TO, 'Difficulty', 'difficulty_id'),
 			'priority' => array(self::BELONGS_TO, 'Priority', 'priority_id'),
-			'chromaticity' => array(self::BELONGS_TO, 'Chromatisity', 'chromaticity_id'),
+			'chromaticity' => array(self::BELONGS_TO, 'Chromaticity', 'chromaticity_id'),
 			'density' => array(self::BELONGS_TO, 'Density', 'density_id'),
 			'orderStatusHistories' => array(self::HAS_MANY, 'OrderStatusHistory', 'order_id'),
 			'payments' => array(self::HAS_MANY, 'Payment', 'order_id'),

@@ -80,7 +80,7 @@ DatabaseGrid.prototype.fetchGrid = function(link)  {
 };
 
 DatabaseGrid.prototype.initializeGrid = function(grid, editlink) {
-	// render for the action column
+	render for the action column
 	grid.setCellRenderer("action", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		

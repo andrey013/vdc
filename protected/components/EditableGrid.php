@@ -51,10 +51,19 @@ class EditableGrid {
 		$names = explode('.', $field);
 		if(count($names)==1){
 			$value = isset($row->$names[0]) ? $row->$names[0] : '';
-		} else {
+		} elseif(count($names)==2){
 			$value1 = isset($row->$names[0]) ? ($row->$names[0]) : NULL;
 			if(!is_null($value1))
 				$value = isset($value1->$names[1]) ? ($value1->$names[1]) : '';
+		} elseif(count($names)==3){
+			$value1 = isset($row->$names[0]) ? ($row->$names[0]) : NULL;
+			if(!is_null($value1)){
+				$value2 = isset($value1->$names[1]) ? ($value1->$names[1]) : NULL;
+				if(!is_null($value2)){
+					$value3 = isset($value2->$names[2]) ? ($value2->$names[2]) : '';
+				
+				}
+			}
 		}
 		//else {
 		//	$value1 = $row->hasRelated($names[0]) ? ($row->getRelated($names[0])) : NULL;

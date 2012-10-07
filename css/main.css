@@ -174,3 +174,7 @@ button.active i.icon-active-ok {
     display: none !important;
     visibility: hidden;
 }
+
+.table td, .table th {
+  text-align: center !important;
+}

@@ -50,9 +50,9 @@ $(function(){
 				<a class="brand" href="#">ВДЦ</a>
 				<ul class="nav">
 					<li class="active"><a href="<?php echo $this->createUrl('/order/list'); ?>">Заказы</a></li>
-					<li><a href="<?php echo $this->createUrl('/site/page', array('view'=>'about')); ?>">Настройки</a></li>
-					<li><a href="<?php echo $this->createUrl('/site/contact'); ?>">Дизайнеры</a></li>
-					<li><a href="<?php echo $this->createUrl('/site/login'); ?>">Пользователи</a></li>
+					<li><a href="#">Настройки</a></li>
+					<li><a href="#">Дизайнеры</a></li>
+					<li><a href="#">Пользователи</a></li>
 					<li class="dropdown">
 						<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" href="#">
 							Скачать <b class="caret"></b>
@@ -67,11 +67,11 @@ $(function(){
 					<li><a href="<?php echo $this->createUrl('/site/page', array('view'=>'about')); ?>">Контакты ВДЦ</a></li>
 				</ul>
 				<ul class="nav pull-right">
-					
+					<?php if(!Yii::app()->user->isGuest){ ?>
 					<li class="dropdown">
 						<div class="btn-group">
 						<a class="btn btn-success dropdown-toggle" id="status" role="button" data-toggle="dropdown" href="#">
-							<i class="icon-ok icon-white"></i> Виктория К. <b class="caret"></b>
+							<i class="icon-ok icon-white"></i> <?php echo User2::model()->with('profile')->findByPk(Yii::app()->user->id)->profile->lastname ?> <b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="status">
 							<li><a href="#"><i class="icon-ok"></i> Свободен</a></li>
@@ -79,14 +79,14 @@ $(function(){
 						</ul>
 						</div>
 					</li>
-					<?php if(Yii::app()->user->isGuest){ ?>
-					<li><a href="<?php echo $this->createUrl('/site/login'); ?>">Login</a></li>
-					<?php }else{ ?>
 					<li><a href="<?php echo $this->createUrl('/site/logout'); ?>">
 						<!-- <?php echo 'Выход' /* ('.Yii::app()->user->name.')'*/ ?> -->
 						Выход
 						</a>
 					</li>
+					
+					<?php }else{ ?>
+					<li><a href="<?php echo $this->createUrl('/site/login'); ?>">Login</a></li>
 					<?php } ?>
 
 				</ul>

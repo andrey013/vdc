@@ -8,10 +8,24 @@ class Order extends BaseOrder
 		return parent::model($className);
 	}
 
+	public $clientPrice;
+	public $designerPrice;
+
 	public function relations() {
 		return parent::relations() + array(
-			'orderStatus' => array(self::HAS_ONE, 'OrderStatusHistory', 'order_id'),//, 'order' => 'change_date DESC'),
+			'orderStatus' => array(self::HAS_ONE, 'OrderStatusHistory', 'order_id', 'order' => 'change_date DESC'),
 		);
+	}
+
+	public function setPayment($client, $designer)
+	{
+		$payment = new Payment;
+		$payment->order_id = $this->id;
+		$payment->create_date = time();
+		$payment->client_price = $client;
+		$payment->designer_price = $designer;
+		$payment->debt = true;
+		$payment->save();
 	}
 
 	public function setOrderStatus($key)
@@ -60,6 +74,18 @@ class Order extends BaseOrder
 		}
 	}
 
+	public function setChromaticityName($name)
+	{
+		$chromaticity = Chromaticity::model()->find('name=:name', array(':name'=>$name));
+		if(is_null($chromaticity)){
+			$chromaticity = new Chromaticity();
+			$chromaticity->name = $name;
+			$chromaticity->save();
+		}
+		$this->chromaticity = $chromaticity;
+		$this->chromaticity_id = $chromaticity->id;
+	}
+
 	public function getDensityName()
 	{
 		$density = $this->density;
@@ -68,6 +94,18 @@ class Order extends BaseOrder
 		}else{
 			return $density->name;
 		}
+	}
+
+	public function setDensityName($name)
+	{
+		$density = Density::model()->find('name=:name', array(':name'=>$name));
+		if(is_null($density)){
+			$density = new Density();
+			$density->name = $name;
+			$density->save();
+		}
+		$this->density = $density;
+		$this->density_id = $density->id;
 	}
 
 	public function getCreateDateFormatted()

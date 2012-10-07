@@ -12,7 +12,6 @@
  * @property integer $id
  * @property integer $order_id
  * @property string $create_date
- * @property integer $amount
  * @property integer $designer_price
  * @property integer $client_price
  * @property integer $debt
@@ -40,9 +39,9 @@ abstract class BasePayment extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('order_id, create_date, amount, designer_price, client_price, debt', 'required'),
-			array('order_id, amount, designer_price, client_price, debt', 'numerical', 'integerOnly'=>true),
-			array('id, order_id, create_date, amount, designer_price, client_price, debt', 'safe', 'on'=>'search'),
+			array('order_id, create_date, designer_price, client_price, debt', 'required'),
+			array('order_id, designer_price, client_price, debt', 'numerical', 'integerOnly'=>true),
+			array('id, order_id, create_date, designer_price, client_price, debt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,7 +62,6 @@ abstract class BasePayment extends GxActiveRecord {
 			'id' => Yii::t('app', 'ID'),
 			'order_id' => null,
 			'create_date' => Yii::t('app', 'Create Date'),
-			'amount' => Yii::t('app', 'Amount'),
 			'designer_price' => Yii::t('app', 'Designer Price'),
 			'client_price' => Yii::t('app', 'Client Price'),
 			'debt' => Yii::t('app', 'Debt'),
@@ -78,7 +76,6 @@ abstract class BasePayment extends GxActiveRecord {
 		$criteria->compare('id', $this->id);
 		$criteria->compare('order_id', $this->order_id);
 		$criteria->compare('create_date', $this->create_date, true);
-		$criteria->compare('amount', $this->amount);
 		$criteria->compare('designer_price', $this->designer_price);
 		$criteria->compare('client_price', $this->client_price);
 		$criteria->compare('debt', $this->debt);

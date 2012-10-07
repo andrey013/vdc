@@ -64,7 +64,7 @@ return array(
             'class' => 'RWebUser',
             // enable cookie-based authentication
             'allowAutoLogin'=>true,
-            'loginUrl' => array('/user/login'),
+            'loginUrl' => array('/site/login'),
         ),
         'authManager'=>array(
             'class'=>'RDbAuthManager',
@@ -73,6 +73,13 @@ return array(
             'assignmentTable' => 'vdc_AuthAssignment',
             'rightsTable'   => 'vdc_Rights',
         ),
+        'urlManager' => array(
+            'urlFormat'=>'path',
+            'rules' => array(
+                '' => 'order/list',
+            ),
+        ),
+
         // uncomment the following to enable URLs in path-format
         /*
         'urlManager'=>array(
