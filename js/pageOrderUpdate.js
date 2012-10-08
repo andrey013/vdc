@@ -21,7 +21,7 @@ function highlight(div_id, style) {
 /**
    updateCellValue calls the PHP script that will update the database. 
  */
-function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue, row, updatelink)
+function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue, row, updatelink, link)
 {      
 	$.ajax({
 		url: updatelink,
@@ -39,7 +39,8 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
 			// reset old value if failed then highlight row
 			var success = (response == "ok" || !isNaN(parseInt(response))); // by default, a sucessfull reponse can be "ok" or a database id 
 			if (!success) editableGrid.setValueAt(rowIndex, columnIndex, oldValue);
-		    highlight(row.id, success ? "ok" : "error"); 
+		    highlight(row.id, success ? "ok" : "error");
+		    editableGrid.loadJSON(link);
 		},
 		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
 		async: true
@@ -77,7 +78,7 @@ function DatabaseGrid(link, addlink, updatelink)
 		pageSize: 20,
    	    tableLoaded: function() { t.initializeGrid(this, link, addlink); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
-   	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, updatelink);
+   	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, updatelink, link);
        	},
        	tableRendered: function() {
    	    	updatePaginator(this);
@@ -108,6 +109,15 @@ DatabaseGrid.prototype.initializeGrid = function(grid, link, addlink) {
 		$("#addPayment"+rowId+"Button").on("click", function(){
 			pay(grid, rowId, $('#addPayment'+rowId).val(), addlink, link);
 		});
+		$("#addPayment"+rowId).keypress(function (e) {
+		    if (e.keyCode == 13) {
+		        pay(grid, rowId, $('#addPayment'+rowId).val(), addlink, link);
+		        return false;
+		    }
+
+		});
+
+
 		//"<a href=\"" + addlink + "/id/" + rowId + "\">" +
 		// "<i class='icon-edit'></i></a>";
 	}}));
