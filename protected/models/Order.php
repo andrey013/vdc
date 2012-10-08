@@ -14,6 +14,10 @@ class Order extends BaseOrder
 	public function relations() {
 		return parent::relations() + array(
 			'orderStatus' => array(self::HAS_ONE, 'OrderStatusHistory', 'order_id', 'order' => 'change_date DESC'),
+			'client_price' => array(self::STAT, 'Payment', 'order_id', 'select' => 'SUM(client_price)'),
+			'designer_price' => array(self::STAT, 'Payment', 'order_id', 'select' => 'SUM(designer_price)'),
+			'penny' => array(self::STAT, 'Payment', 'order_id', 'select' => 'SUM(client_price) - SUM(designer_price)'),
+
 		);
 	}
 

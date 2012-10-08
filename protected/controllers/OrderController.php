@@ -140,9 +140,9 @@ public function accessRules() {
 		$grid->addColumn('client.name', 'Клиент', 'string');
 		$grid->addColumn('designer_id', 'Дизайнер', 'integer', array('0' => '' ,'4' => 'ВикторияК.'), true);
 		$grid->addColumn('orderStatus.statusformatted', 'Статус', 'string');
-		$grid->addColumn('cost1', ' ', 'integer');
-		$grid->addColumn('cost2', 'Стоимость', 'integer');
-		$grid->addColumn('cost3', ' ', 'integer');
+		$grid->addColumn('client_price', ' ', 'double(,0,comma,&nbsp;,)');
+		$grid->addColumn('designer_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
+		$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
 		$grid->addColumn('debt', 'Оплата', 'boolean');
 		$grid->addColumn('isDesignerPaid', 'Дизайнеру', 'boolean');
 		$grid->addColumn('action', ' ', 'string');

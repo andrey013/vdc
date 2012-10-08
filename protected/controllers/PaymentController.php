@@ -62,10 +62,10 @@ public function accessRules() {
 
 		//$grid->addColumn('id', 'ID', 'integer', NULL, false);
 		$grid->addColumn('debt', 'Долг', 'boolean', NULL, true);
-		$grid->addColumn('client_price', 'Общая стоимость, руб.', 'integer', NULL, true);
-		$grid->addColumn('designer_price', 'Дизайнеру', 'integer', NULL, true);//'date');
-		$grid->addColumn('penny', 'Комиссия', 'integer');
-		$grid->addColumn('paid', 'Получено от клиента', 'integer');
+		$grid->addColumn('client_price', 'Общая стоимость, руб.', 'double(,0,comma,&nbsp;,)', NULL, true);
+		$grid->addColumn('designer_price', 'Дизайнеру', 'double(,0,comma,&nbsp;,)', NULL, true);//'date');
+		$grid->addColumn('penny', 'Комиссия', 'double(,0,comma,&nbsp;,)');
+		$grid->addColumn('paid', 'Получено от клиента', 'double(,0,comma,&nbsp;,)');
 		$grid->addColumn('action', 'Оплатить', 'string');
 
 		$result = Payment::model()->findAll('order_id=:id', array(':id'=>$id));
