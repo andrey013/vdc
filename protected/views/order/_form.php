@@ -102,7 +102,8 @@
 		</div>
 		<?php } else { ?>
 		<div class="controls controls-row row">
-			<label class="lead span2">Оплата: </label>
+			<label class="lead span1">Оплата: </label>
+			<button id="addpayment" class="btn span1" type="button">&nbsp;<i class="icon-plus"></i></button>
 			<div class="span10" id="tablecontent"></div>
 		</div>
 		<?php } ?>

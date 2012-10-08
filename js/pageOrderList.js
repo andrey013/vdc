@@ -85,7 +85,7 @@ DatabaseGrid.prototype.initializeGrid = function(grid, editlink) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		
 		cell.innerHTML = "<a href=\"" + editlink + "/id/" + rowId + "\">" +
-		 "<i class='icon-edit'><i></a>";
+		 "<i class='icon-edit'></i></a>";
 	}}));
 	grid.renderGrid("tablecontent", "table");
 };    

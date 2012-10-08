@@ -15,7 +15,7 @@ public function accessRules() {
 				'users'=>array('*'),
 				),
 			array('allow', 
-				'actions'=>array('minicreate', 'create','update','index','view','list','jsonlist'),
+				'actions'=>array('minicreate', 'create','add','update','index','view','list','jsonlist','jsonupdate'),
 				'users'=>array('@'),
 				),
 			array('allow', 
@@ -28,6 +28,32 @@ public function accessRules() {
 			);
 }
 
+	public function actionCreate()
+	{
+		$id = $_POST['id'];
+		$payment = new Payment;
+		$payment->order_id = $id;
+		$payment->create_date = time();
+		$payment->client_price = 0;
+		$payment->designer_price = 0;
+		$payment->debt = true;
+		$payment->save();
+		echo('ok');
+		Yii::app()->end();
+	}
+
+	public function actionAdd()
+	{
+		$id = $_POST['id'];
+		$value = $_POST['value'];
+		$paymentHistory = new PaymentHistory;
+		$paymentHistory->payment_id = $id;
+		$paymentHistory->create_date = time();
+		$paymentHistory->amount = $value;
+		$paymentHistory->save();
+		echo('ok');
+		Yii::app()->end();
+	}
 
 	public function actionJsonlist() {
 		$id = $_GET['id'];
@@ -40,13 +66,25 @@ public function accessRules() {
 		$grid->addColumn('designer_price', 'Дизайнеру', 'integer', NULL, true);//'date');
 		$grid->addColumn('penny', 'Комиссия', 'integer');
 		$grid->addColumn('paid', 'Получено от клиента', 'integer');
-		$grid->addColumn('action', ' ', 'string');
+		$grid->addColumn('action', 'Оплатить', 'string');
 
 		$result = Payment::model()->findAll('order_id=:id', array(':id'=>$id));
 
 		$this->layout=false;
 		// send data to the browser
 		$grid->renderJSON($result);
+		Yii::app()->end();
+	}
+
+	public function actionJsonupdate() {
+		$id = $_POST['id'];
+		$colname = $_POST['colname'];
+		$newvalue = $_POST['newvalue'];
+
+		$model = $this->loadModel($id, 'Payment');
+		$model->$colname=$newvalue;
+		$model->save();
+		echo('ok');
 		Yii::app()->end();
 	}
 }

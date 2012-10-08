@@ -6,6 +6,7 @@ function highlightRow(rowId, bgColor, after)
 {
 	var rowSelector = $("#" + rowId);
 	rowSelector.css("background-color", bgColor);
+
 	rowSelector.fadeTo("normal", 0.5, function() { 
 		rowSelector.fadeTo("fast", 1, function() { 
 			rowSelector.css("background-color", '');
@@ -14,16 +15,16 @@ function highlightRow(rowId, bgColor, after)
 }
 
 function highlight(div_id, style) {
-	highlightRow(div_id, style == "error" ? "#e5afaf" : style == "warning" ? "#ffcc00" : "#8dc70a");
+	highlightRow(div_id, style == "error" ? "#e5afaf" : style == "warning" ? "#ffcc00" : "#AEFFAE");
 }
         
 /**
    updateCellValue calls the PHP script that will update the database. 
  */
-function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue, row, onResponse)
+function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue, row, updatelink)
 {      
 	$.ajax({
-		url: 'update.php',
+		url: updatelink,
 		type: 'POST',
 		dataType: "html",
 		data: {
@@ -36,9 +37,29 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
 		success: function (response) 
 		{ 
 			// reset old value if failed then highlight row
-			var success = onResponse ? onResponse(response) : (response == "ok" || !isNaN(parseInt(response))); // by default, a sucessfull reponse can be "ok" or a database id 
+			var success = (response == "ok" || !isNaN(parseInt(response))); // by default, a sucessfull reponse can be "ok" or a database id 
 			if (!success) editableGrid.setValueAt(rowIndex, columnIndex, oldValue);
 		    highlight(row.id, success ? "ok" : "error"); 
+		},
+		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
+		async: true
+	});
+   
+}
+
+function pay(editableGrid, id, value, addlink, link)
+{      
+	$.ajax({
+		url: addlink,
+		type: 'POST',
+		dataType: "html",
+		data: {
+			id: id, 
+			value: value			
+		},
+		success: function (response) 
+		{ 
+			editableGrid.loadJSON(link);
 		},
 		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
 		async: true
@@ -48,15 +69,15 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
    
 
 
-function DatabaseGrid(link, editlink) 
+function DatabaseGrid(link, addlink, updatelink) 
 {
 	var t = this;
 	this.editableGrid = new EditableGrid("demo", {
 		enableSort: false,
 		pageSize: 20,
-   	    tableLoaded: function() { t.initializeGrid(this, editlink); },
+   	    tableLoaded: function() { t.initializeGrid(this, link, addlink); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
-   	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row);
+   	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, updatelink);
        	},
        	tableRendered: function() {
    	    	updatePaginator(this);
@@ -69,9 +90,6 @@ function DatabaseGrid(link, editlink)
 		
 	// filter when something is typed into filter
 	$('#filter').on("keyup", function() { grid.filter($('#filter').val()); });
-
-	
-	
 }
 
 DatabaseGrid.prototype.fetchGrid = function(link)  {
@@ -79,14 +97,20 @@ DatabaseGrid.prototype.fetchGrid = function(link)  {
 	this.editableGrid.loadJSON(link);
 };
 
-DatabaseGrid.prototype.initializeGrid = function(grid, editlink) {
-	//render for the action column
-	//grid.setCellRenderer("action", new CellRenderer({render: function(cell, value) {
-	//	var rowId = grid.getRowId(cell.rowIndex);
-	//	
-	//	cell.innerHTML = "<a href=\"" + editlink + "/id/" + rowId + "\">" +
-	//	 "<i class='icon-edit'><i></a>";
-	//}}));
+DatabaseGrid.prototype.initializeGrid = function(grid, link, addlink) {
+	grid.setCellRenderer("action", new CellRenderer({render: function(cell, value) {
+		var rowId = grid.getRowId(cell.rowIndex);
+		
+		cell.innerHTML = '<div class="input-append">' +
+						'<input id="addPayment'+rowId+'" class="span2" type="text" value="0">' +
+						'<button id="addPayment'+rowId+'Button" class="btn" type="button">&nbsp;<i class="icon-arrow-down"></i></button>' +
+						'</div>';
+		$("#addPayment"+rowId+"Button").on("click", function(){
+			pay(grid, rowId, $('#addPayment'+rowId).val(), addlink, link);
+		});
+		//"<a href=\"" + addlink + "/id/" + rowId + "\">" +
+		// "<i class='icon-edit'></i></a>";
+	}}));
 	grid.renderGrid("tablecontent", "table");
 };    
 

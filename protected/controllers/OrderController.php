@@ -15,7 +15,7 @@ public function accessRules() {
 				'users'=>array('*'),
 				),
 			array('allow', 
-				'actions'=>array('minicreate', 'create','update','index','view','list','jsonlist'),
+				'actions'=>array('minicreate', 'create','update','index','view','list','jsonlist','jsonupdate'),
 				'users'=>array('@'),
 				),
 			array('allow', 
