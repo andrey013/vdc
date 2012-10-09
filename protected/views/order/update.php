@@ -1,5 +1,15 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/pageOrderUpdate.js"></script>
 
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script >
+<script type="text/javascript" >
+tinyMCE.init({
+        mode : "textareas",
+        body_class : "span5",
+        theme : "simple"   //(n.b. no trailing comma, this will be critical as you experiment later)
+});
+</script >
+
+
 <script>
 	$(function(){
 		var status = $("#Order_orderStatus")

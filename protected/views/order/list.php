@@ -7,13 +7,13 @@
 	});
 </script>
 
-<a class="btn btn-large" id="add" href="<?php echo $this->createUrl('/order/create'); ?>">
+<a class="btn btn-large btn-magenta" id="add" href="<?php echo $this->createUrl('/order/create'); ?>">
     Оформить заказ
 </a>
 
-<form class="form-search pull-right">
+<form class="form pull-right">
     <div class="input-append">
-	    <input type="text" id="filter" class="span2 search-query">
+	    <input type="text" id="filter" class="span2">
 	    <button type="button" class="btn disabled">Поиск</button>
     </div>
 </form>

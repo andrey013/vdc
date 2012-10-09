@@ -102,7 +102,7 @@ DatabaseGrid.prototype.initializeGrid = function(grid, link, addlink) {
 	grid.setCellRenderer("action", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		
-		cell.innerHTML = '<div class="input-append">' +
+		cell.innerHTML = '<div class="input-append pull-right">' +
 						'<input id="addPayment'+rowId+'" class="span2" type="text" value="0">' +
 						'<button id="addPayment'+rowId+'Button" class="btn" type="button">&nbsp;<i class="icon-arrow-down"></i></button>' +
 						'</div>';
@@ -121,7 +121,7 @@ DatabaseGrid.prototype.initializeGrid = function(grid, link, addlink) {
 		//"<a href=\"" + addlink + "/id/" + rowId + "\">" +
 		// "<i class='icon-edit'></i></a>";
 	}}));
-	grid.renderGrid("tablecontent", "table");
+	grid.renderGrid("tablecontent", "table table-condensed");
 };    
 
 // function to render the paginator control

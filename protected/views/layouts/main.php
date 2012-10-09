@@ -13,9 +13,10 @@ header("Last-Modified: $last_modified GMT time");*/
 	<meta name="language" content="en" />
 	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 
-	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" rel="stylesheet"/>
+	
 	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet"/>
-	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-responsive.css" rel="stylesheet">
+	<!-- <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-responsive.css" rel="stylesheet"> -->
+	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" rel="stylesheet"/>
 
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.min.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.min.js"></script>
@@ -47,7 +48,7 @@ $(function(){
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
-				<a class="brand" href="#">ВДЦ</a>
+				<a class="brand" href="#">все для вас</a>
 				<ul class="nav">
 					<li class="active"><a href="<?php echo $this->createUrl('/order/list'); ?>">Заказы</a></li>
 					<li><a href="#">Настройки</a></li>
@@ -66,12 +67,12 @@ $(function(){
 					</li>
 					<li><a href="<?php echo $this->createUrl('/site/page', array('view'=>'about')); ?>">Контакты ВДЦ</a></li>
 				</ul>
-				<ul class="nav pull-right">
+				<ul id="logout" class="nav pull-right">
 					<?php if(!Yii::app()->user->isGuest){ ?>
 					<li class="dropdown">
 						<div class="btn-group">
-						<a class="btn btn-success dropdown-toggle" id="status" role="button" data-toggle="dropdown" href="#">
-							<i class="icon-ok icon-white"></i> <?php echo User2::model()->with('profile')->findByPk(Yii::app()->user->id)->profile->lastname ?> <b class="caret"></b>
+						<a class="btn dropdown-toggle" id="status" role="button" data-toggle="dropdown" href="#">
+							<i class="icon-ok"></i> <?php echo User2::model()->with('profile')->findByPk(Yii::app()->user->id)->profile->lastname ?> <b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="status">
 							<li><a href="#"><i class="icon-ok"></i> Свободен</a></li>
@@ -86,7 +87,7 @@ $(function(){
 					</li>
 					
 					<?php }else{ ?>
-					<li><a href="<?php echo $this->createUrl('/site/login'); ?>">Login</a></li>
+					<li><a href="<?php echo $this->createUrl('/site/login'); ?>">Вход</a></li>
 					<?php } ?>
 
 				</ul>
@@ -95,7 +96,7 @@ $(function(){
 	</div>
 	<div class="clearfix"></div>
 
-	<div class="container">
+	<div id="container" class="container">
 		<?php echo $content; ?>
 	</div><!-- container -->
 

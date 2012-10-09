@@ -13,6 +13,11 @@ class OrderStatusHistory extends BaseOrderStatusHistory
 		return $this->orderStatus->name.' '.Yii::app()->dateFormatter->format('d.MM.yyyy', $this->change_date);
 	}
 
+	public function getKey()
+	{
+		return $this->orderStatus->key;
+	}
+
 	protected function beforeSave()
 	{
 		if(parent::beforeSave())

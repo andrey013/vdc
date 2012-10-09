@@ -51,7 +51,7 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
 function DatabaseGrid(link, editlink) 
 {
 	var t = this;
-	this.editableGrid = new EditableGrid("demo", {
+	this.editableGrid = new EditableGrid("order", {
 		enableSort: false,
 		pageSize: 20,
    	    tableLoaded: function() { t.initializeGrid(this, editlink); },
@@ -81,13 +81,13 @@ DatabaseGrid.prototype.fetchGrid = function(link)  {
 
 DatabaseGrid.prototype.initializeGrid = function(grid, editlink) {
 	// render for the action column
-	grid.setCellRenderer("action", new CellRenderer({render: function(cell, value) {
+	grid.setCellRenderer("orderStatus.key", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
-		
+		$("#order_"+rowId).addClass("row-"+value);
 		cell.innerHTML = "<a href=\"" + editlink + "/id/" + rowId + "\">" +
 		 "<i class='icon-edit'></i></a>";
 	}}));
-	grid.renderGrid("tablecontent", "table");
+	grid.renderGrid("tablecontent", "table table-condensed orders");
 };    
 
 // function to render the paginator control

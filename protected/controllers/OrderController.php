@@ -145,7 +145,7 @@ public function accessRules() {
 		$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
 		$grid->addColumn('debt', 'Оплата', 'boolean');
 		$grid->addColumn('isDesignerPaid', 'Дизайнеру', 'boolean');
-		$grid->addColumn('action', ' ', 'string');
+		$grid->addColumn('orderStatus.key', ' ', 'string');
 
 		$result = Order::model()->with('client', 'orderType', 'customer', 'priority', 'orderStatus', 'designer', 'designer.profile')->findAll();
 
