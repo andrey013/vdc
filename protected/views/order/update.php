@@ -15,6 +15,10 @@ tinyMCE.init({
 		var status = $("#Order_orderStatus")
 		$(".statusRadio").removeClass("active");
 		$(".statusRadio[value="+status.val()+"]").addClass("active");
+		var status = $("#Order_orderStatus")
+		$(".statusRadio").bind('click', function(){
+				status.val(this.value);
+			});
 		var link = "<?php echo $this->createUrl('/payment/jsonlist').'?id='.$model->id; ?>";
 		var addlink = "<?php echo $this->createUrl('/payment/add'); ?>";
 		var updatelink = "<?php echo $this->createUrl('/payment/jsonupdate'); ?>";

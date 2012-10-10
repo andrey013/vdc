@@ -9,9 +9,20 @@ class Payment extends BasePayment
 	}
 
 	public function relations() {
-		return parent::relations() + array(
+		return array_merge(parent::relations(), array(
 			'paid' => array(self::STAT, 'PaymentHistory', 'payment_id', 'select' => 'SUM(amount)'),
-		);
+			'paymentHistories' => array(self::HAS_MANY, 'PaymentHistory', 'payment_id', 'order' => 'create_date ASC'),
+		));
+	}
+
+	public function getPaidhistory()
+	{
+		$history = $this->paymentHistories;
+		$result = $this->paid;
+		foreach ($history as $key => $value) {
+			$result = $result.' '.$value->createdateformatted.' '.$value->amount;
+		}
+		return $result;
 	}
 
 	public function getPenny()

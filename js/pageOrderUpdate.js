@@ -99,7 +99,7 @@ DatabaseGrid.prototype.fetchGrid = function(link)  {
 };
 
 DatabaseGrid.prototype.initializeGrid = function(grid, link, addlink) {
-	grid.setCellRenderer("action", new CellRenderer({render: function(cell, value) {
+	grid.setCellRenderer("paidhistory", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		
 		cell.innerHTML = '<div class="input-append pull-right">' +
@@ -114,12 +114,41 @@ DatabaseGrid.prototype.initializeGrid = function(grid, link, addlink) {
 		        pay(grid, rowId, $('#addPayment'+rowId).val(), addlink, link);
 		        return false;
 		    }
-
 		});
+		var words = value.split(' ');
+		var text = '';
+		$.each(words, function(index, value) {
+			if(index==0)return;
+			var column = grid.getColumn("paid");
+			if(index % 3 == 1) text += value;
+			else if(index % 3 == 2) text += ' ' + value;
+			else text += ' - ' +
+			  number_format(value, column.precision, column.decimal_point, column.thousands_separator) +
+			  ' р.' + '<br>';
+		})
+		$("#paid_"+rowId).tooltip({title:text, placement: 'right'});
+	}}));
 
+	grid.setCellRenderer("client_price", new CellRenderer({render: function(cell, value) {
+		var rowId = grid.getRowId(cell.rowIndex);
+		var column = this.column;
+		var displayValue = number_format(value, column.precision, column.decimal_point, column.thousands_separator);
+		$("<span>").append(displayValue).addClass("dotted").appendTo(cell);
+	}}));
 
-		//"<a href=\"" + addlink + "/id/" + rowId + "\">" +
-		// "<i class='icon-edit'></i></a>";
+	grid.setCellRenderer("designer_price", new CellRenderer({render: function(cell, value) {
+		var rowId = grid.getRowId(cell.rowIndex);
+		var column = this.column;
+		var displayValue = number_format(value, column.precision, column.decimal_point, column.thousands_separator);
+		$("<span>").append(displayValue).addClass("dotted").appendTo(cell);
+	}}));
+
+	grid.setCellRenderer("paid", new CellRenderer({render: function(cell, value) {
+		var rowId = grid.getRowId(cell.rowIndex);
+		var column = this.column;
+		
+		var displayValue = number_format(value, column.precision, column.decimal_point, column.thousands_separator);
+		$("<span id='paid_"+rowId+"'>").append(displayValue).addClass("dotted").appendTo(cell);
 	}}));
 	grid.renderGrid("tablecontent", "table table-condensed");
 };    

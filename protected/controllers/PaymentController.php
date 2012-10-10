@@ -66,7 +66,7 @@ public function accessRules() {
 		$grid->addColumn('designer_price', 'Дизайнеру', 'double(,0,comma,&nbsp;,)', NULL, true);//'date');
 		$grid->addColumn('penny', 'Комиссия', 'double(,0,comma,&nbsp;,)');
 		$grid->addColumn('paid', 'Получено от клиента', 'double(,0,comma,&nbsp;,)');
-		$grid->addColumn('action', 'Оплатить', 'string');
+		$grid->addColumn('paidhistory', 'Оплатить', 'string');
 
 		$result = Payment::model()->findAll('order_id=:id', array(':id'=>$id));
 

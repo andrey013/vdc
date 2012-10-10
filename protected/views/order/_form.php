@@ -130,7 +130,7 @@
 		<?php if(isset($buttons)) { ?>
 		<div class="controls controls-row row pull-right">
 			<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">
-				Отмена
+				К&nbsp;списку
 			</a>
 			<button class="btn btn-large btn-magenta span2">
 				Оформить
@@ -151,7 +151,7 @@
 		</div>
 		<div class="controls controls-row row pull-right">
 			<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">
-				Отмена
+				К&nbsp;списку
 			</a>
 			<button class="btn btn-large btn-magenta span2">
 				Сохранить

@@ -81,7 +81,9 @@ public function accessRules() {
 			$model->setChromaticityName($_POST['Order']['chromaticityname']);
 			$model->setDensityName($_POST['Order']['densityname']);
 			if ($model->save()) {
-				$this->redirect(array('update', 'id' => $model->id));
+				if($_POST['Order']['orderStatus'] != $model->orderStatus->orderStatus->key)
+					$model->setOrderStatus($_POST['Order']['orderStatus']);
+				$this->redirect(array('list'));
 			}
 		}
 		$model->orderStatus = $model->orderStatus->orderStatus->key;
@@ -134,17 +136,17 @@ public function accessRules() {
 		//$grid->addColumn('id', 'ID', 'integer', NULL, false);
 		$grid->addColumn('priority.name', '!', 'integer');
 		$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
-		$grid->addColumn('customer.name', 'Наименование заказчика', 'string');
-		$grid->addColumn('orderType.name', 'Вид заказа', 'string');
+		$grid->addColumn('customer.name', 'Заказчик', 'string');
+		$grid->addColumn('orderType.name', 'Вид', 'string');
 		$grid->addColumn('comment', 'Комментарий', 'string');
 		$grid->addColumn('client.name', 'Клиент', 'string');
 		$grid->addColumn('designer_id', 'Дизайнер', 'integer', array('0' => '' ,'4' => 'ВикторияК.'), true);
 		$grid->addColumn('orderStatus.statusformatted', 'Статус', 'string');
 		$grid->addColumn('client_price', ' ', 'double(,0,comma,&nbsp;,)');
-		$grid->addColumn('designer_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
+		$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');
 		$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
-		$grid->addColumn('debt', 'Оплата', 'boolean');
-		$grid->addColumn('isDesignerPaid', 'Дизайнеру', 'boolean');
+		$grid->addColumn('debt', 'О', 'boolean');
+		$grid->addColumn('isDesignerPaid', 'Д', 'boolean');
 		$grid->addColumn('orderStatus.key', ' ', 'string');
 
 		$result = Order::model()->with('client', 'orderType', 'customer', 'priority', 'orderStatus', 'designer', 'designer.profile')->findAll();

@@ -87,6 +87,26 @@ DatabaseGrid.prototype.initializeGrid = function(grid, editlink) {
 		cell.innerHTML = "<a href=\"" + editlink + "/id/" + rowId + "\">" +
 		 "<i class='icon-edit'></i></a>";
 	}}));
+	grid.setCellRenderer("comment", new CellRenderer({render: function(cell, value) {
+		var rowId = grid.getRowId(cell.rowIndex);
+		$("<div>").append(value).addClass("two-liner").appendTo(cell);
+	}}));
+
+	grid.setCellRenderer("orderStatus.statusformatted", new CellRenderer({render: function(cell, value) {
+		var rowId = grid.getRowId(cell.rowIndex);
+		var words = value.split(' ');
+		if(words.length==2){
+			$("<div>").append(words[0]).append("<br>").append(words[1]).appendTo(cell);
+		}else{
+			$("<div>").append(words[0]+'&nbsp;'+words[1]).append("<br>").append(words[2]).appendTo(cell);
+		}
+	}}));
+
+	grid.setCellRenderer("designer_id", new CellRenderer({render: function(cell, value) {
+		var rowId = grid.getRowId(cell.rowIndex);
+		var renderValue = grid.getColumn("designer_id").getOptionValuesForRender()[value];
+		$("<span>").append(renderValue).addClass("dotted").appendTo(cell);
+	}}));
 	grid.renderGrid("tablecontent", "table table-condensed orders");
 };    
 

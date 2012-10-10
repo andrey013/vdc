@@ -16,6 +16,7 @@ header("Last-Modified: $last_modified GMT time");*/
 	
 	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet"/>
 	<!-- <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-responsive.css" rel="stylesheet"> -->
+	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/daterangepicker.css" rel="stylesheet"/>
 	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" rel="stylesheet"/>
 
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.min.js"></script>
@@ -51,9 +52,8 @@ $(function(){
 				<a class="brand" href="#">все для вас</a>
 				<ul class="nav">
 					<li class="active"><a href="<?php echo $this->createUrl('/order/list'); ?>">Заказы</a></li>
-					<li><a href="#">Настройки</a></li>
 					<li><a href="#">Дизайнеры</a></li>
-					<li><a href="#">Пользователи</a></li>
+					<!-- <li><a href="#">Пользователи</a></li> -->
 					<li class="dropdown">
 						<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" href="#">
 							Скачать <b class="caret"></b>
@@ -80,6 +80,7 @@ $(function(){
 						</ul>
 						</div>
 					</li>
+					<li><a href="#">Настройки</a></li>
 					<li><a href="<?php echo $this->createUrl('/site/logout'); ?>">
 						<!-- <?php echo 'Выход' /* ('.Yii::app()->user->name.')'*/ ?> -->
 						Выход
