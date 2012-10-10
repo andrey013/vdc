@@ -31,7 +31,7 @@
 			<label class="checkbox">
 				<?php echo $form->checkBox($model,'rememberMe', array('class' => 'span1')); ?> Запомнить меня на этом компьютере
 			</label>
-			<button type="submit" class="btn btn-large btn-primary">Войти</button>
+			<button type="submit" class="btn btn-large btn-magenta"> Войти </button>
 		</div>
 	</div>
 
