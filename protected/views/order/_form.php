@@ -50,7 +50,7 @@
 			<label class="span1" for="Order_manager_id">менеджер</label>
 			<?php echo $form->dropDownList($model, 'manager_id',
 				GxHtml::listDataEx($managers, null, 'profile.lastname'), array('class' => 'span2')); ?>
-			<label class="span1" for="Order_designer_id">дизайнер</label>
+			<label class="span1" for="Order_designer_id">дизайнер</label>&nbsp;
 			<?php echo $form->dropDownList($model, 'designer_id',
 				GxHtml::listDataEx($designers, null, 'profile.lastname'), array('class' => 'span2')); ?>
 		</div>
@@ -130,24 +130,18 @@
 		<?php if(isset($buttons)) { ?>
 		<div class="controls controls-row row pull-right">
 			<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">
-				К&nbsp;списку
+				Отмена
 			</a>
 			<button class="btn btn-large btn-magenta span2">
 				Оформить
 			</button>
 		</div>
 		<?php } else { ?>
-		
-		<div class="controls controls-row row">
+		<div class="controls controls-row row pull-left">
 			<label class="lead span1">Текст: </label>
 			<div class="span5">
 				<textarea name="text" cols="200" rows="15" class="span5"></textarea>
 			</div>
-			<label class="lead span1 offset1">Файлы: </label>
-		</div>
-		<hr>
-		<div class="controls controls-row row">
-			<label class="lead span1">Комментарии: </label>
 		</div>
 		<div class="controls controls-row row pull-right">
 			<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">
@@ -161,3 +155,14 @@
 <?php
 $this->endWidget();
 ?>
+		<hr class="span6 pull-right">
+		<div class="controls controls-row row">
+			<label class="lead span6">Файлы: </label>
+
+		</div>
+		<hr>
+		<div class="controls controls-row row">
+			<label class="lead span1">Комментарии: </label>
+		</div>
+		
+
