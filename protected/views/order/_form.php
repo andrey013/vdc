@@ -42,7 +42,7 @@
 		</div>
 		<hr>
 		<div class="controls controls-row row">
-			<label class="span2" for="Order_client_number">№ заказа оформленный у клиента</label>&nbsp;
+			<label class="span2" for="Order_client_number">№ заказа оформленный у клиента</label>
 			<?php echo $form->textField($model, 'client_number', array('class' => 'span1')); ?>
 			<label class="span1" for="Order_client_id">клиент (редакция)</label>
 			<?php echo $form->dropDownList($model, 'client_id',
@@ -50,7 +50,7 @@
 			<label class="span1" for="Order_manager_id">менеджер</label>
 			<?php echo $form->dropDownList($model, 'manager_id',
 				GxHtml::listDataEx($managers, null, 'profile.lastname'), array('class' => 'span2')); ?>
-			<label class="span1" for="Order_designer_id">дизайнер</label>&nbsp;
+			<label class="span1" for="Order_designer_id">дизайнер</label>
 			<?php echo $form->dropDownList($model, 'designer_id',
 				GxHtml::listDataEx($designers, null, 'profile.lastname'), array('class' => 'span2')); ?>
 		</div>
@@ -155,14 +155,58 @@
 <?php
 $this->endWidget();
 ?>
+		<?php if(!isset($buttons)) { ?>
 		<hr class="span6 pull-right">
 		<div class="controls controls-row row">
 			<label class="lead span6">Файлы: </label>
-
+			<!-- The file upload form used as target for the file upload widget -->
+			<form id="fileupload" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data">
+				<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+				<div class="row fileupload-buttonbar">
+					<div class="span6">
+						<!-- The fileinput-button span is used to style the file input field as button -->
+						<span class="btn btn-success fileinput-button">
+							<i class="icon-plus icon-white"></i>
+							<span>Add files...</span>
+							<input type="file" name="files[]" multiple>
+						</span>
+						<button type="submit" class="btn btn-primary start">
+							<i class="icon-upload icon-white"></i>
+							<span>Start upload</span>
+						</button>
+						<button type="reset" class="btn btn-warning cancel">
+							<i class="icon-ban-circle icon-white"></i>
+							<span>Cancel upload</span>
+						</button>
+						<button type="button" class="btn btn-danger delete">
+							<i class="icon-trash icon-white"></i>
+							<span>Delete</span>
+						</button>
+						<input type="checkbox" class="toggle">
+					</div>
+					<!-- The global progress information -->
+					<div class="span5 fileupload-progress fade">
+						<!-- The global progress bar -->
+						<div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+							<div class="bar" style="width:0%;"></div>
+						</div>
+						<!-- The extended global progress information -->
+						<div class="progress-extended">&nbsp;</div>
+					</div>
+					<!-- The table listing the files available for upload/download -->
+					<div class="span6">
+						<table role="presentation" class="table table-condensed"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+					</div>
+				</div>
+				
+				<!-- The loading indicator is shown during file processing -->
+				<div class="fileupload-loading"></div>
+				<br>
+			</form>
 		</div>
 		<hr>
 		<div class="controls controls-row row">
 			<label class="lead span1">Комментарии: </label>
 		</div>
-		
+		<?php } ?>
 

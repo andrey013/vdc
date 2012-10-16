@@ -310,6 +310,14 @@
 				"buffer_size": 1779,
 				"line_ending": "Unix"
 			}
+		},
+		{
+			"file": "/home/andrey/Documents/riskgost.txt",
+			"settings":
+			{
+				"buffer_size": 3967,
+				"line_ending": "Unix"
+			}
 		}
 	],
 	"build_system": "",
@@ -668,8 +676,8 @@
 						"selection":
 						[
 							[
-								17645,
-								17645
+								17561,
+								17561
 							]
 						],
 						"settings":
@@ -1016,8 +1024,8 @@
 							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 76.0,
-						"translation.y": 0.0,
+						"translation.x": 0.0,
+						"translation.y": 385.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1187,7 +1195,7 @@
 			]
 		},
 		{
-			"selected": 5,
+			"selected": 6,
 			"sheets":
 			[
 				{
@@ -1350,6 +1358,33 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 33,
+					"file": "/home/andrey/Documents/riskgost.txt",
+					"settings":
+					{
+						"buffer_size": 3967,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1510,
+								1510
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		}
@@ -1394,13 +1429,13 @@
 		"cols":
 		[
 			0.0,
-			0.558960887333,
+			0.5,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.574190074191,
+			0.5,
 			1.0
 		]
 	},

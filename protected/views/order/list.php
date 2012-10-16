@@ -50,7 +50,7 @@
 		<i class="icon-calendar icon-large"></i>
 		<span></span> <b class="caret" style="margin-top: 8px"></b>
 	</div>
-    <div class="input-append span3">
+    <div class="input-append span">
 	    <input type="text" id="filter" class="span2">
 	    <button type="button" class="btn disabled">Поиск</button>
     </div>
