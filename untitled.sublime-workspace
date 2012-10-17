@@ -104,34 +104,34 @@
 			}
 		},
 		{
-			"file": "protected/extensions/giix-components/GxHtml.php",
-			"settings":
-			{
-				"buffer_size": 7799,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "css/main.css",
 			"settings":
 			{
-				"buffer_size": 17645,
+				"buffer_size": 17623,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "css/daterangepicker.css",
+			"file": "js/jquery.fileupload.js",
 			"settings":
 			{
-				"buffer_size": 3951,
+				"buffer_size": 49478,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "js/daterangepicker.js",
+			"file": "js/jquery.fileupload-ui.js",
 			"settings":
 			{
-				"buffer_size": 19880,
+				"buffer_size": 30235,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/components/UploadHandler.php",
+			"settings":
+			{
+				"buffer_size": 19920,
 				"line_ending": "Unix"
 			}
 		},
@@ -155,7 +155,7 @@
 			"file": "protected/views/order/list.php",
 			"settings":
 			{
-				"buffer_size": 2435,
+				"buffer_size": 2434,
 				"line_ending": "Unix"
 			}
 		},
@@ -187,7 +187,7 @@
 			"file": "protected/views/order/update.php",
 			"settings":
 			{
-				"buffer_size": 1541,
+				"buffer_size": 5642,
 				"line_ending": "Unix"
 			}
 		},
@@ -203,7 +203,7 @@
 			"file": "protected/views/order/_form.php",
 			"settings":
 			{
-				"buffer_size": 7844,
+				"buffer_size": 9921,
 				"line_ending": "Unix"
 			}
 		},
@@ -264,6 +264,14 @@
 			}
 		},
 		{
+			"file": "protected/controllers/FileController.php",
+			"settings":
+			{
+				"buffer_size": 1536,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "protected/modules/rights/components/RWebUser.php",
 			"settings":
 			{
@@ -310,14 +318,6 @@
 				"buffer_size": 1779,
 				"line_ending": "Unix"
 			}
-		},
-		{
-			"file": "/home/andrey/Documents/riskgost.txt",
-			"settings":
-			{
-				"buffer_size": 3967,
-				"line_ending": "Unix"
-			}
 		}
 	],
 	"build_system": "",
@@ -348,13 +348,16 @@
 	},
 	"file_history":
 	[
+		"/home/andrey/yii/vdc/js/daterangepicker.js",
+		"/home/andrey/yii/vdc/css/daterangepicker.css",
+		"/home/andrey/yii/vdc/protected/extensions/giix-components/GxHtml.php",
+		"/home/andrey/Documents/riskgost.txt",
 		"/home/andrey/yii/vdc/js/pageOrderList.js",
 		"/home/andrey/yii/vdc/protected/modules/user/models/User.php",
 		"/home/andrey/yii/vdc/protected/config/main.php",
 		"/home/andrey/yii/vdc/protected/models/User2.php",
 		"/home/andrey/yii/vdc/protected/models/_base/BaseCustomer.php",
 		"/home/andrey/yii/vdc/protected/models/_base/BaseUser.php",
-		"/home/andrey/yii/vdc/protected/extensions/giix-components/GxHtml.php",
 		"/home/andrey/yii/vdc/protected/models/Chromatisity.php",
 		"/home/andrey/yii/vdc/protected/controllers/OrderController.php",
 		"/home/andrey/yii/vdc/protected/models/_base/BaseOrderStatusHistory.php",
@@ -393,6 +396,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Empty file upload result",
+			"template",
+			"wi",
 			"btn-success",
 			"08",
 			"0088",
@@ -443,7 +449,7 @@
 	"groups":
 	[
 		{
-			"selected": 8,
+			"selected": 10,
 			"sheets":
 			[
 				{
@@ -514,8 +520,8 @@
 						"selection":
 						[
 							[
-								1299,
-								1299
+								3089,
+								3089
 							]
 						],
 						"settings":
@@ -524,7 +530,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 312.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -639,101 +645,46 @@
 				},
 				{
 					"buffer": 7,
-					"file": "protected/extensions/giix-components/GxHtml.php",
+					"file": "css/main.css",
 					"settings":
 					{
-						"buffer_size": 7799,
+						"buffer_size": 17623,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3366,
-								3366
+								4216,
+								4216
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 749.0,
+						"translation.y": 1683.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 8,
-					"file": "css/main.css",
+					"file": "js/jquery.fileupload.js",
 					"settings":
 					{
-						"buffer_size": 17645,
+						"buffer_size": 49478,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								17561,
-								17561
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 6210.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "css/daterangepicker.css",
-					"settings":
-					{
-						"buffer_size": 3951,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1209,
-								1209
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 588.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "js/daterangepicker.js",
-					"settings":
-					{
-						"buffer_size": 19880,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3307,
-								3307
+								233,
+								233
 							]
 						],
 						"settings":
@@ -743,7 +694,63 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 825.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "js/jquery.fileupload-ui.js",
+					"settings":
+					{
+						"buffer_size": 30235,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7245,
+								7245
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "protected/components/UploadHandler.php",
+					"settings":
+					{
+						"buffer_size": 19920,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4840,
+								4840
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1248.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -813,15 +820,15 @@
 					"file": "protected/views/order/list.php",
 					"settings":
 					{
-						"buffer_size": 2435,
+						"buffer_size": 2434,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1949,
-								1949
+								2187,
+								2187
 							]
 						],
 						"settings":
@@ -921,21 +928,22 @@
 					"file": "protected/views/order/update.php",
 					"settings":
 					{
-						"buffer_size": 1541,
+						"buffer_size": 5642,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1270,
-								1270
+								1854,
+								1854
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -965,7 +973,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1004.0,
+						"translation.y": 1862.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -975,15 +983,15 @@
 					"file": "protected/views/order/_form.php",
 					"settings":
 					{
-						"buffer_size": 7844,
+						"buffer_size": 9921,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1433,
-								1433
+								8237,
+								8237
 							]
 						],
 						"settings":
@@ -991,8 +999,8 @@
 							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 44.0,
-						"translation.y": 312.0,
+						"translation.x": 0.0,
+						"translation.y": 2196.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1000,7 +1008,7 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 7,
 			"sheets":
 			[
 				{
@@ -1015,8 +1023,8 @@
 						"selection":
 						[
 							[
-								468,
-								468
+								1033,
+								1033
 							]
 						],
 						"settings":
@@ -1191,15 +1199,42 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 27,
+					"file": "protected/controllers/FileController.php",
+					"settings":
+					{
+						"buffer_size": 1536,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								702,
+								702
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 117.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 6,
+			"selected": 5,
 			"sheets":
 			[
 				{
-					"buffer": 27,
+					"buffer": 28,
 					"file": "protected/modules/rights/components/RWebUser.php",
 					"settings":
 					{
@@ -1226,7 +1261,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 28,
+					"buffer": 29,
 					"file": "protected/modules/rights/components/RDbAuthManager.php",
 					"settings":
 					{
@@ -1253,7 +1288,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 29,
+					"buffer": 30,
 					"file": "protected/modules/rights/components/RInstaller.php",
 					"settings":
 					{
@@ -1279,7 +1314,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 30,
+					"buffer": 31,
 					"file": "protected/extensions/giix-components/GxActiveRecord.php",
 					"settings":
 					{
@@ -1306,7 +1341,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 31,
+					"buffer": 32,
 					"file": "protected/models/_base/BaseVariables.php",
 					"settings":
 					{
@@ -1333,7 +1368,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 32,
+					"buffer": 33,
 					"file": "protected/models/LoginForm.php",
 					"settings":
 					{
@@ -1344,41 +1379,14 @@
 						"selection":
 						[
 							[
-								1402,
-								1402
+								973,
+								973
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 312.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 33,
-					"file": "/home/andrey/Documents/riskgost.txt",
-					"settings":
-					{
-						"buffer_size": 3967,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1510,
-								1510
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1429,13 +1437,13 @@
 		"cols":
 		[
 			0.0,
-			0.5,
+			0.517708333333,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.5,
+			0.766929016929,
 			1.0
 		]
 	},
@@ -1450,6 +1458,22 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"uplo",
+				"protected/components/UploadHandler.php"
+			],
+			[
+				"fileup",
+				"js/jquery.fileupload-ui.js"
+			],
+			[
+				"fileu",
+				"js/jquery.fileupload.js"
+			],
+			[
+				"file",
+				"protected/controllers/FileController.php"
+			],
 			[
 				"da",
 				"js/daterangepicker.js"
@@ -1664,7 +1688,7 @@
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 207.0,
 	"status_bar_visible": true
 }
