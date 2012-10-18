@@ -53,11 +53,35 @@ tinyMCE.init({
 				});
 			});
 		// Initialize the jQuery File Upload widget:
-    	$('#fileupload').fileupload();
+    	$('#fileupload1').fileupload();
     	// Load existing files:
-        $('#fileupload').each(function () {
+        $('#fileupload1').each(function () {
             var that = this;
-            $.getJSON(this.action, function (result) {
+            $.getJSON(this.action+'?id=<?php echo $model->id; ?>&stage=1', function (result) {
+                if (result && result.length) {
+                    $(that).fileupload('option', 'done')
+                        .call(that, null, {result: result});
+                }
+            });
+        });
+        // Initialize the jQuery File Upload widget:
+        $('#fileupload2').fileupload();
+        // Load existing files:
+        $('#fileupload2').each(function () {
+            var that = this;
+            $.getJSON(this.action+'?id=<?php echo $model->id; ?>&stage=2', function (result) {
+                if (result && result.length) {
+                    $(that).fileupload('option', 'done')
+                        .call(that, null, {result: result});
+                }
+            });
+        });
+        // Initialize the jQuery File Upload widget:
+        $('#fileupload3').fileupload();
+        // Load existing files:
+        $('#fileupload3').each(function () {
+            var that = this;
+            $.getJSON(this.action+'?id=<?php echo $model->id; ?>&stage=3', function (result) {
                 if (result && result.length) {
                     $(that).fileupload('option', 'done')
                         .call(that, null, {result: result});
@@ -76,30 +100,22 @@ $this->renderPartial('_form', array(
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
-        <td class="preview"><span class="fade"></span></td>
         <td class="name"><span>{%=file.name%}</span></td>
         <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
         {% if (file.error) { %}
             <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
         {% } else if (o.files.valid && !i) { %}
-            <td>
+            <!--<td>
                 <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
-            </td>
+            </td>-->
             <td class="start">{% if (!o.options.autoUpload) { %}
-                <button class="btn btn-primary">
+                <button class="btn btn-mini btn-primary">
                     <i class="icon-upload icon-white"></i>
-                    <span>Start</span>
                 </button>
             {% } %}</td>
         {% } else { %}
-            <td colspan="2"></td>
+            <td colspan="1"></td>
         {% } %}
-        <td class="cancel">{% if (!i) { %}
-            <button class="btn btn-warning">
-                <i class="icon-ban-circle icon-white"></i>
-                <span>Cancel</span>
-            </button>
-        {% } %}</td>
     </tr>
 {% } %}
 </script>
@@ -108,19 +124,16 @@ $this->renderPartial('_form', array(
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-download fade">
         {% if (file.error) { %}
-            <td></td>
-            <td class="name"><span>{%=file.name%}</span></td>
+            <td class="name"><span class="two-liner span3">{%=file.name%}</span></td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
             <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
         {% } else { %}
-            <td class="preview">{% if (file.thumbnail_url) { %}
-                <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
-            {% } %}</td>
             <td class="name">
-                <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+                <div class="two-liner">
+                    <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+                </div>
             </td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-            <td colspan="2"></td>
         {% } %}
         <td class="delete">
             <button class="btn btn-mini" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">

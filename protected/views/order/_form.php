@@ -139,14 +139,12 @@
 		<?php } else { ?>
 		<div class="controls controls-row row pull-left">
 			<label class="lead span1">Текст: </label>
-			<div class="span5">
-				<textarea name="text" cols="200" rows="15" class="span5"></textarea>
+			<div class="span7">
+				<textarea name="text" cols="200" rows="15" class="span7"></textarea>
 			</div>
 		</div>
-		<div class="controls controls-row row pull-right">
-			<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">
-				К&nbsp;списку
-			</a>
+		<div class="pull-right">
+			<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">К&nbsp;списку</a>
 			<button class="btn btn-large btn-magenta span2">
 				Сохранить
 			</button>
@@ -156,36 +154,37 @@
 $this->endWidget();
 ?>
 		<?php if(!isset($buttons)) { ?>
-		<hr class="span6 pull-right">
+		<div class="clearfix"></div>
+		<hr>
 		<div class="controls controls-row row">
-			<label class="lead span6">Файлы: </label>
+			<label class="lead span12">Файлы: </label>
+		</div>
+		<div class="controls controls-row row">
 			<!-- The file upload form used as target for the file upload widget -->
-			<form id="fileupload" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data">
+			<form id="fileupload1" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data" class="span4">
+				<input type="hidden" name="id" value="<?php echo $model->id; ?>">
+				<input type="hidden" name="stage" value="1">
 				<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 				<div class="row fileupload-buttonbar">
-					<div class="span2">
-						<!-- The fileinput-button span is used to style the file input field as button -->
-						<span class="btn btn-magenta fileinput-button">
-							<i class="icon-plus icon-white"></i>
-							<span>Добавить</span>
-							<input type="file" name="files[]" multiple>
-						</span>
-						<!--
-						<button type="submit" class="btn btn-primary start">
-							<i class="icon-upload icon-white"></i>
-							<span>Start upload</span>
-						</button>
-						<button type="reset" class="btn btn-warning cancel">
-							<i class="icon-ban-circle icon-white"></i>
-							<span>Cancel upload</span>
-						</button>
-						<button type="button" class="btn btn-danger delete">
-							<i class="icon-trash icon-white"></i>
-							<span>Delete</span>
-						</button> 
-						<input type="checkbox" class="toggle">
-						-->
+					<!-- The table listing the files available for upload/download -->
+					<div class="span4">
+						<table role="presentation" class="table table-condensed">
+							<thead>
+								<tr>
+									<th colspan="5">Для разработки
+										<!-- The fileinput-button span is used to style the file input field as button -->
+										<span class="btn btn-mini btn-magenta fileinput-button">
+											<i class="icon-plus icon-white"></i>
+											<input type="file" name="files[]" multiple>
+										</span>
+									</th>
+								</tr>
+							</thead>
+							<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
+							</tbody>
+						</table>
 					</div>
+
 					<!-- The global progress information -->
 					<div class="span4 fileupload-progress fade">
 						<!-- The global progress bar -->
@@ -195,9 +194,87 @@ $this->endWidget();
 						<!-- The extended global progress information -->
 						<div class="progress-extended">&nbsp;</div>
 					</div>
+				</div>
+				
+				<!-- The loading indicator is shown during file processing -->
+				<div class="fileupload-loading"></div>
+				<br>
+			</form>
+			<!-- The file upload form used as target for the file upload widget -->
+			<form id="fileupload2" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data" class="span4">
+				<input type="hidden" name="id" value="<?php echo $model->id; ?>">
+				<input type="hidden" name="stage" value="2">
+				<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+				<div class="row fileupload-buttonbar">
 					<!-- The table listing the files available for upload/download -->
-					<div class="span6">
-						<table role="presentation" class="table table-condensed"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+					<div class="span4">
+						<table role="presentation" class="table table-condensed">
+							<thead>
+								<tr>
+									<th colspan="5">На утверждение
+										<!-- The fileinput-button span is used to style the file input field as button -->
+										<span class="btn btn-mini btn-magenta fileinput-button">
+											<i class="icon-plus icon-white"></i>
+											<input type="file" name="files[]" multiple>
+										</span>
+									</th>
+								</tr>
+							</thead>
+							<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
+							</tbody>
+						</table>
+					</div>
+
+					<!-- The global progress information -->
+					<div class="span4 fileupload-progress fade">
+						<!-- The global progress bar -->
+						<div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+							<div class="bar" style="width:0%;"></div>
+						</div>
+						<!-- The extended global progress information -->
+						<div class="progress-extended">&nbsp;</div>
+					</div>
+				</div>
+				
+				<!-- The loading indicator is shown during file processing -->
+				<div class="fileupload-loading"></div>
+				<br>
+			</form>
+			<!-- The file upload form used as target for the file upload widget -->
+			<form id="fileupload3" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data" class="span4">
+				<input type="hidden" name="id" value="<?php echo $model->id; ?>">
+				<input type="hidden" name="stage" value="3">
+				<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+				<div class="row fileupload-buttonbar">
+					
+					
+					<!-- The table listing the files available for upload/download -->
+					<div class="span4">
+						<table role="presentation" class="table table-condensed">
+							<thead>
+								<tr>
+									<th colspan="5">Готовые
+										<!-- The fileinput-button span is used to style the file input field as button -->
+										<span class="btn btn-mini btn-magenta fileinput-button">
+											<i class="icon-plus icon-white"></i>
+											<input type="file" name="files[]" multiple>
+										</span>
+									</th>
+								</tr>
+							</thead>
+							<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
+							</tbody>
+						</table>
+					</div>
+
+					<!-- The global progress information -->
+					<div class="span4 fileupload-progress fade">
+						<!-- The global progress bar -->
+						<div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+							<div class="bar" style="width:0%;"></div>
+						</div>
+						<!-- The extended global progress information -->
+						<div class="progress-extended">&nbsp;</div>
 					</div>
 				</div>
 				
@@ -206,6 +283,8 @@ $this->endWidget();
 				<br>
 			</form>
 		</div>
+
+
 		<hr>
 		<div class="controls controls-row row">
 			<label class="lead span1">Комментарии: </label>

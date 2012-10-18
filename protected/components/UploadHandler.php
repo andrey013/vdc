@@ -98,7 +98,9 @@ class UploadHandler
 
     protected function set_file_delete_url($file) {
         $file->delete_url = $this->options['script_url']
-            .'?file='.rawurlencode($file->name);
+            .'?file='.rawurlencode($file->name)
+            .'&id='.$this->options['id']
+            .'&stage='.$this->options['stage'];
         $file->delete_type = $this->options['delete_type'];
         if ($file->delete_type !== 'DELETE') {
             $file->delete_url .= '&_method=DELETE';
@@ -142,9 +144,17 @@ class UploadHandler
     }
 
     protected function get_file_objects() {
+        $dir = $this->options['upload_dir'];
+        $content = array();
+        
+        if(is_dir($dir)){
+            $content = scandir($dir);
+        }else{
+            mkdir($dir, 0777, true);
+        }
         return array_values(array_filter(array_map(
             array($this, 'get_file_object'),
-            scandir($this->options['upload_dir'])
+            $content
         )));
     }
 
