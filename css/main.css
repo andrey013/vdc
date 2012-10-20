@@ -67,7 +67,7 @@ textarea {
 hr {
   border-top: 1px solid #ddd !important;
   border-bottom: 1px solid #fff !important;
-  margin: 10px 0 !important;
+  margin: 5px 0 !important;
 }
 
 #footer
@@ -196,6 +196,7 @@ hr {
   color: #333 !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.33) !important;
   -webkit-font-smoothing: antialiased !important;
+  letter-spacing: -1px
 }
 
 .btn-agreed {
@@ -264,6 +265,7 @@ hr {
   color: #333 !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.33) !important;
   -webkit-font-smoothing: antialiased !important;
+  letter-spacing: -1px
 }
 
 .btn-cancelled {
@@ -329,6 +331,10 @@ button.active i.icon-active-ok {
   width: 124px !important;
 }
 
+.table {
+    margin-bottom: 0px;
+}
+
 .table-condensed th,
 .table-condensed td {
   padding: 1px 5px !important;
@@ -342,11 +348,11 @@ button.active i.icon-active-ok {
 .table td {
   text-align: center !important;
   vertical-align: middle !important;
-  border-top: 1px solid #aaa;
+  border-top: 1px solid #ddd;
   -moz-box-shadow: 0 1px 0px 0px #fff;
   -webkit-box-shadow: 0 1px 0px 0px #fff;
   box-shadow: 0 1px 0px 0px #fff;
-  height: 3em;
+  /*height: 3em;*/
   line-height: 1.5em;
 }
 
@@ -400,6 +406,17 @@ input[type="color"]:focus,
 
 #order-form label {
   text-align: right;
+  line-height: 1em;
+}
+
+.down7px {
+  margin-top: 7px;
+  margin-bottom: 12px;
+}
+
+.down14px {
+  margin-top: 14px;
+  margin-bottom: 5px;
 }
 
 .controls-row [class*="span"] + [class*="span"] {
@@ -411,6 +428,11 @@ input[type="color"]:focus,
   margin-right: -13px !important;
 }
 
+input.error{
+  color: red;
+  border-color: rgba(236, 0, 0, 0.8) !important;
+  background-color: rgba(236, 0, 0, 0.1) !important;
+}
 
 /*
  * jQuery File Upload UI Plugin CSS 6.3.1

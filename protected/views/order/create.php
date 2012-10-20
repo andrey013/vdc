@@ -2,10 +2,16 @@
 
 <script>
 	$(function(){
+		'use strict';
+
+		var status = $("#Order_orderStatus")
+		$(".statusRadio").removeClass("active");
+		$(".statusRadio[value="+status.val()+"]").addClass("active");
 		var status = $("#Order_orderStatus")
 		$(".statusRadio").bind('click', function(){
 				status.val(this.value);
 			});
+
 	});
 </script>
 

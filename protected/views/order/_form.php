@@ -30,9 +30,9 @@
 
 	<?php //echo $form->errorSummary($model); ?>
 		<div class="controls controls-row row">
-			<label class="span1 lead"><strong><?php echo $model->createdateformatted; ?></strong></label>
+			<label class="span1 lead down7px"><strong><?php echo $model->createdateformatted; ?></strong></label>
 			<?php echo $form->textField($model, 'create_date', array('class' => 'hidden')); ?>
-			<label class="span3 lead">Заказ №<strong> <?php echo $model->global_number.'_'.$model->client->code; ?></strong></label>
+			<label class="span3 lead down7px">Заказ №<strong> <?php echo $model->global_number.'_'.$model->client->code; ?></strong></label>
 			<?php echo $form->textField($model, 'global_number', array('class' => 'hidden')); ?>
 			<?php if(!isset($buttons)) { ?>
 			<button class="btn btn-large btn-magenta span3 offset5 pull-right">
@@ -42,29 +42,29 @@
 		</div>
 		<hr>
 		<div class="controls controls-row row">
-			<label class="span2" for="Order_client_number">№ заказа оформленный у клиента</label>
-			<?php echo $form->textField($model, 'client_number', array('class' => 'span1')); ?>
-			<label class="span1" for="Order_client_id">клиент (редакция)</label>
+			<label class="span2" for="Order_client_number">№ заказа оформленный<br>у клиента</label>
+			<?php echo $form->textField($model, 'client_number', array('class' => 'span1 down7px')); ?>
+			<label class="span1 down7px" for="Order_client_id">клиент (редакция)</label>
 			<?php echo $form->dropDownList($model, 'client_id',
-				GxHtml::listDataEx(Client::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
-			<label class="span1" for="Order_manager_id">менеджер</label>
+				GxHtml::listDataEx(Client::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2 down7px')); ?>
+			<label class="span1 down14px" for="Order_manager_id">менеджер</label>
 			<?php echo $form->dropDownList($model, 'manager_id',
-				GxHtml::listDataEx($managers, null, 'profile.lastname'), array('class' => 'span2')); ?>
-			<label class="span1" for="Order_designer_id">дизайнер</label>
+				GxHtml::listDataEx($managers, null, 'profile.lastname'), array('class' => 'span2 down7px')); ?>
+			<label class="span1 down14px" for="Order_designer_id">дизайнер</label>
 			<?php echo $form->dropDownList($model, 'designer_id',
-				GxHtml::listDataEx($designers, null, 'profile.lastname'), array('class' => 'span2')); ?>
+				GxHtml::listDataEx($designers, null, 'profile.lastname'), array('class' => 'span2 down7px')); ?>
 		</div>
 		<hr>
 		<div class="controls controls-row row">
 			<label class="span2" for="Order_customername">Наименование заказчика</label>
-			<?php echo $form->textField($model, 'customername', array('class' => 'span2')); ?>
+			<?php echo $form->textField($model, 'customername', array('class' => 'span2'.($model->hasErrors('customer_id')?' error':''))); ?>
 			<label class="span1" for="Order_order_type_id">Вид заказа</label>
 			<?php echo $form->dropDownList($model, 'order_type_id',
 				GxHtml::listDataEx(OrderType::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
-			<label class="span1" for="Order_difficulty_id">Сложность</label>
+			<label class="span1 down7px" for="Order_difficulty_id">Сложность</label>
 			<?php echo $form->dropDownList($model, 'difficulty_id',
 				GxHtml::listDataEx(Difficulty::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
-			<label class="span1" for="Order_priority_id">Приоритет</label>
+			<label class="span1 down7px" for="Order_priority_id">Приоритет</label>
 			<?php echo $form->dropDownList($model, 'priority_id',
 				GxHtml::listDataEx(Priority::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span1')); ?>	
 		</div>
@@ -74,19 +74,19 @@
 		</div>
 		<hr>
 		<div class="controls controls-row row">
-			<label class="span2" for="Order_chromaticity_id">Цветность</label>
+			<label class="span2 down7px" for="Order_chromaticity_id">Цветность</label>
 			<?php echo $form->textField($model, 'chromaticityname', array('class' => 'span2')); ?>
 			<!-- <?php echo $form->dropDownList($model, 'chromaticity_id',
 				GxHtml::listDataEx(Chromaticity::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
 			-->
-			<label class="span4" for="Order_density_id">Разрешение</label>
+			<label class="span4 down7px" for="Order_density_id">Разрешение</label>
 			<?php echo $form->textField($model, 'densityname', array('class' => 'span2')); ?>
 			<!-- <?php echo $form->dropDownList($model, 'density_id',
 				GxHtml::listDataEx(Density::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
 			-->
 		</div>
 		<div class="controls controls-row row">
-			<label class="span2" for="Order_size_x">Формат</label>
+			<label class="span2 down7px" for="Order_size_x">Формат</label>
 			<?php echo $form->textField($model, 'size_x', array('class' => 'span1')); ?>
 			<label class="spanx" for="Order_size_y">x</label>
 			<?php echo $form->textField($model, 'size_y', array('class' => 'span1')); ?>
@@ -140,7 +140,8 @@
 		<div class="controls controls-row row pull-left">
 			<label class="lead span1">Текст: </label>
 			<div class="span7">
-				<textarea name="text" cols="200" rows="15" class="span7"></textarea>
+				<?php echo $form->textArea($model, 'text', array('class' => 'span7', 'rows' => '15')); ?>
+				<!-- <textarea name="text" cols="200" rows="15" class="span7"></textarea> -->
 			</div>
 		</div>
 		<div class="pull-right">

@@ -13,7 +13,9 @@ class Order extends BaseOrder
 
 	public function relations() {
 		return parent::relations() + array(
-			'orderStatus' => array(self::HAS_ONE, 'OrderStatusHistory', 'order_id', 'order' => 'change_date DESC'),
+			'maxDate' => array(self::HAS_ONE, 'OrderStatusHistory', 'order_id', 'select'=>'MAX(vdc_order_status_history.change_date) as maxDate'),
+			'orderStatus' => array(self::HAS_ONE, 'OrderStatusHistory', 'order_id'),
+				//'condition'=>'orderStatus.change_date = maxDate'),
 			'client_price' => array(self::STAT, 'Payment', 'order_id', 'select' => 'SUM(client_price)'),
 			'designer_price' => array(self::STAT, 'Payment', 'order_id', 'select' => 'SUM(designer_price)'),
 			'penny' => array(self::STAT, 'Payment', 'order_id', 'select' => 'SUM(client_price) - SUM(designer_price)'),

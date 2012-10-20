@@ -45,6 +45,9 @@ public function accessRules() {
 			$model->setCustomerName($_POST['Order']['customername']);
 			$model->setChromaticityName($_POST['Order']['chromaticityname']);
 			$model->setDensityName($_POST['Order']['densityname']);
+			$model->orderStatus = $_POST['Order']['orderStatus'];
+			$model->clientPrice = $_POST['Order']['clientPrice'];
+			$model->designerPrice = $_POST['Order']['designerPrice'];
 			//$model->create_date = date('Y-m-d H:i:s', $model->create_date);
 			if ($model->save()) {
 				$model->setOrderStatus($_POST['Order']['orderStatus']);
@@ -149,7 +152,25 @@ public function accessRules() {
 		$grid->addColumn('isDesignerPaid', 'Д', 'boolean');
 		$grid->addColumn('orderStatus.key', ' ', 'string');
 
-		$result = Order::model()->with('client', 'orderType', 'customer', 'priority', 'orderStatus', 'designer', 'designer.profile')->findAll();
+		$result = //array_merge(
+				Order::model()
+				->with(
+				//array(
+				//	'orderStatusHistories'=>array(
+						// we don't want to select posts
+				//		'select'=>true,
+						// but want to get only users with published posts
+				//		'joinType'=>'INNER JOIN',
+				//		'condition'=>'authAssignments.itemname=\'Manager\'',
+				//	),
+				//),
+				'orderStatus', 'maxDate', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile')
+				->findAll('orderStatus.order_status_id!=\'8\' and maxDate>\'10.10.2012\'')
+				//, Order::model()
+				//->with('orderStatus', 'maxDate', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile')
+				//->findAll('orderStatus.order_status_id=\'8\'')
+				//)
+				;
 
 		$this->layout=false;
 		// send data to the browser
