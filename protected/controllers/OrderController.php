@@ -38,19 +38,19 @@ public function accessRules() {
 		$model = new Order();
 		$this->performAjaxValidation($model, 'order-form');
 
-		if (isset($_POST['Order'])) {
+		if (isset($_POST['Order'])&&isset($_POST['Order']['clientPrice'])) {
 			Yii::log('post is here', 'info');
 			$model->setAttributes($_POST['Order']);
 			Yii::log('attributes set', 'info');
 			$model->setCustomerName($_POST['Order']['customername']);
 			$model->setChromaticityName($_POST['Order']['chromaticityname']);
 			$model->setDensityName($_POST['Order']['densityname']);
-			$model->orderStatus = $_POST['Order']['orderStatus'];
+			$model->orderStatusHist = $_POST['Order']['orderStatusHist'];
 			$model->clientPrice = $_POST['Order']['clientPrice'];
 			$model->designerPrice = $_POST['Order']['designerPrice'];
 			//$model->create_date = date('Y-m-d H:i:s', $model->create_date);
 			if ($model->save()) {
-				$model->setOrderStatus($_POST['Order']['orderStatus']);
+				$model->setOrderStatus($_POST['Order']['orderStatusHist']);
 				$model->setPayment($_POST['Order']['clientPrice'], $_POST['Order']['designerPrice']);
 				if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
@@ -58,9 +58,17 @@ public function accessRules() {
 					$this->redirect(array('update', 'id' => $model->id));
 			}
 		} else {
+			if (isset($_POST['Order'])) {
+				$model->setAttributes($_POST['Order']);
+				$model->setCustomerName($_POST['Order']['customername']);
+				$model->setChromaticityName($_POST['Order']['chromaticityname']);
+				$model->setDensityName($_POST['Order']['densityname']);
+				$model->orderStatusHist = $_POST['Order']['orderStatusHist'];
+			} else {
+				$model->orderStatusHist = 'confirm';
+			}
 			$model->create_date = time(); //Yii::app()->dateFormatter->format('d.MM.yyyy H:m:s', time());
 			$model->client = Client::model()->findByPk(User2::model()->findByPk(Yii::app()->user->id)->profile->client_id);
-			$model->orderStatus = 'confirm';
 			$model->clientPrice = '0';
 			$model->designerPrice = '0';
 			$variables = Variables::model()->find();
@@ -84,12 +92,12 @@ public function accessRules() {
 			$model->setChromaticityName($_POST['Order']['chromaticityname']);
 			$model->setDensityName($_POST['Order']['densityname']);
 			if ($model->save()) {
-				if($_POST['Order']['orderStatus'] != $model->orderStatus->orderStatus->key)
-					$model->setOrderStatus($_POST['Order']['orderStatus']);
+				if($_POST['Order']['orderStatusHist'] != $model->orderStatusHist->orderStatus->key)
+					$model->setOrderStatus($_POST['Order']['orderStatusHist']);
 				$this->redirect(array('list'));
 			}
 		}
-		$model->orderStatus = $model->orderStatus->orderStatus->key;
+		$model->orderStatusHist = $model->orderStatusHist->orderStatus->key;
 		$this->render('update', array(
 				'model' => $model,
 				));
@@ -144,33 +152,30 @@ public function accessRules() {
 		$grid->addColumn('comment', 'Комментарий', 'string');
 		$grid->addColumn('client.name', 'Клиент', 'string');
 		$grid->addColumn('designer_id', 'Дизайнер', 'integer', array('0' => '' ,'4' => 'ВикторияК.'), true);
-		$grid->addColumn('orderStatus.statusformatted', 'Статус', 'string');
+		$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
 		$grid->addColumn('client_price', ' ', 'double(,0,comma,&nbsp;,)');
 		$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');
 		$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
 		$grid->addColumn('debt', 'О', 'boolean');
 		$grid->addColumn('isDesignerPaid', 'Д', 'boolean');
-		$grid->addColumn('orderStatus.key', ' ', 'string');
+		$grid->addColumn('orderStatusHist.key', ' ', 'string');
 
-		$result = //array_merge(
-				Order::model()
-				->with(
-				//array(
-				//	'orderStatusHistories'=>array(
-						// we don't want to select posts
-				//		'select'=>true,
-						// but want to get only users with published posts
-				//		'joinType'=>'INNER JOIN',
-				//		'condition'=>'authAssignments.itemname=\'Manager\'',
-				//	),
-				//),
-				'orderStatus', 'maxDate', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile')
-				->findAll('orderStatus.order_status_id!=\'8\' and maxDate>\'10.10.2012\'')
-				//, Order::model()
-				//->with('orderStatus', 'maxDate', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile')
-				//->findAll('orderStatus.order_status_id=\'8\'')
-				//)
-				;
+		$criteria1=new CDbCriteria();
+		$criteria1->order = 'DATE(create_date) DESC, priority.sort_order, orderStatus.sort_order';
+		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\'';
+
+		$criteria2=new CDbCriteria();
+		$criteria2->order = 'DATE(create_date) DESC, priority.sort_order, orderStatus.sort_order';
+		$criteria2->condition = 'orderStatusHist.order_status_id=\'8\'';
+
+		$result = array_merge(
+				  Order::model()
+				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile')
+				->findAll($criteria1)
+				, Order::model()
+				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile')
+				->findAll($criteria2)
+				);
 
 		$this->layout=false;
 		// send data to the browser

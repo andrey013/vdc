@@ -14,8 +14,19 @@
 <script type="text/javascript" >
 tinyMCE.init({
         mode : "textareas",
-        body_class : "span5",
-        theme : "simple"   //(n.b. no trailing comma, this will be critical as you experiment later)
+        //body_class : "span5",
+        theme : "advanced",
+        theme_advanced_resizing : true,
+
+        theme_advanced_buttons1 : "bold,italic,underline,strikethrough,sub,sup,fontsizeselect,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull",
+        theme_advanced_toolbar_location : "bottom",
+        setup : function(ed)
+        {
+            ed.onInit.add(function(ed)
+            {
+                ed.getDoc().body.style.fontSize = 14;
+            });
+        }
 });
 </script >
 
@@ -25,12 +36,13 @@ tinyMCE.init({
 	$(function(){
 		'use strict';
 
-		var status = $("#Order_orderStatus")
+		var status = $("#Order_orderStatusHist")
 		$(".statusRadio").removeClass("active");
 		$(".statusRadio[value="+status.val()+"]").addClass("active");
-		var status = $("#Order_orderStatus")
+		var status = $("#Order_orderStatusHist")
 		$(".statusRadio").bind('click', function(){
 				status.val(this.value);
+                status.change();
 			});
 		var link = "<?php echo $this->createUrl('/payment/jsonlist').'?id='.$model->id; ?>";
 		var addlink = "<?php echo $this->createUrl('/payment/add'); ?>";
@@ -52,6 +64,16 @@ tinyMCE.init({
 					async: true
 				});
 			});
+        $("#cancel-button").on("click", function(){
+            if(confirm("Вы уверены? Несохраненные данные будут потеряны")){
+                window.location = "<?php echo $this->createUrl('/order/list'); ?>";
+            }
+        });
+        $("#copy-button").on("click", function(){
+            var form = $("#order-form");
+            form.attr("action","<?php echo $this->createUrl('/order/create'); ?>");
+            form.submit();
+        });
 		// Initialize the jQuery File Upload widget:
     	$('#fileupload1').fileupload();
     	// Load existing files:
@@ -88,6 +110,29 @@ tinyMCE.init({
                 }
             });
         });
+
+        $("#order-form :input")
+            .on("change", function() {
+                // do whatever you need to do when something's changed.
+                // perhaps set up an onExit function on the window
+                $('.new-button').fadeTo("fast", 0, function() { 
+                    $('.new-button').addClass('hidden');
+                    $('.edit-button').fadeTo(1, 0, function() {
+                        $('.edit-button').removeClass('hidden');
+                        $('.edit-button').fadeTo("fast", 1, function() { 
+                            
+                        });
+                    });
+                });
+                //window.onbeforeunload = function() {
+                //    return confirm("You are about to lose your form data.")
+                //}
+
+                // now remove the event handler from all the elements
+                // since you don't need it any more.
+                $("#order-form :input").unbind("change");
+            });
+
 	});
 </script>
 

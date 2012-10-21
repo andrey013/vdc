@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"remo",
+				"removeClass"
+			],
+			[
 				"ma",
 				"margin-bottom"
 			],
@@ -151,7 +155,7 @@
 			"file": "protected/controllers/OrderController.php",
 			"settings":
 			{
-				"buffer_size": 5786,
+				"buffer_size": 6276,
 				"line_ending": "Unix"
 			}
 		},
@@ -175,7 +179,7 @@
 			"file": "js/pageOrderList.js",
 			"settings":
 			{
-				"buffer_size": 5529,
+				"buffer_size": 5537,
 				"line_ending": "Unix"
 			}
 		},
@@ -183,7 +187,7 @@
 			"file": "protected/views/order/create.php",
 			"settings":
 			{
-				"buffer_size": 508,
+				"buffer_size": 516,
 				"line_ending": "Unix"
 			}
 		},
@@ -199,7 +203,7 @@
 			"file": "protected/views/order/update.php",
 			"settings":
 			{
-				"buffer_size": 6188,
+				"buffer_size": 8035,
 				"line_ending": "Unix"
 			}
 		},
@@ -215,7 +219,7 @@
 			"file": "protected/views/order/_form.php",
 			"settings":
 			{
-				"buffer_size": 13431,
+				"buffer_size": 13840,
 				"line_ending": "Unix"
 			}
 		},
@@ -247,7 +251,7 @@
 			"file": "protected/models/Order.php",
 			"settings":
 			{
-				"buffer_size": 3917,
+				"buffer_size": 3991,
 				"line_ending": "Unix"
 			}
 		},
@@ -416,6 +420,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"span4",
+			"span6",
+			"orderS",
+			"orderStatusHist",
+			"Order_orderStatus",
+			"orderStatus",
 			".table",
 			"set_file_delete_url",
 			"_getParamName",
@@ -608,8 +618,8 @@
 						"selection":
 						[
 							[
-								840,
-								840
+								416,
+								416
 							]
 						],
 						"settings":
@@ -618,7 +628,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 156.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -817,7 +827,7 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 6,
 			"sheets":
 			[
 				{
@@ -825,15 +835,15 @@
 					"file": "protected/controllers/OrderController.php",
 					"settings":
 					{
-						"buffer_size": 5786,
+						"buffer_size": 6276,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5454,
-								5454
+								2489,
+								2489
 							]
 						],
 						"settings":
@@ -842,7 +852,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1826.0,
+						"translation.y": 6.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -886,8 +896,8 @@
 						"selection":
 						[
 							[
-								1877,
-								1877
+								1072,
+								1072
 							]
 						],
 						"settings":
@@ -896,7 +906,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 273.0,
+						"translation.y": 195.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -906,15 +916,15 @@
 					"file": "js/pageOrderList.js",
 					"settings":
 					{
-						"buffer_size": 5529,
+						"buffer_size": 5537,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3803,
-								3803
+								2888,
+								2888
 							]
 						],
 						"settings":
@@ -922,8 +932,8 @@
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 56.0,
-						"translation.y": 975.0,
+						"translation.x": 0.0,
+						"translation.y": 780.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -933,15 +943,15 @@
 					"file": "protected/views/order/create.php",
 					"settings":
 					{
-						"buffer_size": 508,
+						"buffer_size": 516,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								482,
-								482
+								359,
+								359
 							]
 						],
 						"settings":
@@ -987,15 +997,15 @@
 					"file": "protected/views/order/update.php",
 					"settings":
 					{
-						"buffer_size": 6188,
+						"buffer_size": 8035,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1534,
-								1534
+								1259,
+								1259
 							]
 						],
 						"settings":
@@ -1004,8 +1014,8 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 220.0,
+						"translation.x": 688.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1022,8 +1032,8 @@
 						"selection":
 						[
 							[
-								5100,
-								5100
+								461,
+								461
 							]
 						],
 						"settings":
@@ -1042,15 +1052,15 @@
 					"file": "protected/views/order/_form.php",
 					"settings":
 					{
-						"buffer_size": 13431,
+						"buffer_size": 13840,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								389,
-								389
+								2083,
+								2083
 							]
 						],
 						"settings":
@@ -1059,7 +1069,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 390.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1067,7 +1077,7 @@
 			]
 		},
 		{
-			"selected": 3,
+			"selected": 7,
 			"sheets":
 			[
 				{
@@ -1119,7 +1129,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 468.0,
+						"translation.y": 130.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1136,8 +1146,8 @@
 						"selection":
 						[
 							[
-								211,
-								211
+								88,
+								88
 							]
 						],
 						"settings":
@@ -1156,15 +1166,15 @@
 					"file": "protected/models/Order.php",
 					"settings":
 					{
-						"buffer_size": 3917,
+						"buffer_size": 3991,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								411,
-								411
+								564,
+								564
 							]
 						],
 						"settings":
@@ -1172,7 +1182,7 @@
 							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 174.0,
+						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
@@ -1190,8 +1200,8 @@
 						"selection":
 						[
 							[
-								3460,
-								3460
+								3232,
+								3232
 							]
 						],
 						"settings":
@@ -1200,7 +1210,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 607.0,
+						"translation.y": 802.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1244,8 +1254,8 @@
 						"selection":
 						[
 							[
-								129,
-								129
+								440,
+								440
 							]
 						],
 						"settings":
@@ -1271,8 +1281,8 @@
 						"selection":
 						[
 							[
-								1829,
-								1829
+								1457,
+								1457
 							]
 						],
 						"settings":
@@ -1281,7 +1291,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 39.0,
+						"translation.y": 468.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1782,7 +1792,7 @@
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 207.0,
 	"status_bar_visible": true
 }

@@ -4,10 +4,10 @@
 	$(function(){
 		'use strict';
 
-		var status = $("#Order_orderStatus")
+		var status = $("#Order_orderStatusHist")
 		$(".statusRadio").removeClass("active");
 		$(".statusRadio[value="+status.val()+"]").addClass("active");
-		var status = $("#Order_orderStatus")
+		var status = $("#Order_orderStatusHist")
 		$(".statusRadio").bind('click', function(){
 				status.val(this.value);
 			});

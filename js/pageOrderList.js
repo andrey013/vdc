@@ -81,7 +81,7 @@ DatabaseGrid.prototype.fetchGrid = function(link)  {
 
 DatabaseGrid.prototype.initializeGrid = function(grid, editlink) {
 	// render for the action column
-	grid.setCellRenderer("orderStatus.key", new CellRenderer({render: function(cell, value) {
+	grid.setCellRenderer("orderStatusHist.key", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		$("#order_"+rowId).addClass("row-"+value);
 		cell.innerHTML = "<a href=\"" + editlink + "/id/" + rowId + "\">" +
@@ -92,7 +92,7 @@ DatabaseGrid.prototype.initializeGrid = function(grid, editlink) {
 		$("<div>").append(value).addClass("two-liner").appendTo(cell);
 	}}));
 
-	grid.setCellRenderer("orderStatus.statusformatted", new CellRenderer({render: function(cell, value) {
+	grid.setCellRenderer("orderStatusHist.statusformatted", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		var words = value.split(' ');
 		if(words.length==2){

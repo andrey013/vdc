@@ -34,10 +34,31 @@
 			<?php echo $form->textField($model, 'create_date', array('class' => 'hidden')); ?>
 			<label class="span3 lead down7px">Заказ №<strong> <?php echo $model->global_number.'_'.$model->client->code; ?></strong></label>
 			<?php echo $form->textField($model, 'global_number', array('class' => 'hidden')); ?>
-			<?php if(!isset($buttons)) { ?>
-			<button class="btn btn-large btn-magenta span3 offset5 pull-right">
-				Создать на основе
-			</button>
+
+			<?php if(isset($buttons)) { ?>
+				<div class="controls controls-row row pull-right">
+					<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">
+						Отмена
+					</a>
+					<button class="btn btn-large btn-magenta span2">
+						Оформить
+					</button>
+				</div>
+			<?php } else { ?>
+				<div class="pull-right">
+					<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1 new-button">
+						Назад
+					</a>
+					<button id="copy-button" type="button" class="btn btn-large btn-magenta span3 new-button">
+						Создать на основе
+					</button>
+					<button id="cancel-button" type="button" class="btn btn-large span1 hidden edit-button">
+						Отмена
+					</button>
+					<button class="btn btn-large btn-magenta span2 hidden edit-button">
+						Сохранить
+					</button>
+				</div>
 			<?php } ?>
 		</div>
 		<hr>
@@ -88,7 +109,7 @@
 		<div class="controls controls-row row">
 			<label class="span2 down7px" for="Order_size_x">Формат</label>
 			<?php echo $form->textField($model, 'size_x', array('class' => 'span1')); ?>
-			<label class="spanx" for="Order_size_y">x</label>
+			<label class="spanx down7px" for="Order_size_y">x</label>
 			<?php echo $form->textField($model, 'size_y', array('class' => 'span1')); ?>
 			<!-- <label class="span1" for="Order_measure_unit_id">Ед. изм</label> -->
 			<?php echo $form->dropDownList($model, 'measure_unit_id',
@@ -107,14 +128,14 @@
 		</div>
 		<?php } else { ?>
 		<div class="controls controls-row row">
-			<label class="lead span1">Оплата: </label>
+			<label class="lead span1 down7px">Оплата: </label>
 			<button id="addpayment" class="btn span1" type="button">&nbsp;<i class="icon-plus"></i></button>
 			<div class="span10" id="tablecontent"></div>
 		</div>
 		<?php } ?>
 		<hr>
 		<div class="controls controls-row row">
-			<label class="lead span1">Статус: </label>
+			<label class="lead span1 down7px">Статус: </label>
 			<div class="btn-group  pull-right" data-toggle="buttons-radio">
 				<button type="button" class="statusRadio btn btn-work" value="work"><i class="icon-active-ok"></i> в разработку</button>
 				<button type="button" class="statusRadio btn btn-confirm active" value="confirm"><i class="icon-active-ok"></i> на утверждение</button>
@@ -124,31 +145,21 @@
 				<button type="button" class="statusRadio btn btn-paused" value="paused"><i class="icon-active-ok"></i> приостановлено</button>
 				<button type="button" class="statusRadio btn btn-done" value="done"><i class="icon-active-ok"></i> готово</button>
 			</div>
-			<?php echo $form->textField($model, 'orderStatus', array('class' => 'hidden')); ?>
+			<?php echo $form->textField($model, 'orderStatusHist', array('class' => 'hidden')); ?>
 		</div>
+		<hr>
 <!-- echo GxHtml::submitButton(Yii::t('app', 'Save')); -->
 		<?php if(isset($buttons)) { ?>
-		<div class="controls controls-row row pull-right">
-			<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">
-				Отмена
-			</a>
-			<button class="btn btn-large btn-magenta span2">
-				Оформить
-			</button>
-		</div>
 		<?php } else { ?>
+		<div class="controls controls-row row">
+			<label class="lead span1 down7px">Текст: </label>
+			<label class="lead span7 down7px">Комментарии: </label>
+		</div>
 		<div class="controls controls-row row pull-left">
-			<label class="lead span1">Текст: </label>
-			<div class="span7">
-				<?php echo $form->textArea($model, 'text', array('class' => 'span7', 'rows' => '15')); ?>
+			<div class="span6">
+				<?php echo $form->textArea($model, 'text', array('class' => 'span6', 'rows' => '6')); ?>
 				<!-- <textarea name="text" cols="200" rows="15" class="span7"></textarea> -->
 			</div>
-		</div>
-		<div class="pull-right">
-			<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">К&nbsp;списку</a>
-			<button class="btn btn-large btn-magenta span2">
-				Сохранить
-			</button>
 		</div>
 		<?php } ?>
 <?php
@@ -156,19 +167,19 @@ $this->endWidget();
 ?>
 		<?php if(!isset($buttons)) { ?>
 		<div class="clearfix"></div>
-		<hr>
+		<hr class="span6">
 		<div class="controls controls-row row">
-			<label class="lead span12">Файлы: </label>
+			<label class="lead span12 down7px">Файлы: </label>
 		</div>
 		<div class="controls controls-row row">
 			<!-- The file upload form used as target for the file upload widget -->
-			<form id="fileupload1" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data" class="span4">
+			<form id="fileupload1" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data" class="span6">
 				<input type="hidden" name="id" value="<?php echo $model->id; ?>">
 				<input type="hidden" name="stage" value="1">
 				<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 				<div class="row fileupload-buttonbar">
 					<!-- The table listing the files available for upload/download -->
-					<div class="span4">
+					<div class="span6">
 						<table role="presentation" class="table table-condensed">
 							<thead>
 								<tr>
@@ -187,7 +198,7 @@ $this->endWidget();
 					</div>
 
 					<!-- The global progress information -->
-					<div class="span4 fileupload-progress fade">
+					<div class="span6 fileupload-progress fade">
 						<!-- The global progress bar -->
 						<div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
 							<div class="bar" style="width:0%;"></div>
@@ -201,14 +212,16 @@ $this->endWidget();
 				<div class="fileupload-loading"></div>
 				<br>
 			</form>
+		</div>
+		<div class="controls controls-row row">
 			<!-- The file upload form used as target for the file upload widget -->
-			<form id="fileupload2" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data" class="span4">
+			<form id="fileupload2" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data" class="span6">
 				<input type="hidden" name="id" value="<?php echo $model->id; ?>">
 				<input type="hidden" name="stage" value="2">
 				<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 				<div class="row fileupload-buttonbar">
 					<!-- The table listing the files available for upload/download -->
-					<div class="span4">
+					<div class="span6">
 						<table role="presentation" class="table table-condensed">
 							<thead>
 								<tr>
@@ -227,7 +240,7 @@ $this->endWidget();
 					</div>
 
 					<!-- The global progress information -->
-					<div class="span4 fileupload-progress fade">
+					<div class="span6 fileupload-progress fade">
 						<!-- The global progress bar -->
 						<div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
 							<div class="bar" style="width:0%;"></div>
@@ -241,8 +254,10 @@ $this->endWidget();
 				<div class="fileupload-loading"></div>
 				<br>
 			</form>
+		</div>
+		<div class="controls controls-row row">
 			<!-- The file upload form used as target for the file upload widget -->
-			<form id="fileupload3" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data" class="span4">
+			<form id="fileupload3" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data" class="span6">
 				<input type="hidden" name="id" value="<?php echo $model->id; ?>">
 				<input type="hidden" name="stage" value="3">
 				<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -250,7 +265,7 @@ $this->endWidget();
 					
 					
 					<!-- The table listing the files available for upload/download -->
-					<div class="span4">
+					<div class="span6">
 						<table role="presentation" class="table table-condensed">
 							<thead>
 								<tr>
@@ -269,7 +284,7 @@ $this->endWidget();
 					</div>
 
 					<!-- The global progress information -->
-					<div class="span4 fileupload-progress fade">
+					<div class="span6 fileupload-progress fade">
 						<!-- The global progress bar -->
 						<div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
 							<div class="bar" style="width:0%;"></div>
@@ -287,8 +302,5 @@ $this->endWidget();
 
 
 		<hr>
-		<div class="controls controls-row row">
-			<label class="lead span1">Комментарии: </label>
-		</div>
 		<?php } ?>
 
