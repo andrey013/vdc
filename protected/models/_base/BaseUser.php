@@ -20,6 +20,7 @@
  * @property integer $status
  *
  * @property AuthAssignment[] $authAssignments
+ * @property Comment[] $comments
  * @property Order[] $orders
  * @property Order[] $orders1
  * @property Profile $profile
@@ -57,6 +58,7 @@ abstract class BaseUser extends GxActiveRecord {
 	public function relations() {
 		return array(
 			'authAssignments' => array(self::HAS_MANY, 'AuthAssignment', 'userid'),
+			'comments' => array(self::HAS_MANY, 'Comment', 'user_id'),
 			'orders' => array(self::HAS_MANY, 'Order', 'manager_id'),
 			'orders1' => array(self::HAS_MANY, 'Order', 'designer_id'),
 			'profile' => array(self::HAS_ONE, 'Profile', 'user_id'),
@@ -80,6 +82,7 @@ abstract class BaseUser extends GxActiveRecord {
 			'superuser' => Yii::t('app', 'Superuser'),
 			'status' => Yii::t('app', 'Status'),
 			'authAssignments' => null,
+			'comments' => null,
 			'orders' => null,
 			'orders1' => null,
 			'profile' => null,

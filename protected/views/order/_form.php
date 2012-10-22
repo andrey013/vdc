@@ -161,15 +161,19 @@
 				<!-- <textarea name="text" cols="200" rows="15" class="span7"></textarea> -->
 			</div>
 		</div>
+		<div class="controls controls-row row pull-right">
+			<div class="span6" style="min-height : 500px" id="commentcontent"></div>
+		</div>
 		<?php } ?>
 <?php
 $this->endWidget();
 ?>
 		<?php if(!isset($buttons)) { ?>
-		<div class="clearfix"></div>
+		<!-- <div class="clearfix"></div> -->
 		<hr class="span6">
+		<div class="controls controls-row pull-left">
 		<div class="controls controls-row row">
-			<label class="lead span12 down7px">Файлы: </label>
+			<label class="lead span6  down7px">Файлы: </label>
 		</div>
 		<div class="controls controls-row row">
 			<!-- The file upload form used as target for the file upload widget -->
@@ -299,8 +303,6 @@ $this->endWidget();
 				<br>
 			</form>
 		</div>
-
-
-		<hr>
+		</div>
 		<?php } ?>
 
