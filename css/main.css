@@ -434,6 +434,10 @@ input.error{
   background-color: rgba(236, 0, 0, 0.1) !important;
 }
 
+.popover {
+  width: 410px;
+}
+
 /*
  * jQuery File Upload UI Plugin CSS 6.3.1
  * https://github.com/blueimp/jQuery-File-Upload

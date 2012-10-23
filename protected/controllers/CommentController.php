@@ -51,13 +51,46 @@ public function accessRules() {
 		$comment = new Comment;
 		$comment->text = $text;
 		$comment->parent_id = $parent_id;
-		$comment->thread = '';
+
+		if($parent_id==''){
+			$maxThreadArray = Yii::app()->db->createCommand()
+			    ->select('MAX(thread) t')
+			    ->from('vdc_comment c')
+			    ->where('order_id=:id', array(':id'=>$id))
+			    ->queryRow();
+			//print_r($maxThreadArray);
+			$maxThread = $maxThreadArray['t'];
+			$maxThread = rtrim($maxThread, '/');
+	        $parts = explode('.', $maxThread);
+	        $firstsegment = $parts[0];
+	        $comment->thread = Comment::int2vancode(Comment::vancode2int($firstsegment) + 1);
+		}else{
+	        $parent = $this->loadModel($parent_id, 'Comment');
+	        $parent->thread = (string) rtrim((string) $parent->thread, '/');
+			$maxThreadArray = Yii::app()->db->createCommand()
+			    ->select('MAX(thread) t')
+			    ->from('vdc_comment c')
+			    ->where('thread LIKE :thread AND order_id = :id', array(':thread' => $parent->thread.'.%', ':id'=>$id))
+			    ->queryRow();
+			print_r($maxThreadArray);
+			$maxThread = $maxThreadArray['t'];
+	        if ($maxThread=='') {
+	            $comment->thread = $parent->thread . '.' . Comment::int2vancode(0);
+	        }else{
+		        $maxThread = rtrim($maxThread, '/');
+		        $parts = explode('.', $maxThread);
+		        $parent_depth = count(explode('.', $parent->thread));
+		        $last = $parts[$parent_depth];
+		        $comment->thread = $parent->thread . '.' . Comment::int2vancode(Comment::vancode2int($last) + 1);
+	      	}
+	  	}
 		$comment->user_id = Yii::app()->user->id;
 		$comment->order_id = $id;
 		$comment->create_date = time();
 		$comment->save();
+		//print_r($comment->getErrors());
 		echo('ok');
-		Yii::app()->end();
+		//Yii::app()->end();
 	}
 
 	public function actionJsonlist() {
@@ -68,7 +101,11 @@ public function accessRules() {
 		//$grid->addColumn('id', 'ID', 'integer', NULL, false);
 		$grid->addColumn('text', ' ', 'string', NULL, false);
 
-		$result = Comment::model()->findAll('order_id=:id', array(':id'=>$id));
+		$criteria=new CDbCriteria();
+		$criteria->order = 'thread asc';
+		$criteria->condition = 'order_id=:id';
+		$criteria->params=array(':id'=>$id);
+		$result = Comment::model()->findAll($criteria);
 
 		$this->layout=false;
 		// send data to the browser

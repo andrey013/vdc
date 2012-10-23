@@ -48,8 +48,10 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
    
 }
 
+
 function pay(editableGrid, id, value, addlink, link)
-{      
+{   
+
 	$.ajax({
 		url: addlink,
 		type: 'POST',
@@ -145,15 +147,30 @@ DatabaseGrid.prototype.initializeGrid = function(grid, link, addlink) {
 };    
 
 
-function addComment(editableGrid, id, value, addlink, link)
-{      
+function getParameterByName(str, name)
+{
+  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+  var regexS = "[\\?&]" + name + "=([^&#]*)";
+  var regex = new RegExp(regexS);
+  var results = regex.exec(str);
+  if(results == null)
+    return "";
+  else
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+
+function addComment(editableGrid, parent_id, text, addlink, link)
+{
+	var id = getParameterByName(link, "id");
 	$.ajax({
 		url: addlink,
 		type: 'POST',
 		dataType: "html",
 		data: {
-			id: id, 
-			value: value			
+			id: id,
+			parent_id: parent_id, 
+			text: text			
 		},
 		success: function (response) 
 		{ 
@@ -188,51 +205,44 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 	grid.setHeaderRenderer("text", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		
-		cell.innerHTML = '<div class="input-append pull-right">' +
-						'<button id="addCommentButton" class="btn span3" type="button"><i class="icon-plus"></i> Оставить комментарий</button>' +
+		cell.innerHTML = '<div class="pull-right">' +
+						'<button type="button" id="commentButton" class="btn"' +
+						' data-content="<textarea id=\'addCommentText\' class=\'span5\'></textarea><button id=\'addCommentButton\' type=\'button\' class=\'btn btn-magenta\'>Отправить</button>"' +
+						' data-placement="bottom"' +
+						' rel="popover"' +
+						' data-original-title="Комментарий">' +
+						' 	Написать' +
+						'</button>' +
+						//'<button id="addCommentButton" class="btn span3" type="button"><i class="icon-plus"></i> Оставить комментарий</button>' +
 						'</div>';
-		$("#addCommentButton").on("click", function(){
-			addComment(grid, rowId, $('#addComment'+rowId).val(), addlink, link);
+
+		$("body").off("click", "#addCommentButton");
+		$("body").on("click", "#addCommentButton", function(){
+			$("#commentButton").popover('destroy');
+			addComment(grid, null, $('#addCommentText').val(), addlink, link);
 		});
-		var words = value.split(' ');
-		var text = '';
-		$.each(words, function(index, value) {
-			if(index==0)return;
-			var column = grid.getColumn("paid");
-			if(index % 3 == 1) text += value;
-			else if(index % 3 == 2) text += ' ' + value;
-			else text += ' - ' +
-			  number_format(value, column.precision, column.decimal_point, column.thousands_separator) +
-			  ' р.' + '<br>';
-		})
+		$("#commentButton").popover();
 	}}));
 	grid.setCellRenderer("text", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		
-		cell.innerHTML = '<div class="input-append pull-right">' +
-						'<input id="addPayment'+rowId+'" class="span2" type="text" value="0">' +
-						'<button id="addPayment'+rowId+'Button" class="btn" type="button">&nbsp;<i class="icon-arrow-down"></i></button>' +
+		cell.innerHTML = '<div class="pull-right">' + value +
+
+						'<button type="button" id="comment'+rowId+'Button" class="btn btn-mini"' +
+						' data-content="<textarea id=\'addComment'+rowId+'Text\' class=\'span5\'></textarea><button id=\'addComment'+rowId+'Button\' type=\'button\' class=\'btn btn-magenta\'>Отправить</button>"' +
+						' data-placement="bottom"' +
+						' rel="popover"' +
+						' data-original-title="Комментарий">' +
+						' 	Ответить' +
+						'</button>' +
+						//'<button id="addPayment'+rowId+'Button" class="btn" type="button">&nbsp;<i class="icon-arrow-down"></i></button>' +
 						'</div>';
-		$("#addPayment"+rowId+"Button").on("click", function(){
-			pay(grid, rowId, $('#addPayment'+rowId).val(), addlink, link);
+		$("body").off("click", "#addComment"+rowId+"Button");
+		$("body").on("click", "#addComment"+rowId+"Button", function(){
+			$("#comment"+rowId+"Button").popover('destroy');
+			addComment(grid, rowId, $("#addComment"+rowId+"Text").val(), addlink, link);
 		});
-		$("#addPayment"+rowId).keypress(function (e) {
-		    if (e.keyCode == 13) {
-		        pay(grid, rowId, $('#addPayment'+rowId).val(), addlink, link);
-		        return false;
-		    }
-		});
-		var words = value.split(' ');
-		var text = '';
-		$.each(words, function(index, value) {
-			if(index==0)return;
-			var column = grid.getColumn("paid");
-			if(index % 3 == 1) text += value;
-			else if(index % 3 == 2) text += ' ' + value;
-			else text += ' - ' +
-			  number_format(value, column.precision, column.decimal_point, column.thousands_separator) +
-			  ' р.' + '<br>';
-		})
+		$("#comment"+rowId+"Button").popover();
 	}}));
 	grid.renderGrid("commentcontent", "table table-condensed");
 };    
