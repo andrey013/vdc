@@ -202,10 +202,11 @@ CommentGrid.prototype.fetchGrid = function(link)  {
 };
 
 CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
-	grid.setHeaderRenderer("text", new CellRenderer({render: function(cell, value) {
+	grid.setHeaderRenderer("comment", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		
-		cell.innerHTML = '<div class="pull-right">' +
+		cell.innerHTML ='<span class="lead pull-left">Комментарии: </span>' +
+						'<div class="pull-right">' +
 						'<button type="button" id="commentButton" class="btn"' +
 						' data-content="<textarea id=\'addCommentText\' class=\'span5\'></textarea><button id=\'addCommentButton\' type=\'button\' class=\'btn btn-magenta\'>Отправить</button>"' +
 						' data-placement="bottom"' +
@@ -223,18 +224,27 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 		});
 		$("#commentButton").popover();
 	}}));
-	grid.setCellRenderer("text", new CellRenderer({render: function(cell, value) {
+	grid.setCellRenderer("comment", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
-		
-		cell.innerHTML = '<div class="pull-right">' + value +
-
+		//alert(value.replace(/\r\n/g, "<br/>").replace(/\r/g, "<br/>").replace(/\n/g, "<br/>"));
+		var comment = $.parseJSON(value.replace(/\r\n/g, "<br/>").replace(/\r/g, "<br/>").replace(/\n/g, "<br/>"));
+		cell.innerHTML = 
+						'<div class="pull-left muted offset0'+comment.depth+'">' + 
+							comment.role + '&nbsp;<strong>' + comment.user + '</strong>&nbsp;' + comment.date +
+						'</div>' +
+						'<br />' +
+						'<div class="pull-left offset0'+(comment.depth)+'">' + 
+							comment.text +
+						'</div>' +
+						'<div class="pull-right">' +
+						((comment.depth<9)?
 						'<button type="button" id="comment'+rowId+'Button" class="btn btn-mini"' +
 						' data-content="<textarea id=\'addComment'+rowId+'Text\' class=\'span5\'></textarea><button id=\'addComment'+rowId+'Button\' type=\'button\' class=\'btn btn-magenta\'>Отправить</button>"' +
 						' data-placement="bottom"' +
 						' rel="popover"' +
 						' data-original-title="Комментарий">' +
 						' 	Ответить' +
-						'</button>' +
+						'</button>':'') +
 						//'<button id="addPayment'+rowId+'Button" class="btn" type="button">&nbsp;<i class="icon-arrow-down"></i></button>' +
 						'</div>';
 		$("body").off("click", "#addComment"+rowId+"Button");
@@ -244,6 +254,6 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 		});
 		$("#comment"+rowId+"Button").popover();
 	}}));
-	grid.renderGrid("commentcontent", "table table-condensed");
+	grid.renderGrid("commentcontent", "table table-condensed lefted comment-table");
 };    
 

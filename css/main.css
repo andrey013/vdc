@@ -34,6 +34,10 @@ body > .navbar .brand:hover {
     border-top-color: #000;
 }
 
+.lead {
+  margin-bottom: 8px;
+}
+
 #logout {
   margin-right: -50px;
 }
@@ -346,14 +350,23 @@ button.active i.icon-active-ok {
 
 .table th,
 .table td {
-  text-align: center !important;
-  vertical-align: middle !important;
+  text-align: center;
+  vertical-align: middle;
   border-top: 1px solid #ddd;
   -moz-box-shadow: 0 1px 0px 0px #fff;
   -webkit-box-shadow: 0 1px 0px 0px #fff;
   box-shadow: 0 1px 0px 0px #fff;
   /*height: 3em;*/
   line-height: 1.5em;
+}
+
+.table.lefted th,
+.table.lefted td {
+  text-align: left;
+}
+
+.comment-table {
+  margin-top: -40px;
 }
 
 .two-liner{
@@ -436,6 +449,54 @@ input.error{
 
 .popover {
   width: 410px;
+}
+
+.offset00 {
+  margin-left: 0px;
+}
+
+.offset01 {
+  margin-left: 20px;
+}
+
+.offset02 {
+  margin-left: 40px;
+}
+
+.offset03 {
+  margin-left: 60px;
+}
+
+.offset04 {
+  margin-left: 80px;
+}
+
+.offset05 {
+  margin-left: 100px;
+}
+
+.offset06 {
+  margin-left: 120px;
+}
+
+.offset07 {
+  margin-left: 140px;
+}
+
+.offset08 {
+  margin-left: 160px;
+}
+
+.offset09 {
+  margin-left: 180px;
+}
+
+.offset010 {
+  margin-left: 200px;
+}
+
+.offset011 {
+  margin-left: 220px;
 }
 
 /*

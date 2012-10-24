@@ -72,7 +72,7 @@ public function accessRules() {
 			    ->from('vdc_comment c')
 			    ->where('thread LIKE :thread AND order_id = :id', array(':thread' => $parent->thread.'.%', ':id'=>$id))
 			    ->queryRow();
-			print_r($maxThreadArray);
+			//print_r($maxThreadArray);
 			$maxThread = $maxThreadArray['t'];
 	        if ($maxThread=='') {
 	            $comment->thread = $parent->thread . '.' . Comment::int2vancode(0);
@@ -99,7 +99,7 @@ public function accessRules() {
 		$grid = new EditableGrid();
 
 		//$grid->addColumn('id', 'ID', 'integer', NULL, false);
-		$grid->addColumn('text', ' ', 'string', NULL, false);
+		$grid->addColumn('comment', ' ', 'html', NULL, false);
 
 		$criteria=new CDbCriteria();
 		$criteria->order = 'thread asc';

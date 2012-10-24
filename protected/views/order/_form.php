@@ -153,15 +153,15 @@
 		<?php } else { ?>
 		<div class="controls controls-row row">
 			<label class="lead span1 down7px">Текст: </label>
-			<label class="lead span7 down7px">Комментарии: </label>
+			
 		</div>
-		<div class="controls controls-row row pull-left">
+		<div class="controls controls-row row pull-left" style="z-index: 10;">
 			<div class="span6">
 				<?php echo $form->textArea($model, 'text', array('class' => 'span6', 'rows' => '6')); ?>
 				<!-- <textarea name="text" cols="200" rows="15" class="span7"></textarea> -->
 			</div>
 		</div>
-		<div class="controls controls-row row pull-right">
+		<div class="controls controls-row row pull-right" style="z-index: 9;">
 			<div class="span6" style="min-height : 500px" id="commentcontent"></div>
 		</div>
 		<?php } ?>
@@ -184,7 +184,7 @@ $this->endWidget();
 				<div class="row fileupload-buttonbar">
 					<!-- The table listing the files available for upload/download -->
 					<div class="span6">
-						<table role="presentation" class="table table-condensed">
+						<table role="presentation" class="table table-condensed lefted">
 							<thead>
 								<tr>
 									<th colspan="5">Для разработки
@@ -226,7 +226,7 @@ $this->endWidget();
 				<div class="row fileupload-buttonbar">
 					<!-- The table listing the files available for upload/download -->
 					<div class="span6">
-						<table role="presentation" class="table table-condensed">
+						<table role="presentation" class="table table-condensed lefted">
 							<thead>
 								<tr>
 									<th colspan="5">На утверждение
@@ -270,7 +270,7 @@ $this->endWidget();
 					
 					<!-- The table listing the files available for upload/download -->
 					<div class="span6">
-						<table role="presentation" class="table table-condensed">
+						<table role="presentation" class="table table-condensed lefted">
 							<thead>
 								<tr>
 									<th colspan="5">Готовые

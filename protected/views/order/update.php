@@ -12,11 +12,21 @@
 
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script >
 <script type="text/javascript" >
+function myCustomOnChangeHandler(inst) {
+        var status = $("#Order_orderStatusHist");
+        status.change();
+}
 tinyMCE.init({
         mode : "textareas",
+        language : "ru",
         //body_class : "span5",
         theme : "advanced",
         theme_advanced_resizing : true,
+        theme_advanced_resizing_max_width : 460,
+        theme_advanced_resizing_min_width : 460,
+        theme_advanced_resizing_max_height : 400,
+        onchange_callback : "myCustomOnChangeHandler",
+
 
         theme_advanced_buttons1 : "bold,italic,underline,strikethrough,sub,sup,fontsizeselect,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull",
         theme_advanced_toolbar_location : "bottom",
@@ -35,11 +45,9 @@ tinyMCE.init({
 <script>
 	$(function(){
 		'use strict';
-
-		var status = $("#Order_orderStatusHist")
+        var status = $("#Order_orderStatusHist");
 		$(".statusRadio").removeClass("active");
 		$(".statusRadio[value="+status.val()+"]").addClass("active");
-		var status = $("#Order_orderStatusHist")
 		$(".statusRadio").bind('click', function(){
 				status.val(this.value);
                 status.change();
@@ -158,8 +166,8 @@ $this->renderPartial('_form', array(
                 <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
             </td>-->
             <td class="start">{% if (!o.options.autoUpload) { %}
-                <button class="btn btn-mini btn-primary">
-                    <i class="icon-upload icon-white"></i>
+                <button class="btn btn-mini pull-right">
+                    <i class="icon-upload"></i> Загрузить
                 </button>
             {% } %}</td>
         {% } else { %}

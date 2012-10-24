@@ -53,7 +53,7 @@ abstract class BaseComment extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'user' => array(self::BELONGS_TO, 'User2', 'user_id'),
 			'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
 			'parent' => array(self::BELONGS_TO, 'Comment', 'parent_id'),
 			'comments' => array(self::HAS_MANY, 'Comment', 'parent_id'),

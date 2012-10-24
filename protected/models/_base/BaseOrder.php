@@ -12,7 +12,7 @@
  * @property integer $id
  * @property string $create_date
  * @property integer $global_number
- * @property integer $client_number
+ * @property string $client_number
  * @property integer $client_id
  * @property integer $manager_id
  * @property integer $designer_id
@@ -64,7 +64,8 @@ abstract class BaseOrder extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('create_date, global_number, client_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id', 'required'),
-			array('global_number, client_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, chromaticity_id, density_id, size_x, size_y, measure_unit_id, designer_paid', 'numerical', 'integerOnly'=>true),
+			array('global_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, chromaticity_id, density_id, size_x, size_y, measure_unit_id, designer_paid', 'numerical', 'integerOnly'=>true),
+			array('client_number', 'length', 'max'=>20),
 			array('comment', 'length', 'max'=>200),
 			array('text', 'safe'),
 			array('comment, chromaticity_id, density_id, size_x, size_y, measure_unit_id, text, designer_paid', 'default', 'setOnEmpty' => true, 'value' => null),
@@ -138,7 +139,7 @@ abstract class BaseOrder extends GxActiveRecord {
 		$criteria->compare('id', $this->id);
 		$criteria->compare('create_date', $this->create_date, true);
 		$criteria->compare('global_number', $this->global_number);
-		$criteria->compare('client_number', $this->client_number);
+		$criteria->compare('client_number', $this->client_number, true);
 		$criteria->compare('client_id', $this->client_id);
 		$criteria->compare('manager_id', $this->manager_id);
 		$criteria->compare('designer_id', $this->designer_id);
