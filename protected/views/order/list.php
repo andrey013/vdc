@@ -5,7 +5,8 @@
 <script>
 	$(function(){
 		datagrid = new DatabaseGrid("<?php echo $this->createUrl('/order/jsonlist'); ?>",
-			"<?php echo $this->createUrl('/order/update/'); ?>");
+			"<?php echo $this->createUrl('/order/update/'); ?>",
+			"<?php echo $this->createUrl('/order/jsonupdate/'); ?>");
 
 		$(document).ready(function() {
 		  	$('#reportrange').daterangepicker(	{

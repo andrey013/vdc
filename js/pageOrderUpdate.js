@@ -75,7 +75,7 @@ function pay(editableGrid, id, value, addlink, link)
 function DatabaseGrid(link, addlink, updatelink) 
 {
 	var t = this;
-	this.editableGrid = new EditableGrid("demo", {
+	this.editableGrid = new EditableGrid("payment", {
 		enableSort: false,
    	    tableLoaded: function() { t.initializeGrid(this, link, addlink); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
@@ -208,7 +208,9 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 		cell.innerHTML ='<span class="lead pull-left">Комментарии: </span>' +
 						'<div class="pull-right">' +
 						'<button type="button" id="commentButton" class="btn"' +
-						' data-content="<textarea id=\'addCommentText\' class=\'span5\'></textarea><button id=\'addCommentButton\' type=\'button\' class=\'btn btn-magenta\'>Отправить</button>"' +
+						' data-content="<textarea id=\'addCommentText\' class=\'span5\'></textarea>' +
+						'               <button id=\'addCommentButton\' type=\'button\' class=\'btn btn-magenta\'>Отправить</button>' +
+						'               <button id=\'cancelCommentButton\' type=\'button\' class=\'btn\'>Отмена</button>"' +
 						' data-placement="bottom"' +
 						' rel="popover"' +
 						' data-original-title="Комментарий">' +
@@ -217,9 +219,13 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 						//'<button id="addCommentButton" class="btn span3" type="button"><i class="icon-plus"></i> Оставить комментарий</button>' +
 						'</div>';
 
+		$("body").off("click", "#cancelCommentButton");
+		$("body").on("click", "#cancelCommentButton", function(){
+			$("#commentButton").popover('hide');
+		});
 		$("body").off("click", "#addCommentButton");
 		$("body").on("click", "#addCommentButton", function(){
-			$("#commentButton").popover('destroy');
+			$("[rel='popover']").popover('destroy');
 			addComment(grid, null, $('#addCommentText').val(), addlink, link);
 		});
 		$("#commentButton").popover();
@@ -239,7 +245,9 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 						'<div class="pull-right">' +
 						((comment.depth<9)?
 						'<button type="button" id="comment'+rowId+'Button" class="btn btn-mini"' +
-						' data-content="<textarea id=\'addComment'+rowId+'Text\' class=\'span5\'></textarea><button id=\'addComment'+rowId+'Button\' type=\'button\' class=\'btn btn-magenta\'>Отправить</button>"' +
+						' data-content="<textarea id=\'addComment'+rowId+'Text\' class=\'span5\'></textarea>' +
+						'               <button id=\'addComment'+rowId+'Button\' type=\'button\' class=\'btn btn-magenta\'>Отправить</button>' +
+						'               <button id=\'cancelComment'+rowId+'Button\' type=\'button\' class=\'btn\'>Отмена</button>"' +
 						' data-placement="bottom"' +
 						' rel="popover"' +
 						' data-original-title="Комментарий">' +
@@ -247,9 +255,14 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 						'</button>':'') +
 						//'<button id="addPayment'+rowId+'Button" class="btn" type="button">&nbsp;<i class="icon-arrow-down"></i></button>' +
 						'</div>';
+
+		$("body").off("click", "#cancelComment"+rowId+"Button");
+		$("body").on("click", "#cancelComment"+rowId+"Button", function(){
+			$("#comment"+rowId+"Button").popover('hide');
+		});
 		$("body").off("click", "#addComment"+rowId+"Button");
 		$("body").on("click", "#addComment"+rowId+"Button", function(){
-			$("#comment"+rowId+"Button").popover('destroy');
+			$("[rel='popover']").popover('destroy');
 			addComment(grid, rowId, $("#addComment"+rowId+"Text").val(), addlink, link);
 		});
 		$("#comment"+rowId+"Button").popover();

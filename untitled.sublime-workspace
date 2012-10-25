@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"clie",
+				"client_price"
+			],
+			[
 				"prin",
 				"print_r"
 			],
@@ -171,7 +175,7 @@
 			"file": "protected/controllers/OrderController.php",
 			"settings":
 			{
-				"buffer_size": 6276,
+				"buffer_size": 7085,
 				"line_ending": "Unix"
 			}
 		},
@@ -179,7 +183,7 @@
 			"file": "protected/controllers/PaymentController.php",
 			"settings":
 			{
-				"buffer_size": 2249,
+				"buffer_size": 2386,
 				"line_ending": "Unix"
 			}
 		},
@@ -195,7 +199,7 @@
 			"file": "protected/views/order/list.php",
 			"settings":
 			{
-				"buffer_size": 2434,
+				"buffer_size": 2494,
 				"line_ending": "Unix"
 			}
 		},
@@ -203,7 +207,7 @@
 			"file": "js/pageOrderList.js",
 			"settings":
 			{
-				"buffer_size": 5537,
+				"buffer_size": 7020,
 				"line_ending": "Unix"
 			}
 		},
@@ -227,7 +231,7 @@
 			"file": "protected/views/order/update.php",
 			"settings":
 			{
-				"buffer_size": 8651,
+				"buffer_size": 8669,
 				"line_ending": "Unix"
 			}
 		},
@@ -235,7 +239,7 @@
 			"file": "js/pageOrderUpdate.js",
 			"settings":
 			{
-				"buffer_size": 9160,
+				"buffer_size": 9769,
 				"line_ending": "Unix"
 			}
 		},
@@ -272,10 +276,18 @@
 			}
 		},
 		{
+			"file": "protected/models/_base/BasePaymentHistory.php",
+			"settings":
+			{
+				"buffer_size": 2016,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "protected/models/Order.php",
 			"settings":
 			{
-				"buffer_size": 3991,
+				"buffer_size": 4213,
 				"line_ending": "Unix"
 			}
 		},
@@ -283,15 +295,7 @@
 			"file": "protected/models/_base/BaseOrder.php",
 			"settings":
 			{
-				"buffer_size": 6093,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "protected/models/_base/BasePaymentHistory.php",
-			"settings":
-			{
-				"buffer_size": 2016,
+				"buffer_size": 6131,
 				"line_ending": "Unix"
 			}
 		},
@@ -477,6 +481,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"popover",
+			"client",
 			"addPayment",
 			"pageSize",
 			"addlink",
@@ -760,8 +766,8 @@
 						"selection":
 						[
 							[
-								1225,
-								1225
+								14848,
+								14848
 							]
 						],
 						"settings":
@@ -771,7 +777,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4406.0,
+						"translation.y": 4484.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -897,15 +903,15 @@
 					"file": "protected/controllers/OrderController.php",
 					"settings":
 					{
-						"buffer_size": 6276,
+						"buffer_size": 7085,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5566,
-								5566
+								6861,
+								6861
 							]
 						],
 						"settings":
@@ -914,7 +920,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1973.0,
+						"translation.y": 2114.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -924,15 +930,15 @@
 					"file": "protected/controllers/PaymentController.php",
 					"settings":
 					{
-						"buffer_size": 2249,
+						"buffer_size": 2386,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2161,
-								2161
+								1240,
+								1240
 							]
 						],
 						"settings":
@@ -941,7 +947,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 663.0,
+						"translation.y": 624.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -958,8 +964,8 @@
 						"selection":
 						[
 							[
-								2887,
-								2887
+								2598,
+								2598
 							]
 						],
 						"settings":
@@ -968,7 +974,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1170.0,
+						"translation.y": 702.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -978,15 +984,15 @@
 					"file": "protected/views/order/list.php",
 					"settings":
 					{
-						"buffer_size": 2434,
+						"buffer_size": 2494,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1072,
-								1072
+								369,
+								369
 							]
 						],
 						"settings":
@@ -994,8 +1000,8 @@
 							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 195.0,
+						"translation.x": 11.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1005,15 +1011,15 @@
 					"file": "js/pageOrderList.js",
 					"settings":
 					{
-						"buffer_size": 5537,
+						"buffer_size": 7020,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2888,
-								2888
+								5109,
+								5109
 							]
 						],
 						"settings":
@@ -1022,7 +1028,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 468.0,
+						"translation.y": 1261.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1086,15 +1092,15 @@
 					"file": "protected/views/order/update.php",
 					"settings":
 					{
-						"buffer_size": 8651,
+						"buffer_size": 8669,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7277,
-								7277
+								2866,
+								2866
 							]
 						],
 						"settings":
@@ -1104,7 +1110,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1923.0,
+						"translation.y": 536.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1114,15 +1120,15 @@
 					"file": "js/pageOrderUpdate.js",
 					"settings":
 					{
-						"buffer_size": 9160,
+						"buffer_size": 9769,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3896,
-								3896
+								7684,
+								7684
 							]
 						],
 						"settings":
@@ -1131,7 +1137,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1271.0,
+						"translation.y": 2482.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1158,7 +1164,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1162.0,
+						"translation.y": 1045.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1166,7 +1172,7 @@
 			]
 		},
 		{
-			"selected": 9,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1181,8 +1187,8 @@
 						"selection":
 						[
 							[
-								1033,
-								1033
+								518,
+								518
 							]
 						],
 						"settings":
@@ -1191,7 +1197,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 385.0,
+						"translation.y": 39.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1208,8 +1214,8 @@
 						"selection":
 						[
 							[
-								1570,
-								1570
+								603,
+								603
 							]
 						],
 						"settings":
@@ -1218,7 +1224,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 130.0,
+						"translation.y": 91.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1252,60 +1258,6 @@
 				},
 				{
 					"buffer": 25,
-					"file": "protected/models/Order.php",
-					"settings":
-					{
-						"buffer_size": 3991,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								564,
-								564
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 26,
-					"file": "protected/models/_base/BaseOrder.php",
-					"settings":
-					{
-						"buffer_size": 6093,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 802.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 27,
 					"file": "protected/models/_base/BasePaymentHistory.php",
 					"settings":
 					{
@@ -1326,7 +1278,61 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 585.0,
+						"translation.y": 117.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 26,
+					"file": "protected/models/Order.php",
+					"settings":
+					{
+						"buffer_size": 4213,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1084,
+								1084
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 657.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 27,
+					"file": "protected/models/_base/BaseOrder.php",
+					"settings":
+					{
+						"buffer_size": 6131,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1033,
+								1033
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 958.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1424,8 +1430,8 @@
 						"selection":
 						[
 							[
-								832,
-								832
+								458,
+								458
 							]
 						],
 						"settings":
@@ -1434,7 +1440,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 195.0,
+						"translation.y": 39.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1645,8 +1651,8 @@
 						"selection":
 						[
 							[
-								1088,
-								1088
+								1776,
+								1776
 							]
 						],
 						"settings":
@@ -1655,7 +1661,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 763.0,
+						"translation.y": 295.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1730,13 +1736,13 @@
 		"cols":
 		[
 			0.0,
-			0.464062499999,
+			0.549999999999,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.668534168535,
+			0.649666244007,
 			1.0
 		]
 	},

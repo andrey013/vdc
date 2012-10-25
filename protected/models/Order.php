@@ -23,6 +23,20 @@ class Order extends BaseOrder
 		);
 	}
 
+	public function getPaid()
+	{
+		$rows = $this->payments;
+		foreach ($rows as $row) {
+			if($row->debt == 1) return 0;
+		}
+		return 1;//print_r($this->getRelated("payments"));
+	}
+
+	public function setPaid($name)
+	{
+		
+	}
+
 	public function setPayment($client, $designer)
 	{
 		$payment = new Payment;
@@ -152,4 +166,5 @@ class Order extends BaseOrder
 		}
 		return true;
 	}
+
 }

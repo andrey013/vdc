@@ -56,10 +56,10 @@ tinyMCE.init({
 		var addlink = "<?php echo $this->createUrl('/payment/add'); ?>";
 		var updatelink = "<?php echo $this->createUrl('/payment/jsonupdate'); ?>";
 		var datagrid = new DatabaseGrid(link, addlink, updatelink);
-        link = "<?php echo $this->createUrl('/comment/jsonlist').'?id='.$model->id; ?>";
-        addlink = "<?php echo $this->createUrl('/comment/add'); ?>";
-        updatelink = "<?php echo $this->createUrl('/comment/jsonupdate'); ?>";
-        var commentgrid = new CommentGrid(link, addlink, updatelink);
+        var link2 = "<?php echo $this->createUrl('/comment/jsonlist').'?id='.$model->id; ?>";
+        var addlink2 = "<?php echo $this->createUrl('/comment/add'); ?>";
+        var updatelink2 = "<?php echo $this->createUrl('/comment/jsonupdate'); ?>";
+        var commentgrid = new CommentGrid(link2, addlink2, updatelink2);
 		$("#addpayment").on("click", function(){
 				$.ajax({
 					url: '<?php echo $this->createUrl('/payment/create'); ?>',

@@ -156,30 +156,59 @@ public function accessRules() {
 		$grid->addColumn('client_price', ' ', 'double(,0,comma,&nbsp;,)');
 		$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');
 		$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
-		$grid->addColumn('debt', 'О', 'boolean');
-		$grid->addColumn('isDesignerPaid', 'Д', 'boolean');
+		$grid->addColumn('paid', 'О', 'boolean', null, true);
+		$grid->addColumn('designer_paid', 'Д', 'boolean', null, true);
 		$grid->addColumn('orderStatusHist.key', ' ', 'string');
 
 		$criteria1=new CDbCriteria();
-		$criteria1->order = 'DATE(create_date) DESC, priority.sort_order, orderStatus.sort_order';
+		$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
 		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\'';
 
 		$criteria2=new CDbCriteria();
-		$criteria2->order = 'DATE(create_date) DESC, priority.sort_order, orderStatus.sort_order';
+		$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
 		$criteria2->condition = 'orderStatusHist.order_status_id=\'8\'';
 
 		$result = array_merge(
 				  Order::model()
-				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile')
+				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
 				->findAll($criteria1)
 				, Order::model()
-				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile')
+				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
 				->findAll($criteria2)
 				);
 
 		$this->layout=false;
 		// send data to the browser
 		$grid->renderJSON($result);
+		Yii::app()->end();
+	}
+
+	public function actionJsonupdate() {
+		$id = $_POST['id'];
+		$colname = $_POST['colname'];
+		$newvalue = $_POST['newvalue'];
+		if($colname == 'paid' && $newvalue == 1){
+			$model = $this->loadModel($id, 'Order');
+			$rows = $model->payments;
+			foreach ($rows as $row) {
+				$paymentHistory = new PaymentHistory;
+				$paymentHistory->payment_id = $row->id;
+				$paymentHistory->create_date = time();
+				$paymentHistory->amount = $row->client_price - $row->paid;
+				$paymentHistory->save();
+				$row->debt = 0;
+				if($row->save()){
+					echo "ok";
+				}else{
+					echo print_r($row->getErrors());
+				};
+			}
+		}else{
+			$model = $this->loadModel($id, 'Order');
+			$model->$colname=$newvalue;
+			$model->save();
+		}
+		echo('ok');
 		Yii::app()->end();
 	}
 }

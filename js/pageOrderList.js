@@ -6,6 +6,7 @@ function highlightRow(rowId, bgColor, after)
 {
 	var rowSelector = $("#" + rowId);
 	rowSelector.css("background-color", bgColor);
+
 	rowSelector.fadeTo("normal", 0.5, function() { 
 		rowSelector.fadeTo("fast", 1, function() { 
 			rowSelector.css("background-color", '');
@@ -14,16 +15,16 @@ function highlightRow(rowId, bgColor, after)
 }
 
 function highlight(div_id, style) {
-	highlightRow(div_id, style == "error" ? "#e5afaf" : style == "warning" ? "#ffcc00" : "#8dc70a");
+	highlightRow(div_id, style == "error" ? "#e5afaf" : style == "warning" ? "#ffcc00" : "#ffffff");
 }
         
 /**
    updateCellValue calls the PHP script that will update the database. 
  */
-function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue, row, onResponse)
+function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue, row, updatelink, link)
 {      
 	$.ajax({
-		url: 'update.php',
+		url: updatelink,
 		type: 'POST',
 		dataType: "html",
 		data: {
@@ -36,9 +37,10 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
 		success: function (response) 
 		{ 
 			// reset old value if failed then highlight row
-			var success = onResponse ? onResponse(response) : (response == "ok" || !isNaN(parseInt(response))); // by default, a sucessfull reponse can be "ok" or a database id 
+			var success = (response == "ok" || !isNaN(parseInt(response))); // by default, a sucessfull reponse can be "ok" or a database id 
 			if (!success) editableGrid.setValueAt(rowIndex, columnIndex, oldValue);
-		    highlight(row.id, success ? "ok" : "error"); 
+		    //highlight(row.id, success ? "ok" : "error");
+		    editableGrid.loadJSON(link);
 		},
 		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
 		async: true
@@ -48,15 +50,16 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
    
 
 
-function DatabaseGrid(link, editlink) 
+function DatabaseGrid(link, editlink, updatelink) 
 {
 	var t = this;
 	this.editableGrid = new EditableGrid("order", {
 		enableSort: false,
 		pageSize: 20,
-   	    tableLoaded: function() { t.initializeGrid(this, editlink); },
+   	    tableLoaded: function() { t.initializeGrid(this, link, editlink); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
-   	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row);
+   	    	if(confirm("Вы уверены?"))updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, updatelink, link);
+   	    	else this.setValueAt(rowIndex, columnIndex, oldValue);
        	},
        	tableRendered: function() {
    	    	updatePaginator(this);
@@ -79,7 +82,7 @@ DatabaseGrid.prototype.fetchGrid = function(link)  {
 	this.editableGrid.loadJSON(link);
 };
 
-DatabaseGrid.prototype.initializeGrid = function(grid, editlink) {
+DatabaseGrid.prototype.initializeGrid = function(grid, link, editlink) {
 	// render for the action column
 	grid.setCellRenderer("orderStatusHist.key", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
@@ -107,6 +110,39 @@ DatabaseGrid.prototype.initializeGrid = function(grid, editlink) {
 		var renderValue = grid.getColumn("designer_id").getOptionValuesForRender()[value];
 		$("<span>").append(renderValue).addClass("dotted").appendTo(cell);
 	}}));
+
+	grid.setCellRenderer("paid", new CheckboxCellRenderer({render: function(element, value) {
+			// convert value to boolean just in case
+			value = (value && value != 0 && value != "false") ? true : false;
+
+			// if check box already created, just update its state
+			if (element.firstChild) { element.firstChild.checked = value; return; }
+			
+			// create and initialize checkbox
+			var htmlInput = document.createElement("input"); 
+			htmlInput.setAttribute("type", "checkbox");
+
+			// give access to the cell editor and element from the editor field
+			htmlInput.element = element;
+			htmlInput.cellrenderer = this;
+
+			// this renderer is a little special because it allows direct edition
+			var cellEditor = new CellEditor();
+			cellEditor.editablegrid = this.editablegrid;
+			cellEditor.column = this.column;
+			htmlInput.onclick = function(event) {
+				element.rowIndex = this.cellrenderer.editablegrid.getRowIndex(element.parentNode); // in case it has changed due to sorting or remove
+				element.isEditing = true;
+				cellEditor.applyEditing(element, htmlInput.checked ? true : false); 
+			};
+
+			if(!value)element.appendChild(htmlInput);
+			htmlInput.checked = value;
+			htmlInput.disabled = (!this.column.editable || !this.editablegrid.isEditable(element.rowIndex, element.columnIndex));
+			
+			element.className = "boolean";
+		}}));
+
 	grid.renderGrid("tablecontent", "table table-condensed orders");
 };    
 

@@ -46,11 +46,18 @@ public function accessRules() {
 	{
 		$id = $_POST['id'];
 		$value = $_POST['value'];
+		
 		$paymentHistory = new PaymentHistory;
 		$paymentHistory->payment_id = $id;
 		$paymentHistory->create_date = time();
 		$paymentHistory->amount = $value;
 		$paymentHistory->save();
+
+		$model = $this->loadModel($id, 'Payment');
+		if($model->client_price <= $model->paid){
+			$model->debt = 0;
+			$model->save();
+		}
 		echo('ok');
 		Yii::app()->end();
 	}
