@@ -191,17 +191,19 @@ public function accessRules() {
 			$model = $this->loadModel($id, 'Order');
 			$rows = $model->payments;
 			foreach ($rows as $row) {
-				$paymentHistory = new PaymentHistory;
-				$paymentHistory->payment_id = $row->id;
-				$paymentHistory->create_date = time();
-				$paymentHistory->amount = $row->client_price - $row->paid;
-				$paymentHistory->save();
-				$row->debt = 0;
-				if($row->save()){
-					echo "ok";
-				}else{
-					echo print_r($row->getErrors());
-				};
+                                if($row->debt == 1){
+				        $paymentHistory = new PaymentHistory;
+				        $paymentHistory->payment_id = $row->id;
+				        $paymentHistory->create_date = time();
+				        $paymentHistory->amount = $row->client_price - $row->paid;
+				        $paymentHistory->save();
+				        $row->debt = 0;
+				        if($row->save()){
+					        echo "ok";
+				        }else{
+					        echo print_r($row->getErrors());
+				        }
+                                }
 			}
 		}else{
 			$model = $this->loadModel($id, 'Order');
