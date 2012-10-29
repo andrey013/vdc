@@ -53,7 +53,7 @@
 	</div>
     <div class="input-append span">
 	    <input type="text" id="filter" class="span2">
-	    <button type="button" class="btn disabled"><i class="icon-search"></i>&nbsp;</button>
+	    <button type="button" class="btn disabled">Поиск</button>
     </div>
 </form>
 

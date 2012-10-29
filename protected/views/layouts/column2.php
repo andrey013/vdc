@@ -1,18 +1,24 @@
 <?php /* @var $this Controller */ ?>
 <?php $this->beginContent('//layouts/main'); ?>
-<div class="span-19">
-	<?php echo $content; ?>
-</div>
-<div class="span-5 last">
-	<?php
-		$this->beginWidget('zii.widgets.CPortlet', array(
-			'title'=>'Operations',
-		));
-		$this->widget('zii.widgets.CMenu', array(
-			'items'=>$this->menu,
-			'htmlOptions'=>array('class'=>'operations'),
-		));
-		$this->endWidget();
-	?>
+<div class="row">
+	<div class="span3">
+		<ul class="nav nav-list">
+			<li class="nav-header">Пользователи</li>
+			<li><a href="#"><i class="icon-user"></i> Пользователи</a></li>
+			<li><a href="#"><i class="icon-envelope"></i> Рассылка</a></li>
+			<li class="nav-header">Прайс</li>
+			<li><a href="#"><i class="icon-signal"></i> Сложность</a></li>
+			<li><a href="#"><i class="icon-book"></i> Вид заказа</a></li>
+			<li><a href="#"><i class="icon-th"></i> Прайс</a></li>
+			<li class="divider"></li>
+			<li><a href="#"><i class="icon-tags"></i> Приоритет</a></li>
+			<li><a href="#"><i class="icon-resize-full"></i> Единицы измерения</a></li>
+			<li class="divider"></li>
+			<li class="active"><a href="#"><i class="icon-info-sign"></i> Контакты ВДЦ</a></li>
+		</ul>
+	</div>
+	<div class="span9">
+		<?php echo $content; ?>
+	</div>
 </div>
 <?php $this->endContent(); ?>

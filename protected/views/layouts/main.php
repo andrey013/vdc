@@ -80,7 +80,7 @@ $(function(){
 						</ul>
 						</div>
 					</li>
-					<li><a href="#">Настройки</a></li>
+					<li><a href="<?php echo $this->createUrl('/vdcuser/list'); ?>">Настройки</a></li>
 					<li><a href="<?php echo $this->createUrl('/site/logout'); ?>">
 						<!-- <?php echo 'Выход' /* ('.Yii::app()->user->name.')'*/ ?> -->
 						Выход
@@ -102,7 +102,7 @@ $(function(){
 	</div><!-- container -->
 
 	<div class="clearfix"></div>
-
+	<?php echo $this->getRoute(); ?>
 	<!-- <div id="footer">
 		Copyright &copy; <?php echo date('Y'); ?> Всё для Вас<br/>
 		All Rights Reserved.
