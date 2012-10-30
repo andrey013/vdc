@@ -51,8 +51,8 @@ $(function(){
 			<div class="container">
 				<a class="brand" href="#">все для вас</a>
 				<ul class="nav">
-					<li class="active"><a href="<?php echo $this->createUrl('/order/list'); ?>">Заказы</a></li>
-					<li><a href="#">Дизайнеры</a></li>
+					<li <?php if($this->getRoute()=='order/list'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/order/list'); ?>">Заказы</a></li>
+					<li <?php if($this->getRoute()=='designer/list'){ ?>class="active"<? } ?>><a href="#">Дизайнеры</a></li>
 					<!-- <li><a href="#">Пользователи</a></li> -->
 					<li class="dropdown">
 						<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" href="#">
@@ -65,7 +65,7 @@ $(function(){
 							<li><a href="#"><i class="icon-plus"></i> Создать ссылку на документ</a></li>
 						</ul>
 					</li>
-					<li><a href="<?php echo $this->createUrl('/site/page', array('view'=>'about')); ?>">Контакты ВДЦ</a></li>
+					<li <?php if($this->getRoute()=='site/page'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/site/page', array('view'=>'about')); ?>">Контакты ВДЦ</a></li>
 				</ul>
 				<ul id="logout" class="nav pull-right">
 					<?php if(!Yii::app()->user->isGuest){ ?>
@@ -80,7 +80,12 @@ $(function(){
 						</ul>
 						</div>
 					</li>
-					<li><a href="<?php echo $this->createUrl('/vdcuser/list'); ?>">Настройки</a></li>
+					<li class="divider-vertical"></li>
+					<li <?php if(in_array($this->getRoute(),
+										  array('vdcuser/list')))
+								{ ?>class="active"<? } ?>>
+						<a href="<?php echo $this->createUrl('/vdcuser/list'); ?>">Настройки</a>
+					</li>
 					<li><a href="<?php echo $this->createUrl('/site/logout'); ?>">
 						<!-- <?php echo 'Выход' /* ('.Yii::app()->user->name.')'*/ ?> -->
 						Выход
@@ -88,7 +93,7 @@ $(function(){
 					</li>
 					
 					<?php }else{ ?>
-					<li><a href="<?php echo $this->createUrl('/site/login'); ?>">Вход</a></li>
+					<li <?php if($this->getRoute()=='site/login'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/site/login'); ?>">Вход</a></li>
 					<?php } ?>
 
 				</ul>
@@ -102,7 +107,7 @@ $(function(){
 	</div><!-- container -->
 
 	<div class="clearfix"></div>
-	<?php echo $this->getRoute(); ?>
+	<?php //echo $this->getRoute(); ?>
 	<!-- <div id="footer">
 		Copyright &copy; <?php echo date('Y'); ?> Всё для Вас<br/>
 		All Rights Reserved.

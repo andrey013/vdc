@@ -147,12 +147,12 @@ public function accessRules() {
 		// create a new EditableGrid object
 		$grid = new EditableGrid();
 
-		//$grid->addColumn('id', 'ID', 'integer', NULL, false);
-		$grid->addColumn('priority.name', '!', 'integer');
-		$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
-		$grid->addColumn('customer.name', 'Заказчик', 'string');
-		$grid->addColumn('orderType.name', 'Вид', 'string');
-		$grid->addColumn('comment', 'Комментарий', 'string');
+		$grid->addColumn('id', 'ID', 'integer', NULL, false);
+		$grid->addColumn('role', 'Тип пользователя', 'string');
+		$grid->addColumn('email', 'email', 'string');//'date');
+		$grid->addColumn('password', 'Пароль', 'string');
+		$grid->addColumn('lastname', 'ФИО', 'string');
+		/*$grid->addColumn('comment', 'Комментарий', 'string');
 		$grid->addColumn('client.name', 'Клиент', 'string');
 		$grid->addColumn('designer_id', 'Дизайнер', 'integer', array('0' => '' ,'4' => 'ВикторияК.'), true);
 		$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
@@ -162,23 +162,10 @@ public function accessRules() {
 		$grid->addColumn('paid', 'О', 'boolean', null, true);
 		$grid->addColumn('designer_paid', 'Д', 'boolean', null, true);
 		$grid->addColumn('orderStatusHist.key', ' ', 'string');
-
-		$criteria1=new CDbCriteria();
-		$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\'';
-
-		$criteria2=new CDbCriteria();
-		$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-		$criteria2->condition = 'orderStatusHist.order_status_id=\'8\'';
-
-		$result = array_merge(
-				  Order::model()
-				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
-				->findAll($criteria1)
-				, Order::model()
-				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
-				->findAll($criteria2)
-				);
+*/
+		$result = User2::model()
+				->with('authAssignment')
+				->findAll();
 
 		$this->layout=false;
 		// send data to the browser

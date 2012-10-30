@@ -23,7 +23,7 @@ class Comment extends BaseComment
 		return 
 		//preg_replace('/(\r\n|\r|\n)+/', "<br/>", 
 		'{ "depth": '.(count(explode('.', $this->thread)) - 1).', '
-		.'"role": "'.$this->user->authAssignments[0]->itemname0->description.'", '
+		.'"role": "'.$this->user->authAssignment->itemname0->description.'", '
 		.'"user": "'.$this->user->profile->lastname.'", '
 		.'"date": "'.Yii::app()->dateFormatter->format('d.MM.yyyy H:mm', $this->create_date).'", '
 		.'"text": "'.$this->text.'" }';//);
