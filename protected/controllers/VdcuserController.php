@@ -136,9 +136,39 @@ public function accessRules() {
 	}
 
 	public function actionList() {
-		$dataProvider = new CActiveDataProvider('Order');
+		$model = new CreateUserForm();
+
+		if (isset($_POST['CreateUserForm'])) {
+			$model->setAttributes($_POST['CreateUserForm']);
+			if ($model->validate()) {
+				
+				$user = new User2();
+				$user->username = $_POST['CreateUserForm']['lastname'];
+				$user->password = $_POST['CreateUserForm']['password'];
+				$user->email = $_POST['CreateUserForm']['email'];
+				$user->create_at = time();
+				$user->save();
+
+				$profile = new Profile();
+				$profile->user_id = $user->id;
+				$profile->client_id = $_POST['CreateUserForm']['client_id'];
+				$profile->lastname = $user->username;
+				$profile->firstname = ' ';
+				$profile->user_status_id = 1;
+				$profile->save();
+				echo print_r($profile->getErrors());
+
+				$authAssignment = new AuthAssignment();
+				$authAssignment->itemname = $_POST['CreateUserForm']['type'];
+				$authAssignment->userid = $user->id;
+				$authAssignment->data = 'N;';
+				$authAssignment->save();
+
+				$this->redirect(array('list'));
+			}
+		}
 		$this->render('list', array(
-			'dataProvider' => $dataProvider,
+			'model' => $model
 		));
 	}
 
@@ -148,7 +178,8 @@ public function accessRules() {
 		$grid = new EditableGrid();
 
 		$grid->addColumn('id', 'ID', 'integer', NULL, false);
-		$grid->addColumn('role', 'Тип пользователя', 'string');
+		$grid->addColumn('profile.client_id', 'Редакция', 'integer');
+		$grid->addColumn('role_id', 'Тип пользователя', 'string');
 		$grid->addColumn('email', 'email', 'string');//'date');
 		$grid->addColumn('password', 'Пароль', 'string');
 		$grid->addColumn('lastname', 'ФИО', 'string');
@@ -164,7 +195,7 @@ public function accessRules() {
 		$grid->addColumn('orderStatusHist.key', ' ', 'string');
 */
 		$result = User2::model()
-				->with('authAssignment')
+				->with('authAssignment', 'profile')
 				->findAll();
 
 		$this->layout=false;
@@ -182,17 +213,17 @@ public function accessRules() {
 			$rows = $model->payments;
 			foreach ($rows as $row) {
                                 if($row->debt == 1){
-				        $paymentHistory = new PaymentHistory;
-				        $paymentHistory->payment_id = $row->id;
-				        $paymentHistory->create_date = time();
-				        $paymentHistory->amount = $row->client_price - $row->paid;
-				        $paymentHistory->save();
-				        $row->debt = 0;
-				        if($row->save()){
-					        echo "ok";
-				        }else{
-					        echo print_r($row->getErrors());
-				        }
+							        $paymentHistory = new PaymentHistory;
+							        $paymentHistory->payment_id = $row->id;
+							        $paymentHistory->create_date = time();
+							        $paymentHistory->amount = $row->client_price - $row->paid;
+							        $paymentHistory->save();
+							        $row->debt = 0;
+							        if($row->save()){
+								        echo "ok";
+							        }else{
+								        echo print_r($row->getErrors());
+							        }
                                 }
 			}
 		}else{
