@@ -48,7 +48,7 @@ abstract class BaseProfile extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'user' => array(self::BELONGS_TO, 'User2', 'user_id'),
 			'client' => array(self::BELONGS_TO, 'Client', 'client_id'),
 			'userStatus' => array(self::BELONGS_TO, 'UserStatus', 'user_status_id'),
 		);

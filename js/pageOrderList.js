@@ -63,18 +63,16 @@ function DatabaseGrid(link, editlink, updatelink)
        	},
        	tableRendered: function() {
    	    	updatePaginator(this);
+   	    	
+   	    	// set active (stored) filter if any
+			$('#filter').val(grid.currentFilter ? grid.currentFilter : '');
        	},
  	});
 	this.fetchGrid(link);
 	var grid = this.editableGrid;
-	// set active (stored) filter if any
-	$('#filter').val(grid.currentFilter ? grid.currentFilter : '');
-		
+	
 	// filter when something is typed into filter
 	$('#filter').on("keyup", function() { grid.filter($('#filter').val()); });
-
-	
-	
 }
 
 DatabaseGrid.prototype.fetchGrid = function(link)  {
@@ -143,6 +141,11 @@ DatabaseGrid.prototype.initializeGrid = function(grid, link, editlink) {
 			element.className = "boolean";
 		}}));
 
+	grid.setCellEditor("designer_id", new SelectCellEditor({
+						adaptHeight: false,
+						adaptWidth: true,
+						minWidth: 25 
+					}));
 	grid.renderGrid("tablecontent", "table table-condensed orders");
 };    
 

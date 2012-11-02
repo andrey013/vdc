@@ -322,17 +322,10 @@ class EditableGrid {
 	 * fetch_pairs is a simple method that transforms a mysqli_result object in an array.
 	 * It will be used to generate possible values for some columns.
 	 */
-	function fetch_pairs($mysqli,$query){
-		if (!($res = $mysqli->query($query)))return FALSE;
+	function fetch_pairs($res, $key, $field){
 		$rows = array();
-		while ($row = $res->fetch_assoc()) {
-			$first = true;
-			$key = $value = null;
-			foreach ($row as $val) {
-				if ($first) { $key = $val; $first = false; }
-				else { $value = $val; break; } 
-			}
-			$rows[$key] = $value;
+		foreach ($res as $row) {
+			$rows[$row->$key] = $row->$field;
 		}
 		return $rows;
 	}

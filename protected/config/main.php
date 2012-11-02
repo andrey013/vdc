@@ -22,6 +22,7 @@ return array(
         'application.components.*',
         'ext.giix-components.*', // giix components
         'application.extensions.yiidebugtb.*', //our extension
+        'application.modules.user.*',
         'application.modules.user.models.*',
         'application.modules.user.components.*',
         'application.modules.rights.*',

@@ -30,7 +30,7 @@ header("Last-Modified: $last_modified GMT time");*/
 <script>
 $(function(){
 	//$('.dropdown-toggle').dropdown();
-	$('select').addClass('shadow_select');
+	//$('select').addClass('shadow_select');
 	//$('select').wrap('<span class="select-wrapper" />');
 	//$('.select-wrapper').width($(this).width());
 
@@ -45,14 +45,14 @@ $(function(){
 </script>
 
 <body>
-
+	<?php if(!Yii::app()->user->isGuest){ ?>
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
 				<a class="brand" href="#">все для вас</a>
 				<ul class="nav">
 					<li <?php if($this->getRoute()=='order/list'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/order/list'); ?>">Заказы</a></li>
-					<li <?php if($this->getRoute()=='designer/list'){ ?>class="active"<? } ?>><a href="#">Дизайнеры</a></li>
+					<li <?php if($this->getRoute()=='designer/list'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/designer/list'); ?>">Дизайнеры</a></li>
 					<!-- <li><a href="#">Пользователи</a></li> -->
 					<li class="dropdown">
 						<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" href="#">
@@ -62,13 +62,13 @@ $(function(){
 							<li><a href="#"><i class="icon-file"></i> Инструкция</a></li>
 							<li><a href="#"><i class="icon-file"></i> Прайс</a></li>
 							<li><a href="#"><i class="icon-file"></i> Описание принципа работы ЕДЦ</a></li>
-							<li><a href="#"><i class="icon-plus"></i> Создать ссылку на документ</a></li>
+							<!-- <li><a href="#"><i class="icon-plus"></i> Создать ссылку на документ</a></li> -->
 						</ul>
 					</li>
 					<li <?php if($this->getRoute()=='site/page'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/site/page', array('view'=>'about')); ?>">Контакты ВДЦ</a></li>
 				</ul>
 				<ul id="logout" class="nav pull-right">
-					<?php if(!Yii::app()->user->isGuest){ ?>
+					
 					<li class="dropdown">
 						<div class="btn-group">
 						<a class="btn dropdown-toggle" id="status" role="button" data-toggle="dropdown" href="#">
@@ -82,9 +82,10 @@ $(function(){
 					</li>
 					<li class="divider-vertical"></li>
 					<li <?php if(in_array($this->getRoute(),
-										  array('vdcuser/list')))
+										  array('vdcuser/list',
+										  		'client/list')))
 								{ ?>class="active"<? } ?>>
-						<a href="<?php echo $this->createUrl('/vdcuser/list'); ?>">Настройки</a>
+						<a href="<?php echo $this->createUrl('/client/list'); ?>">Настройки</a>
 					</li>
 					<li><a href="<?php echo $this->createUrl('/site/logout'); ?>">
 						<!-- <?php echo 'Выход' /* ('.Yii::app()->user->name.')'*/ ?> -->
@@ -92,16 +93,15 @@ $(function(){
 						</a>
 					</li>
 					
-					<?php }else{ ?>
-					<li <?php if($this->getRoute()=='site/login'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/site/login'); ?>">Вход</a></li>
-					<?php } ?>
+					<!-- <li <?php if($this->getRoute()=='site/login'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/site/login'); ?>">Вход</a></li> -->
+					
 
 				</ul>
 			</div>
 		</div>
 	</div>
 	<div class="clearfix"></div>
-
+	<?php } ?>
 	<div id="container" class="container">
 		<?php echo $content; ?>
 	</div><!-- container -->

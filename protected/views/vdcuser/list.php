@@ -2,9 +2,46 @@
 
 <script>
 	$(function(){
-		datagrid = new DatabaseGrid("<?php echo $this->createUrl('/vdcuser/jsonlist'); ?>",
-			"<?php echo $this->createUrl('/vdcuser/update/'); ?>",
-			"<?php echo $this->createUrl('/vdcuser/jsonupdate/'); ?>");
+		datagrid = new DatabaseGrid({
+			fetchUrl: "<?php echo $this->createUrl('/vdcuser/jsonlist'); ?>",
+			updateUrl: "<?php echo $this->createUrl('/vdcuser/jsonupdate/'); ?>",
+			init:
+				function(grid){
+					grid.setCellRenderer("emptypassword", new CellRenderer({render: function(cell, value) {
+						var rowId = grid.getRowId(cell.rowIndex);
+						var column = this.column;
+						var displayValue = 'изменить';
+						$("<em>").append(displayValue).addClass("dotted").appendTo(cell);
+					}}));
+					grid.setCellRenderer("lastname", new CellRenderer({render: function(cell, value) {
+						var rowId = grid.getRowId(cell.rowIndex);
+						var column = this.column;
+						var displayValue = value;
+						$("<span>").append(displayValue).addClass("dotted").appendTo(cell);
+					}}));
+					grid.setCellRenderer("role_id", new CellRenderer({render: function(cell, value) {
+						var rowId = grid.getRowId(cell.rowIndex);
+						var renderValue = grid.getColumn("role_id").getOptionValuesForRender()[value];
+						$("<span>").append(renderValue).addClass("dotted").appendTo(cell);
+					}}));
+					grid.setCellRenderer("profile.client_id", new CellRenderer({render: function(cell, value) {
+						var rowId = grid.getRowId(cell.rowIndex);
+						var renderValue = grid.getColumn("profile.client_id").getOptionValuesForRender()[value];
+						$("<span>").append(renderValue).addClass("dotted").appendTo(cell);
+					}}));
+					grid.setCellEditor("profile.client_id", new SelectCellEditor({
+						adaptHeight: false,
+						adaptWidth: true,
+						minWidth: 25 
+					}));
+					grid.setCellEditor("role_id", new SelectCellEditor({
+						adaptHeight: false,
+						adaptWidth: true,
+						minWidth: 25 
+					}));
+				}
+		});
+		
 	});
 </script>
 
@@ -16,7 +53,7 @@
 
 <form class="form pull-right">
     <div class="input-append span">
-	    <input type="text" id="filter" class="span2">
+	    <input type="search" id="filter" class="span2">
 	    <button type="button" class="btn disabled"><i class="icon-search"></i>&nbsp;</button>
     </div>
 </form>
@@ -32,10 +69,10 @@
 	<!-- <form class="form-horizontal" style="margin-bottom: 0px"> -->
 	<?php 
 	$form = $this->beginWidget('GxActiveForm', array(
-		'id' => 'order-form',
-		'enableAjaxValidation' => true,
+		'id' => 'user-form',
 		'htmlOptions'=>array(
 			'class'=>'form-horizontal',
+			'style'=>'margin-bottom: 0px',
 		),
 	));
 	?>
@@ -92,7 +129,7 @@
 
 		</div>
 		<div class="modal-footer">
-			<button class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>
+			<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>
 			<button class="btn btn-magenta">Создать пользователя</button>
 		</div>
 	<!-- </form> -->

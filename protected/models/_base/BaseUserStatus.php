@@ -43,7 +43,7 @@ abstract class BaseUserStatus extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'profiles' => array(self::HAS_MANY, 'Profile', 'user_status_id'),
+			'profiles' => array(self::HAS_MANY, 'Profile2', 'user_status_id'),
 		);
 	}
 

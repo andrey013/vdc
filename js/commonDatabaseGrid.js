@@ -50,31 +50,30 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
    
 
 
-function DatabaseGrid(link, editlink, updatelink) 
+function DatabaseGrid(config)
 {
 	var t = this;
 	this.editableGrid = new EditableGrid("order", {
-		enableSort: false,
+		enableSort: true,
 		pageSize: 20,
-   	    tableLoaded: function() { t.initializeGrid(this, link, editlink); },
+   	    tableLoaded: function() { t.initializeGrid(this, config.init); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
-   	    	if(confirm("Вы уверены?"))updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, updatelink, link);
+   	    	if(confirm("Вы уверены?"))updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, config.updateUrl, config.fetchUrl);
    	    	else this.setValueAt(rowIndex, columnIndex, oldValue);
        	},
        	tableRendered: function() {
    	    	updatePaginator(this);
+
+			// set active (stored) filter if any
+			$('#filter').val(grid.currentFilter ? grid.currentFilter : '');	
        	},
  	});
-	this.fetchGrid(link);
+	this.fetchGrid(config.fetchUrl);
 	var grid = this.editableGrid;
-	// set active (stored) filter if any
-	$('#filter').val(grid.currentFilter ? grid.currentFilter : '');
-		
+	
+
 	// filter when something is typed into filter
 	$('#filter').on("keyup", function() { grid.filter($('#filter').val()); });
-
-	
-	
 }
 
 DatabaseGrid.prototype.fetchGrid = function(link)  {
@@ -82,10 +81,11 @@ DatabaseGrid.prototype.fetchGrid = function(link)  {
 	this.editableGrid.loadJSON(link);
 };
 
-DatabaseGrid.prototype.initializeGrid = function(grid, link, editlink) {
+DatabaseGrid.prototype.initializeGrid = function(grid, init) {
 	// render for the action column
-	
-	grid.renderGrid("tablecontent", "table table-condensed orders");
+	init(grid);
+
+	grid.renderGrid("tablecontent", "table");
 };    
 
 // function to render the paginator control

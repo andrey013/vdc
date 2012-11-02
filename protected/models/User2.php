@@ -15,6 +15,11 @@ class User2 extends BaseUser
 		);
 	}
 
+	public function getEmptypassword()
+	{
+		return '';
+	}
+
 	public function getRole()
 	{
 		return $this->authAssignment->itemname0->description;

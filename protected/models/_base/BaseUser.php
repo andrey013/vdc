@@ -18,6 +18,7 @@
  * @property string $lastvisit_at
  * @property integer $superuser
  * @property integer $status
+ * @property integer $disabled
  *
  * @property AuthAssignment[] $authAssignments
  * @property Comment[] $comments
@@ -46,12 +47,12 @@ abstract class BaseUser extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('username, password, email, create_at', 'required'),
-			array('superuser, status', 'numerical', 'integerOnly'=>true),
+			array('superuser, status, disabled', 'numerical', 'integerOnly'=>true),
 			array('username', 'length', 'max'=>20),
 			array('password, email, activkey', 'length', 'max'=>128),
 			array('lastvisit_at', 'safe'),
-			array('activkey, lastvisit_at, superuser, status', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, username, password, email, activkey, create_at, lastvisit_at, superuser, status', 'safe', 'on'=>'search'),
+			array('activkey, lastvisit_at, superuser, status, disabled', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, username, password, email, activkey, create_at, lastvisit_at, superuser, status, disabled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,6 +82,7 @@ abstract class BaseUser extends GxActiveRecord {
 			'lastvisit_at' => Yii::t('app', 'Lastvisit At'),
 			'superuser' => Yii::t('app', 'Superuser'),
 			'status' => Yii::t('app', 'Status'),
+			'disabled' => Yii::t('app', 'Disabled'),
 			'authAssignments' => null,
 			'comments' => null,
 			'orders' => null,
@@ -101,6 +103,7 @@ abstract class BaseUser extends GxActiveRecord {
 		$criteria->compare('lastvisit_at', $this->lastvisit_at, true);
 		$criteria->compare('superuser', $this->superuser);
 		$criteria->compare('status', $this->status);
+		$criteria->compare('disabled', $this->disabled);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

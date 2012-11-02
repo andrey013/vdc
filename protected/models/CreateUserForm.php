@@ -12,8 +12,10 @@ class CreateUserForm extends CFormModel {
 	public function rules() {
 		return array(
 			array('password, lastname, email, type, client_id', 'required'),
-			array('password', 'length', 'max'=>128, 'min' => 6,'message' => "Incorrect password (minimal length 6 symbols)."),
+			array('password', 'length', 'max'=>128, 'min' => 3, 'message' => "Минимальная длина пароля - 3 символа."),
+			array('lastname', 'length', 'max'=>128, 'min' => 3, 'message' => "Минимальная длина ФИО - 3 символа."),
 			array('email', 'email'),
+			array('email', 'unique', 'className'=> 'User2'),
 		);
 	}
 

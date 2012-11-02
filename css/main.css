@@ -83,7 +83,7 @@ hr {
 	border-top: 1px solid #C9E0ED;
 }
 
-.shadow_select {
+select {
   background-color: #ffffff;
   border: 1px solid #cccccc;
   -webkit-border-radius: 3px;
@@ -98,7 +98,7 @@ hr {
        -o-transition: border linear 0.2s, box-shadow linear 0.2s;
           transition: border linear 0.2s, box-shadow linear 0.2s;
 }
-.shadow_select:focus {
+select:focus {
   border-color: rgba(236, 0, 140, 0.8);
   outline: 0;
   /*outline: thin dotted \9;*/
