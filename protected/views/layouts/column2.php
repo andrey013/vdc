@@ -18,7 +18,9 @@
 			<li <?php if($this->getRoute()=='orderType/list'){ ?>class="active"<? } ?>>
 				<a href="<?php echo $this->createUrl('/orderType/list'); ?>"><i class="icon-book"></i> Вид заказа</a>
 			</li>
-			<li><a href="#"><i class="icon-th"></i> Прайс</a></li>
+			<li <?php if($this->getRoute()=='price/list'){ ?>class="active"<? } ?>>
+				<a href="<?php echo $this->createUrl('/price/list'); ?>"><i class="icon-th"></i> Прайс</a>
+			</li>
 
 			<li class="divider"></li>
 			<li <?php if($this->getRoute()=='priority/list'){ ?>class="active"<? } ?>>

@@ -83,7 +83,13 @@ $(function(){
 					<li class="divider-vertical"></li>
 					<li <?php if(in_array($this->getRoute(),
 										  array('vdcuser/list',
-										  		'client/list')))
+										  		'client/list',
+										  		'difficulty/list',
+										  		'orderType/list',
+										  		'priority/list',
+										  		'measureUnit/list',
+										  		'price/list'
+										  		)))
 								{ ?>class="active"<? } ?>>
 						<a href="<?php echo $this->createUrl('/client/list'); ?>">Настройки</a>
 					</li>

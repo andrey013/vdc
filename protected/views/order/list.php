@@ -52,11 +52,11 @@
 		<span></span> <b class="caret" style="margin-top: 8px"></b>
 	</div>
     <div class="input-append span">
-	    <input type="text" id="filter" class="span2">
+	    <input type="text" id="filter" class="span2" autofocus>
 	    <button type="button" class="btn disabled"><i class="icon-search"></i>&nbsp;</button>
     </div>
 </form>
-
+<div class="clearfix"></div>
 <div id="tablecontent"></div>
 <div class="pagination pagination-centered">
 	<ul id="paginator">

@@ -80,9 +80,9 @@ public function accessRules() {
 
 		$grid->addColumn('id', 'ID', 'integer', NULL, false);
 		$grid->addColumn('profile.client_id', 'Редакция', 'integer',
-				EditableGrid::fetch_pairs(Client::model()->findAll(), 'id', 'name'), true);
+				$grid->fetch_pairs(Client::model()->findAll('disabled=0'), 'id', 'name'), true);
 		$grid->addColumn('role_id', 'Тип пользователя', 'string',
-				EditableGrid::fetch_pairs(AuthItem::model()->findAll('description IS NOT NULL'), 'name', 'description'), true);
+				$grid->fetch_pairs(AuthItem::model()->findAll('description IS NOT NULL'), 'name', 'description'), true);
 		$grid->addColumn('email', 'email', 'email', NULL, true);//'date');
 		$grid->addColumn('emptypassword', 'Пароль', 'string', NULL, true);
 		$grid->addColumn('lastname', 'ФИО', 'string', NULL, true);

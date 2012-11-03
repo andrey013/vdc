@@ -144,6 +144,18 @@ public function accessRules() {
 		// create a new EditableGrid object
 		$grid = new EditableGrid();
 
+		$designers=User2::model()->with(array(
+				'authAssignments'=>array(
+					// we don't want to select posts
+					'select'=>false,
+					// but want to get only users with published posts
+					'joinType'=>'INNER JOIN',
+					'condition'=>'authAssignments.itemname=\'Designer\'',
+				),
+			),
+			'profile'
+		)->findAll('disabled=0');
+
 		//$grid->addColumn('id', 'ID', 'integer', NULL, false);
 		$grid->addColumn('priority.name', '!', 'integer');
 		$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
@@ -151,7 +163,8 @@ public function accessRules() {
 		$grid->addColumn('orderType.name', 'Вид', 'string');
 		$grid->addColumn('comment', 'Комментарий', 'string');
 		$grid->addColumn('client.name', 'Клиент', 'string');
-		$grid->addColumn('designer_id', 'Дизайнер', 'integer', array('0' => '' ,'4' => 'ВикторияК.'), true);
+		$grid->addColumn('designer_id', 'Дизайнер', 'integer',
+			$grid->fetch_pairs($designers, 'id', 'profile.lastname'), true);
 		$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
 		$grid->addColumn('client_price', ' ', 'double(,0,comma,&nbsp;,)');
 		$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');

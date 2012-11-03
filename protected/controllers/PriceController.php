@@ -1,8 +1,8 @@
 <?php
 
-class DesignerController extends GxController {
+class PriceController extends GxController {
 
-public $layout='column1';
+public $layout='column2';
 
 
 public function filters() {

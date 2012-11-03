@@ -119,7 +119,7 @@ DatabaseGrid.prototype.initializeGrid = function(grid, link, addlink) {
 			  number_format(value, column.precision, column.decimal_point, column.thousands_separator) +
 			  ' р.' + '<br>';
 		})
-		$("#paid_"+rowId).tooltip({title:text, placement: 'right'});
+		$("#paid_"+rowId).tooltip({title:text, placement: 'right', html: true});
 	}}));
 
 	grid.setCellRenderer("client_price", new CellRenderer({render: function(cell, value) {

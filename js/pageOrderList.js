@@ -106,7 +106,7 @@ DatabaseGrid.prototype.initializeGrid = function(grid, link, editlink) {
 	grid.setCellRenderer("designer_id", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		var renderValue = grid.getColumn("designer_id").getOptionValuesForRender()[value];
-		$("<span>").append(renderValue).addClass("dotted").appendTo(cell);
+		$("<span>").append(renderValue.replace(/ /g,"&nbsp;")).addClass("dotted").appendTo(cell);
 	}}));
 
 	grid.setCellRenderer("paid", new CheckboxCellRenderer({render: function(element, value) {

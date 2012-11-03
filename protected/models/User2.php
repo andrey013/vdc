@@ -10,9 +10,50 @@ class User2 extends BaseUser
 
 	public function relations() {
 		return parent::relations() + array(
-			'authAssignment' => array(self::HAS_ONE, 'AuthAssignment', 'userid')
-
+			'authAssignment' => array(self::HAS_ONE, 'AuthAssignment', 'userid'),
 		);
+	}
+
+	public function getJsonprojects()
+	{
+		$criteria1=new CDbCriteria();
+		$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and designer_id=:id';
+		$criteria1->params=array(':id'=>$this->id);
+		$res = Order::model()
+				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
+				->findAll($criteria1);
+		$result = array();
+		foreach ($res as $key => $value) {
+			$result[] = array(
+				'customerName' => $value->customerName,
+				'order_type' => $value->orderType->name,
+				'priority' => $value->priority->name,
+				'status' => $value->orderStatusHist->orderStatus->key,
+				);
+		}
+		return json_encode($result);
+	}
+
+	public function getHighpriorityjsonprojects()
+	{
+		$criteria1=new CDbCriteria();
+		$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and designer_id=:id and priority.code=1';
+		$criteria1->params=array(':id'=>$this->id);
+		$res = Order::model()
+				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
+				->findAll($criteria1);
+		$result = array();
+		foreach ($res as $key => $value) {
+			$result[] = array(
+				'customerName' => $value->customerName,
+				'order_type' => $value->orderType->name,
+				'priority' => $value->priority->name,
+				'status' => $value->orderStatusHist->orderStatus->key,
+				);
+		}
+		return json_encode($result);
 	}
 
 	public function getEmptypassword()
