@@ -3,8 +3,8 @@
 <script>
 	$(function(){
 		datagrid = new DatabaseGrid({
-			fetchUrl: "<?php echo $this->createUrl('/designer/jsonlist'); ?>",
-			updateUrl: "<?php echo $this->createUrl('/designer/jsonupdate/'); ?>",
+			fetchUrl: "<?php echo $this->createUrl('/price/jsonlist'); ?>",
+			updateUrl: "<?php echo $this->createUrl('/price/jsonupdate/'); ?>",
 			init:
 				function(grid){
 					var renderer = new CellRenderer({render: function(cell, value) {
@@ -21,9 +21,10 @@
 						})
 						$(cell).find("span").tooltip({title:text, placement: 'right', html: true});
 					}});
-					grid.setCellRenderer("jsonprojects", renderer);
-					grid.setCellRenderer("highpriorityjsonprojects", renderer);
-				}
+					//grid.setCellRenderer("jsonprojects", renderer);
+					//grid.setCellRenderer("highpriorityjsonprojects", renderer);
+				},
+			//tableClass: 'table-striped'
 		});
 		
 	});

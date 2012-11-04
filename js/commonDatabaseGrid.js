@@ -56,7 +56,7 @@ function DatabaseGrid(config)
 	this.editableGrid = new EditableGrid("order", {
 		enableSort: true,
 		pageSize: 20,
-   	    tableLoaded: function() { t.initializeGrid(this, config.init); },
+   	    tableLoaded: function() { t.initializeGrid(this, config); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
    	    	if(confirm("Вы уверены?"))updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, config.updateUrl, config.fetchUrl);
    	    	else this.setValueAt(rowIndex, columnIndex, oldValue);
@@ -81,11 +81,11 @@ DatabaseGrid.prototype.fetchGrid = function(link)  {
 	this.editableGrid.loadJSON(link);
 };
 
-DatabaseGrid.prototype.initializeGrid = function(grid, init) {
+DatabaseGrid.prototype.initializeGrid = function(grid, config) {
 	// render for the action column
-	init(grid);
+	config.init(grid);
 
-	grid.renderGrid("tablecontent", "table");
+	grid.renderGrid("tablecontent", "table " + config.tableClass);
 };    
 
 // function to render the paginator control
