@@ -69,6 +69,7 @@ public function accessRules() {
 			}
 			$model->create_date = time(); //Yii::app()->dateFormatter->format('d.MM.yyyy H:m:s', time());
 			$model->client = Client::model()->findByPk(User2::model()->findByPk(Yii::app()->user->id)->profile->client_id);
+			$model->client_id = $model->client->id;
 			$model->clientPrice = '0';
 			$model->designerPrice = '0';
 			$variables = Variables::model()->find();

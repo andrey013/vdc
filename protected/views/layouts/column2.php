@@ -31,7 +31,9 @@
 			</li>
 			<li class="divider"></li>
 			<li><a href="#"><i class="icon-folder-open"></i> Документы</a></li>
-			<li><a href="#"><i class="icon-info-sign"></i> Контакты</a></li>
+			<li <?php if($this->getRoute()=='vdcinfo/update'){ ?>class="active"<? } ?>>
+				<a href="<?php echo $this->createUrl('/vdcinfo/update'); ?>"><i class="icon-info-sign"></i> Контакты</a>
+			</li>
 		</ul>
 	</div>
 	<div class="span10">

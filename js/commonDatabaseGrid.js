@@ -54,7 +54,7 @@ function DatabaseGrid(config)
 {
 	var t = this;
 	this.editableGrid = new EditableGrid("order", {
-		enableSort: true,
+		enableSort: config.sort!==undefined?config.sort:true,
 		pageSize: 20,
    	    tableLoaded: function() { t.initializeGrid(this, config); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {

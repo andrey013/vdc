@@ -23,21 +23,29 @@
 					}});
 					//grid.setCellRenderer("jsonprojects", renderer);
 					//grid.setCellRenderer("highpriorityjsonprojects", renderer);
+					grid.setCellRenderer('name', new CellRenderer({render: function(cell, value) {
+						var rowId = grid.getRowId(cell.rowIndex);
+						var column = this.column;
+						var displayValue = value;
+						$("<span>").append(displayValue).appendTo(cell);
+						if(value.length>0){
+							$(cell).attr('rowspan', 2);
+						}else{
+							$(cell).hide();
+						}
+					}}));
 				},
-			//tableClass: 'table-striped'
+			tableClass: 'table-price',
+			sort: false
 		});
 		
 	});
 </script>
 
-<!-- <h1>Дизайнеры</h1> -->
+<h1>Прайс</h1>
 
-<form class="form pull-right">
-    <div class="input-append span">
-	    <input type="search" id="filter" class="span2" autofocus>
-	    <button type="button" class="btn disabled"><i class="icon-search"></i>&nbsp;</button>
-    </div>
-</form>
+<button class="pull-right btn btn-large btn-magenta">Просмотр прайса</button>
+
 <div class="clearfix"></div>
 <div id="tablecontent"></div>
 <div class="pagination pagination-centered">

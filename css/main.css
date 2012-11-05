@@ -63,6 +63,14 @@ textarea {
   background-color: #F6F6F6 !important;
 }
 
+#loginForm {
+  padding: 0px;
+  margin: 100px auto;
+  width: 420px;
+  height: 302px;
+  background-image: url("../img/login.png");
+}
+
 #content
 {
     padding: 0px !important;
@@ -363,6 +371,22 @@ button.active i.icon-active-ok {
 .table.lefted th,
 .table.lefted td {
   text-align: left;
+}
+
+.table-price tbody tr:nth-child(even) td,
+.table-price tbody tr:nth-child(even) th {
+  -webkit-text-shadow: 0 0 3px rgba(236, 0, 140, 0.6);
+     -moz-text-shadow: 0 0 3px rgba(236, 0, 140, 0.6);
+          text-shadow: 0 0 3px rgba(236, 0, 140, 0.6);
+  color: #EC008C;
+  font-style: italic;
+  line-height: 0.9em;
+}
+
+.table-price tbody tr:nth-child(odd) td,
+.table-price tbody tr:nth-child(odd) th {
+  font-weight: bold;
+  background-color: #f6f6f6;
 }
 
 .comment-table {

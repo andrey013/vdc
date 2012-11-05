@@ -228,7 +228,7 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 			$("[rel='popover']").popover('destroy');
 			addComment(grid, null, $('#addCommentText').val(), addlink, link);
 		});
-		$("#commentButton").popover();
+		$("#commentButton").popover({html:true});
 	}}));
 	grid.setCellRenderer("comment", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
@@ -265,7 +265,7 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 			$("[rel='popover']").popover('destroy');
 			addComment(grid, rowId, $("#addComment"+rowId+"Text").val(), addlink, link);
 		});
-		$("#comment"+rowId+"Button").popover();
+		$("#comment"+rowId+"Button").popover({html:true});
 	}}));
 	grid.renderGrid("commentcontent", "table table-condensed lefted comment-table");
 };    

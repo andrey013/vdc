@@ -46,7 +46,7 @@ public function accessRules() {
 		$grid = new EditableGrid();
 
 		//$grid->addColumn('id', 'ID', 'integer', NULL, false);
-		$grid->addColumn('name', 'Вид заказа', 'html', NULL, false);
+		$grid->addColumn('name', ' ', 'html', NULL, false);
 		//$grid->addColumn('purpose', ' ', 'html', NULL, false);
 		//$grid->addColumn('d', 'Сложность', 'html', NULL, false);
 		foreach ($difficulties as $key => $value) {
@@ -75,7 +75,7 @@ public function accessRules() {
 
 			$res = new OrderType();
 			$res->id = $value->id.'|'.'1';
-			//$res->name = $value->name;
+			//$res->name = 'дизайнеру';
 			$res->purpose = 'дизайнеру';
 			foreach ($difficulties as $diff) {
 				$price = Price::model()->findAll('order_type_id=:otid and difficulty_id=:did',
@@ -98,9 +98,11 @@ public function accessRules() {
 		$id = $_POST['id'];
 		$colname = $_POST['colname'];
 		$newvalue = $_POST['newvalue'];
-		$difficulty_id = explode('|', substr($colname, 1, 10))[1];
-		$order_type_id = explode('|', $id)[0];
-		$is_designer_price = explode('|', $id)[1];
+		$colnames = explode('|', substr($colname, 1, 10));
+		$difficulty_id = $colnames[1];
+		$ids = explode('|', $id);
+		$order_type_id = $ids[0];
+		$is_designer_price = $ids[1];
 		if($is_designer_price=='1'){
 			$price = Price::model()->findAll('order_type_id=:otid and difficulty_id=:did',
 				array(':otid'=>$order_type_id, ':did'=>$difficulty_id));
