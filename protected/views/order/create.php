@@ -1,5 +1,35 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/pageOrderCreate.js"></script>
 
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script >
+<script type="text/javascript" >
+function myCustomOnChangeHandler(inst) {
+        var status = $("#Order_orderStatusHist");
+        status.change();
+}
+tinyMCE.init({
+        mode : "textareas",
+        language : "ru",
+        //body_class : "span5",
+        theme : "advanced",
+        theme_advanced_resizing : true,
+        theme_advanced_resizing_max_width : 460,
+        theme_advanced_resizing_min_width : 460,
+        theme_advanced_resizing_max_height : 400,
+        onchange_callback : "myCustomOnChangeHandler",
+
+
+        theme_advanced_buttons1 : "bold,italic,underline,strikethrough,sub,sup,fontsizeselect,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull",
+        theme_advanced_toolbar_location : "bottom",
+        setup : function(ed)
+        {
+            ed.onInit.add(function(ed)
+            {
+                ed.getDoc().body.style.fontSize = 14;
+            });
+        }
+});
+</script >
+
 <script>
 	$(function(){
 		'use strict';

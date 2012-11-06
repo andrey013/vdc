@@ -149,8 +149,6 @@
 		</div>
 		<hr>
 <!-- echo GxHtml::submitButton(Yii::t('app', 'Save')); -->
-		<?php if(isset($buttons)) { ?>
-		<?php } else { ?>
 		<div class="controls controls-row row">
 			<label class="lead span1 down7px">Текст: </label>
 			
@@ -161,6 +159,8 @@
 				<!-- <textarea name="text" cols="200" rows="15" class="span7"></textarea> -->
 			</div>
 		</div>
+		<?php if(isset($buttons)) { ?>
+		<?php } else { ?>
 		<div class="controls controls-row row pull-right" style="z-index: 9;">
 			<div class="span6" style="min-height : 500px" id="commentcontent"></div>
 		</div>

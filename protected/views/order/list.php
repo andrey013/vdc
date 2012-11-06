@@ -4,11 +4,99 @@
 
 <script>
 	$(function(){
-		datagrid = new DatabaseGrid("<?php echo $this->createUrl('/order/jsonlist'); ?>",
-			"<?php echo $this->createUrl('/order/update/'); ?>",
-			"<?php echo $this->createUrl('/order/jsonupdate/'); ?>");
+		datagrid = new DatabaseGrid({
+			fetchUrl: "<?php echo $this->createUrl('/order/jsonlist'); ?>",
+			updateUrl: "<?php echo $this->createUrl('/order/jsonupdate/'); ?>",
+			editUrl: "<?php echo $this->createUrl('/order/update/'); ?>",
+			init:
+				function(grid){
+					grid.setCellRenderer("orderStatusHist.key", new CellRenderer({render: function(cell, value) {
+						var rowId = grid.getRowId(cell.rowIndex);
+						$("#order_"+rowId).addClass("row-"+value);
+						cell.innerHTML = "<a href=\"" + "<?php echo $this->createUrl('/order/update/'); ?>" + "/id/" + rowId + "\">" +
+						 "<i class='icon-edit'></i></a>";
+						$(cell).hide();
+						$(cell).parent().on('dblclick', function(event) {
+								window.location = "<?php echo $this->createUrl('/order/update/'); ?>" + "/id/" + rowId;
+							})
+					}}));
+					grid.setHeaderRenderer("orderStatusHist.key", new CellRenderer({render: function(cell, value) {
+						$(cell).hide();
+					}}));
+					grid.setCellRenderer("comment", new CellRenderer({render: function(cell, value) {
+						var rowId = grid.getRowId(cell.rowIndex);
+						$("<div>").append(value).addClass("two-liner").appendTo(cell);
+					}}));
 
-		$(document).ready(function() {
+					grid.setCellRenderer("orderStatusHist.statusformatted", new CellRenderer({render: function(cell, value) {
+						var rowId = grid.getRowId(cell.rowIndex);
+						var words = value.split(' ');
+						if(words.length==2){
+							$("<div>").append(words[0]).append("<br>").append(words[1]).appendTo(cell);
+						}else{
+							$("<div>").append(words[0]+'&nbsp;'+words[1]).append("<br>").append(words[2]).appendTo(cell);
+						}
+					}}));
+
+					grid.setCellRenderer("designer_id", new CellRenderer({render: function(cell, value) {
+						var rowId = grid.getRowId(cell.rowIndex);
+						var renderValue = grid.getColumn("designer_id").getOptionValuesForRender()[value];
+						$("<span>").append(renderValue.replace(/ /g,"&nbsp;")).addClass("dotted").appendTo(cell);
+					}}));
+
+					<?php if(User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'){ ?>
+					grid.setHeaderRenderer("client_price", new CellRenderer({render: function(cell, value) {
+						$(cell).attr('colspan', 3).append(value);
+					}}));
+					grid.setHeaderRenderer("designer_price", new CellRenderer({render: function(cell, value) {
+						$(cell).hide();
+					}}));
+					grid.setHeaderRenderer("penny", new CellRenderer({render: function(cell, value) {
+						$(cell).hide();
+					}}));
+					grid.setCellRenderer("paid", new CheckboxCellRenderer({render: function(element, value) {
+							// convert value to boolean just in case
+							value = (value && value != 0 && value != "false") ? true : false;
+
+							// if check box already created, just update its state
+							if (element.firstChild) { element.firstChild.checked = value; return; }
+							
+							// create and initialize checkbox
+							var htmlInput = document.createElement("input"); 
+							htmlInput.setAttribute("type", "checkbox");
+
+							// give access to the cell editor and element from the editor field
+							htmlInput.element = element;
+							htmlInput.cellrenderer = this;
+
+							// this renderer is a little special because it allows direct edition
+							var cellEditor = new CellEditor();
+							cellEditor.editablegrid = this.editablegrid;
+							cellEditor.column = this.column;
+							htmlInput.onclick = function(event) {
+								element.rowIndex = this.cellrenderer.editablegrid.getRowIndex(element.parentNode); // in case it has changed due to sorting or remove
+								element.isEditing = true;
+								cellEditor.applyEditing(element, htmlInput.checked ? true : false); 
+							};
+
+							if(!value)element.appendChild(htmlInput);
+							htmlInput.checked = value;
+							htmlInput.disabled = (!this.column.editable || !this.editablegrid.isEditable(element.rowIndex, element.columnIndex));
+							
+							element.className = "boolean";
+						}}));
+					<?php } ?>
+
+					grid.setCellEditor("designer_id", new SelectCellEditor({
+							adaptHeight: false,
+							adaptWidth: true,
+							minWidth: 25 
+						}));
+				},
+			tableClass: "table-condensed orders",
+			sort: false
+		});
+
 		  	$('#reportrange').daterangepicker(	{
 				ranges: {
 					//'Сегодня': ['today', 'today'],
@@ -38,14 +126,16 @@
 				$('#reportrange span').html(start.toString('dd.MM.yyyy') + ' - ' + end.toString('dd.MM.yyyy'));
 			});
 			$('#reportrange span').html(Date.today().add({ days: -29 }).toString('dd.MM.yyyy') + ' - ' + Date.today().toString('dd.MM.yyyy'));
-		});
+		
 	});
 </script>
 
+<?php if(  User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'
+		|| User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Manager'){ ?>
 <a class="btn btn-large btn-magenta" id="add" href="<?php echo $this->createUrl('/order/create'); ?>">
     Оформить заказ
 </a>
-
+<?php } ?>
 <form class="form pull-right">
 	<div id="reportrange" class="btn span" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
 		<i class="icon-calendar icon-large"></i>

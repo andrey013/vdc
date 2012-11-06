@@ -65,13 +65,17 @@ public function accessRules() {
 				$model->setDensityName($_POST['Order']['densityname']);
 				$model->orderStatusHist = $_POST['Order']['orderStatusHist'];
 			} else {
-				$model->orderStatusHist = 'confirm';
+				$model->orderStatusHist = 'work';
 			}
 			$model->create_date = time(); //Yii::app()->dateFormatter->format('d.MM.yyyy H:m:s', time());
 			$model->client = Client::model()->findByPk(User2::model()->findByPk(Yii::app()->user->id)->profile->client_id);
 			$model->client_id = $model->client->id;
 			$model->clientPrice = '0';
 			$model->designerPrice = '0';
+			$model->difficulty = Difficulty::model()->findByPk('2');
+			$model->difficulty_id = $model->difficulty->id;
+			$model->priority = Priority::model()->findByPk('2');
+			$model->priority_id = $model->priority->id;
 			$variables = Variables::model()->find();
 			$number = $variables->max_global_number + 1;
 			$model->global_number = $number;
@@ -145,6 +149,8 @@ public function accessRules() {
 		// create a new EditableGrid object
 		$grid = new EditableGrid();
 
+		$user = User2::model()->with('profile')->findByPk(Yii::app()->user->id);
+
 		$designers=User2::model()->with(array(
 				'authAssignments'=>array(
 					// we don't want to select posts
@@ -157,30 +163,77 @@ public function accessRules() {
 			'profile'
 		)->findAll('disabled=0');
 
-		//$grid->addColumn('id', 'ID', 'integer', NULL, false);
-		$grid->addColumn('priority.name', '!', 'integer');
-		$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
-		$grid->addColumn('customer.name', 'Заказчик', 'string');
-		$grid->addColumn('orderType.name', 'Вид', 'string');
-		$grid->addColumn('comment', 'Комментарий', 'string');
-		$grid->addColumn('client.name', 'Клиент', 'string');
-		$grid->addColumn('designer_id', 'Дизайнер', 'integer',
-			$grid->fetch_pairs($designers, 'id', 'profile.lastname'), true);
-		$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
-		$grid->addColumn('client_price', ' ', 'double(,0,comma,&nbsp;,)');
-		$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');
-		$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
-		$grid->addColumn('paid', 'О', 'boolean', null, true);
-		$grid->addColumn('designer_paid', 'Д', 'boolean', null, true);
-		$grid->addColumn('orderStatusHist.key', ' ', 'string');
-
 		$criteria1=new CDbCriteria();
-		$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\'';
-
 		$criteria2=new CDbCriteria();
-		$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-		$criteria2->condition = 'orderStatusHist.order_status_id=\'8\'';
+		//echo $user->role_id;
+		if($user->role_id=='Admin'){
+			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
+			$grid->addColumn('priority.name', '!', 'integer');
+			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
+			$grid->addColumn('customer.name', 'Заказчик', 'string');
+			$grid->addColumn('orderType.name', 'Вид', 'string');
+			$grid->addColumn('comment', 'Комментарий', 'string');
+			$grid->addColumn('client.name', 'Клиент', 'string');
+			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
+				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), true);
+			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('paid', 'О', 'boolean', null, true);
+			$grid->addColumn('designer_paid', 'Д', 'boolean', null, true);
+			$grid->addColumn('orderStatusHist.key', ' ', 'string');
+
+			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\'';
+
+			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\'';
+		}else if($user->role_id=='Manager'){
+			$grid->addColumn('priority.name', '!', 'integer');
+			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
+			$grid->addColumn('customer.name', 'Заказчик', 'string');
+			$grid->addColumn('orderType.name', 'Вид', 'string');
+			$grid->addColumn('comment', 'Комментарий', 'string');
+			$grid->addColumn('client.name', 'Клиент', 'string');
+			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
+				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
+			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('orderStatusHist.key', ' ', 'string');
+
+			
+			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.client_id=:client_id';
+			$criteria1->params=array(':client_id'=>$user->profile->client_id);
+
+			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.client_id=:client_id';
+			$criteria2->params=array(':client_id'=>$user->profile->client_id);
+	
+		}else if($user->role_id=='Designer'){
+			$grid->addColumn('priority.name', '!', 'integer');
+			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
+			$grid->addColumn('customer.name', 'Заказчик', 'string');
+			$grid->addColumn('orderType.name', 'Вид', 'string');
+			$grid->addColumn('comment', 'Комментарий', 'string');
+			$grid->addColumn('client.name', 'Клиент', 'string');
+			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
+				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
+			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('designer_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('orderStatusHist.key', ' ', 'string');
+
+			
+			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.designer_id=:designer_id';
+			$criteria1->params=array(':designer_id'=>$user->id);
+
+			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.designer_id=:designer_id';
+			$criteria2->params=array(':designer_id'=>$user->id);
+	
+		}
 
 		$result = array_merge(
 				  Order::model()
@@ -190,7 +243,6 @@ public function accessRules() {
 				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
 				->findAll($criteria2)
 				);
-
 		$this->layout=false;
 		// send data to the browser
 		$grid->renderJSON($result);

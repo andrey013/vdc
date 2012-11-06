@@ -389,6 +389,16 @@ button.active i.icon-active-ok {
   background-color: #f6f6f6;
 }
 
+.table-price tbody tr:nth-child(4n+2) td,
+.table-price tbody tr:nth-child(4n+2) th {
+  background-color: #f0f0f0;
+}
+
+.table-price tbody tr:nth-child(4n-3) td,
+.table-price tbody tr:nth-child(4n-3) th {
+  background-color: #f0f0f0;
+}
+
 .comment-table {
   margin-top: -40px;
 }

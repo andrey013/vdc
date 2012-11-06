@@ -50,27 +50,28 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
    
 
 
-function DatabaseGrid(link, editlink, updatelink) 
+function DatabaseGrid(config)
 {
 	var t = this;
 	this.editableGrid = new EditableGrid("order", {
-		enableSort: false,
+		enableSort: config.sort!==undefined?config.sort:true,
 		pageSize: 20,
-   	    tableLoaded: function() { t.initializeGrid(this, link, editlink); },
+   	    tableLoaded: function() { t.initializeGrid(this, config); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
-   	    	if(confirm("Вы уверены?"))updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, updatelink, link);
+   	    	if(confirm("Вы уверены?"))updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, config.updateUrl, config.fetchUrl);
    	    	else this.setValueAt(rowIndex, columnIndex, oldValue);
        	},
        	tableRendered: function() {
    	    	updatePaginator(this);
-   	    	
-   	    	// set active (stored) filter if any
-			$('#filter').val(grid.currentFilter ? grid.currentFilter : '');
+
+			// set active (stored) filter if any
+			$('#filter').val(grid.currentFilter ? grid.currentFilter : '');	
        	},
  	});
-	this.fetchGrid(link);
+	this.fetchGrid(config.fetchUrl);
 	var grid = this.editableGrid;
 	
+
 	// filter when something is typed into filter
 	$('#filter').on("keyup", function() { grid.filter($('#filter').val()); });
 }
@@ -80,73 +81,11 @@ DatabaseGrid.prototype.fetchGrid = function(link)  {
 	this.editableGrid.loadJSON(link);
 };
 
-DatabaseGrid.prototype.initializeGrid = function(grid, link, editlink) {
+DatabaseGrid.prototype.initializeGrid = function(grid, config) {
 	// render for the action column
-	grid.setCellRenderer("orderStatusHist.key", new CellRenderer({render: function(cell, value) {
-		var rowId = grid.getRowId(cell.rowIndex);
-		$("#order_"+rowId).addClass("row-"+value);
-		cell.innerHTML = "<a href=\"" + editlink + "/id/" + rowId + "\">" +
-		 "<i class='icon-edit'></i></a>";
-	}}));
-	grid.setCellRenderer("comment", new CellRenderer({render: function(cell, value) {
-		var rowId = grid.getRowId(cell.rowIndex);
-		$("<div>").append(value).addClass("two-liner").appendTo(cell);
-	}}));
+	config.init(grid);
 
-	grid.setCellRenderer("orderStatusHist.statusformatted", new CellRenderer({render: function(cell, value) {
-		var rowId = grid.getRowId(cell.rowIndex);
-		var words = value.split(' ');
-		if(words.length==2){
-			$("<div>").append(words[0]).append("<br>").append(words[1]).appendTo(cell);
-		}else{
-			$("<div>").append(words[0]+'&nbsp;'+words[1]).append("<br>").append(words[2]).appendTo(cell);
-		}
-	}}));
-
-	grid.setCellRenderer("designer_id", new CellRenderer({render: function(cell, value) {
-		var rowId = grid.getRowId(cell.rowIndex);
-		var renderValue = grid.getColumn("designer_id").getOptionValuesForRender()[value];
-		$("<span>").append(renderValue.replace(/ /g,"&nbsp;")).addClass("dotted").appendTo(cell);
-	}}));
-
-	grid.setCellRenderer("paid", new CheckboxCellRenderer({render: function(element, value) {
-			// convert value to boolean just in case
-			value = (value && value != 0 && value != "false") ? true : false;
-
-			// if check box already created, just update its state
-			if (element.firstChild) { element.firstChild.checked = value; return; }
-			
-			// create and initialize checkbox
-			var htmlInput = document.createElement("input"); 
-			htmlInput.setAttribute("type", "checkbox");
-
-			// give access to the cell editor and element from the editor field
-			htmlInput.element = element;
-			htmlInput.cellrenderer = this;
-
-			// this renderer is a little special because it allows direct edition
-			var cellEditor = new CellEditor();
-			cellEditor.editablegrid = this.editablegrid;
-			cellEditor.column = this.column;
-			htmlInput.onclick = function(event) {
-				element.rowIndex = this.cellrenderer.editablegrid.getRowIndex(element.parentNode); // in case it has changed due to sorting or remove
-				element.isEditing = true;
-				cellEditor.applyEditing(element, htmlInput.checked ? true : false); 
-			};
-
-			if(!value)element.appendChild(htmlInput);
-			htmlInput.checked = value;
-			htmlInput.disabled = (!this.column.editable || !this.editablegrid.isEditable(element.rowIndex, element.columnIndex));
-			
-			element.className = "boolean";
-		}}));
-
-	grid.setCellEditor("designer_id", new SelectCellEditor({
-						adaptHeight: false,
-						adaptWidth: true,
-						minWidth: 25 
-					}));
-	grid.renderGrid("tablecontent", "table table-condensed orders");
+	grid.renderGrid("tablecontent", "table " + config.tableClass);
 };    
 
 // function to render the paginator control

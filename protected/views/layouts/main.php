@@ -52,7 +52,9 @@ $(function(){
 				<a class="brand" href="<?php echo $this->createUrl('/order/list'); ?>">все для вас</a>
 				<ul class="nav">
 					<li <?php if($this->getRoute()=='order/list'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/order/list'); ?>">Заказы</a></li>
+					<?php if(  User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'){ ?>
 					<li <?php if($this->getRoute()=='designer/list'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/designer/list'); ?>">Дизайнеры</a></li>
+					<?php } ?>
 					<!-- <li><a href="#">Пользователи</a></li> -->
 					<li class="dropdown">
 						<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" href="#">
@@ -88,10 +90,13 @@ $(function(){
 										  		'orderType/list',
 										  		'priority/list',
 										  		'measureUnit/list',
-										  		'price/list'
+										  		'price/list',
+										  		'vdcinfo/update'
 										  		)))
 								{ ?>class="active"<? } ?>>
+						<?php if(  User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'){ ?>
 						<a href="<?php echo $this->createUrl('/client/list'); ?>">Настройки</a>
+						<?php } ?>
 					</li>
 					<li><a href="<?php echo $this->createUrl('/site/logout'); ?>">
 						<!-- <?php echo 'Выход' /* ('.Yii::app()->user->name.')'*/ ?> -->
