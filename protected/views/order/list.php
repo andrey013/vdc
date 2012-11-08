@@ -136,6 +136,30 @@
     Оформить заказ
 </a>
 <?php } ?>
+<?php
+$managers=User2::model()->with(array(
+		'authAssignments'=>array(
+			// we don't want to select posts
+			'select'=>false,
+			// but want to get only users with published posts
+			'joinType'=>'INNER JOIN',
+			'condition'=>'authAssignments.itemname=\'Manager\'',
+		),
+	),
+	'profile'
+)->findAll('disabled=0');
+$designers=User2::model()->with(array(
+		'authAssignments'=>array(
+			// we don't want to select posts
+			'select'=>false,
+			// but want to get only users with published posts
+			'joinType'=>'INNER JOIN',
+			'condition'=>'authAssignments.itemname=\'Designer\'',
+		),
+	),
+	'profile'
+)->findAll('disabled=0');
+?>
 <form class="form pull-right">
 	<div id="reportrange" class="btn span" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
 		<i class="icon-calendar icon-large"></i>
@@ -146,6 +170,24 @@
 	    <button type="button" class="btn disabled"><i class="icon-search"></i>&nbsp;</button>
     </div>
 </form>
+<div class="clearfix"></div>
+<div class="controls controls-row">
+	<?php echo GxHtml::dropDownList('order_type', '',
+			GxHtml::listDataEx(OrderType::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'),
+			array('class' => 'span2', 'empty' => '* Вид заказа')); ?>
+	<?php echo GxHtml::dropDownList('order_type', '',
+			GxHtml::listDataEx(OrderStatus::model()->findAllAttributes(null, true), null, 'name'),
+			array('class' => 'span2', 'empty' => '* Статус')); ?>
+	<?php echo GxHtml::dropDownList('order_type', '',
+			GxHtml::listDataEx(Client::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'),
+			array('class' => 'span2', 'empty' => '* Редакция')); ?>
+	<?php echo GxHtml::dropDownList('order_type', '',
+			GxHtml::listDataEx($managers, null, 'profile.lastname'),
+			array('class' => 'span2', 'empty' => '* ФИО менеджера')); ?>
+	<?php echo GxHtml::dropDownList('order_type', '',
+			GxHtml::listDataEx($designers, null, 'profile.lastname'),
+			array('class' => 'span2', 'empty' => '* ФИО дизайнера')); ?>
+</div>
 <div class="clearfix"></div>
 <div id="tablecontent"></div>
 <div class="pagination pagination-centered">

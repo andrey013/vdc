@@ -10,7 +10,9 @@
 			<li <?php if($this->getRoute()=='vdcuser/list'){ ?>class="active"<? } ?>>
 				<a href="<?php echo $this->createUrl('/vdcuser/list'); ?>"><i class="icon-user"></i> Пользователи</a>
 			</li>
-			<li><a href="#"><i class="icon-envelope"></i> Рассылка</a></li>
+			<li <?php if($this->getRoute()=='mailer/list'){ ?>class="active"<? } ?>>
+				<a href="<?php echo $this->createUrl('/mailer/list'); ?>"><i class="icon-envelope"></i> Рассылка</a>
+			</li>
 			<li class="nav-header">Прайс</li>
 			<li <?php if($this->getRoute()=='difficulty/list'){ ?>class="active"<? } ?>>
 				<a href="<?php echo $this->createUrl('/difficulty/list'); ?>"><i class="icon-signal"></i> Сложность</a>
@@ -30,7 +32,9 @@
 				<a href="<?php echo $this->createUrl('/measureUnit/list'); ?>"><i class="icon-resize-full"></i> Ед. изм.</a>
 			</li>
 			<li class="divider"></li>
-			<li><a href="#"><i class="icon-folder-open"></i> Документы</a></li>
+			<li <?php if($this->getRoute()=='document/list'){ ?>class="active"<? } ?>>
+				<a href="<?php echo $this->createUrl('/document/list'); ?>"><i class="icon-folder-open"></i> Документы</a>
+			</li>
 			<li <?php if($this->getRoute()=='vdcinfo/update'){ ?>class="active"<? } ?>>
 				<a href="<?php echo $this->createUrl('/vdcinfo/update'); ?>"><i class="icon-info-sign"></i> Контакты</a>
 			</li>

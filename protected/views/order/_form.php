@@ -26,6 +26,8 @@
 		),
 		'profile'
 	)->findAll('disabled=0');
+
+	$role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id;
 ?>
 
 	<?php //echo $form->errorSummary($model); ?>
@@ -49,9 +51,11 @@
 					<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span2 new-button">
 						Назад
 					</a>
+					<?php if($role_id!='Designer'){ ?>
 					<button id="copy-button" type="button" class="btn btn-large btn-magenta span3 new-button">
 						Создать на основе
 					</button>
+					<?php } ?>
 					<button id="cancel-button" type="button" class="btn btn-large span2 hidden edit-button">
 						Отмена
 					</button>
@@ -71,9 +75,11 @@
 			<label class="span1 down14px" for="Order_manager_id">менеджер</label>
 			<?php echo $form->dropDownList($model, 'manager_id',
 				GxHtml::listDataEx($managers, null, 'profile.lastname'), array('class' => 'span2 down7px')); ?>
+			<?php if($role_id=='Admin'){ ?>
 			<label class="span1 down14px" for="Order_designer_id">дизайнер</label>
 			<?php echo $form->dropDownList($model, 'designer_id',
 				GxHtml::listDataEx($designers, null, 'profile.lastname'), array('class' => 'span2 down7px')); ?>
+			<?php } ?>
 		</div>
 		<hr>
 		<div class="controls controls-row row">
@@ -117,15 +123,33 @@
 		</div>
 		<hr>
 		
-		<?php if(isset($buttons)) { ?>
-		<div class="controls controls-row row">
-			<label class="span2" for="Order_clientPrice">Общая стоимость, руб.</label>
-			<label class="span2" for="Order_designerPrice">Дизайнеру</label>
-		</div>
-		<div class="controls controls-row">
-			<?php echo $form->textField($model, 'clientPrice', array('class' => 'span2')); ?>
-			<?php echo $form->textField($model, 'designerPrice', array('class' => 'span2')); ?>
-		</div>
+		<?php if(isset($buttons)||$role_id!='Admin') {
+				if($role_id=='Manager'&&(!isset($buttons))){ ?>
+					<div class="controls controls-row row">
+						<label class="span2" for="Order_clientPrice">Общая стоимость, руб.</label>
+						<label class="span2" for="Order_debtPrice">Долг</label>
+					</div>
+					<div class="controls controls-row row">
+						<label class="lead span2"><?php echo $model->clientPrice; ?></label>
+						<label class="lead span2"><?php echo $model->debtPrice; ?></label>
+					</div>
+				<?php } else if($role_id=='Designer'&&(!isset($buttons))){ ?>
+					<div class="controls controls-row row">
+						<label class="span2" for="Order_designerPrice">Дизайнеру</label>
+					</div>
+					<div class="controls controls-row row">
+						<label class="lead span2"><?php echo $model->designerPrice; ?></label>
+					</div>
+				<?php } else { ?>
+					<div class="controls controls-row row">
+						<label class="span2" for="Order_clientPrice">Общая стоимость, руб.</label>
+						<label class="span2" for="Order_designerPrice">Дизайнеру</label>
+					</div>
+					<div class="controls controls-row">
+						<?php echo $form->textField($model, 'clientPrice', array('class' => 'span2')); ?>
+						<?php echo $form->textField($model, 'designerPrice', array('class' => 'span2')); ?>
+					</div>
+				<?php }?>
 		<?php } else { ?>
 		<div class="controls controls-row row">
 			<label class="lead span1 down7px">Оплата: </label>

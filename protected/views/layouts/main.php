@@ -3,7 +3,39 @@
 $filename = '/home/andrey/yii/vdc/protected/views/layouts/main.php';
 $last_modified = date ("F d Y H:i:s", filemtime($filename));//, getlastmod());                                                                                    
 header("Content-Length: $length");                                                                                                      
-header("Last-Modified: $last_modified GMT time");*/      
+header("Last-Modified: $last_modified GMT time");*/   
+
+$upload_handler = new UploadHandler(array(
+				'script_url' => $this->createUrl('/document/json').'/',
+           		'upload_dir' => dirname($_SERVER['SCRIPT_FILENAME']).'/files/documents/',
+            	'upload_url' => Yii::app()->request->baseUrl.'/files/documents/',
+            	'id' => 't',
+            	'stage' => 't'
+			));
+$res = $upload_handler->get_file_objects();
+
+$files = array();
+foreach ($res as $key => $value) {
+	$ts = Document::model()->findAll('filename = :filename and disabled = 0', array(':filename' => $value->filename));
+	
+	if(!isset($ts[0])){
+		$t = new Document;
+		$t->name = ' ';
+		$t->filename = $value->filename;
+		$t->url = $value->url;
+		$t->admin = 0;
+		$t->designer = 0;
+		$t->manager = 0;
+		$t->disabled = 0;
+		$files[] = $t;
+	}else{
+		$ts[0]->url = $value->url;
+		$files[] = $ts[0];
+	}
+}
+
+$role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id;
+
 ?>
 <?php /* @var $this Controller */ ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -52,7 +84,7 @@ $(function(){
 				<a class="brand" href="<?php echo $this->createUrl('/order/list'); ?>">все для вас</a>
 				<ul class="nav">
 					<li <?php if($this->getRoute()=='order/list'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/order/list'); ?>">Заказы</a></li>
-					<?php if(  User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'){ ?>
+					<?php if($role_id=='Admin'){ ?>
 					<li <?php if($this->getRoute()=='designer/list'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/designer/list'); ?>">Дизайнеры</a></li>
 					<?php } ?>
 					<!-- <li><a href="#">Пользователи</a></li> -->
@@ -61,16 +93,18 @@ $(function(){
 							Скачать <b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-							<li><a href="#"><i class="icon-file"></i> Инструкция</a></li>
-							<li><a href="#"><i class="icon-file"></i> Прайс</a></li>
-							<li><a href="#"><i class="icon-file"></i> Описание принципа работы ЕДЦ</a></li>
-							<!-- <li><a href="#"><i class="icon-plus"></i> Создать ссылку на документ</a></li> -->
+							<?php foreach ($files as $key => $value) {
+								if($role_id=='Admin'&&$value->admin
+								|| $role_id=='Designer'&&$value->designer
+								|| $role_id=='Manager'&&$value->manager){ ?>
+									<li><a href="<?php echo $value->url; ?>"><i class="icon-file"></i> <?php echo $value->name; ?></a></li>
+							<?php }} ?>
 						</ul>
 					</li>
 					<li <?php if($this->getRoute()=='site/page'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/site/page', array('view'=>'about')); ?>">Контакты ВДЦ</a></li>
 				</ul>
 				<ul id="logout" class="nav pull-right">
-					
+					<?php if($role_id=='Designer'){ ?>
 					<li class="dropdown">
 						<div class="btn-group">
 						<a class="btn dropdown-toggle" id="status" role="button" data-toggle="dropdown" href="#">
@@ -82,7 +116,9 @@ $(function(){
 						</ul>
 						</div>
 					</li>
+					<?php } ?>
 					<li class="divider-vertical"></li>
+					<?php if($role_id=='Admin'){ ?>
 					<li <?php if(in_array($this->getRoute(),
 										  array('vdcuser/list',
 										  		'client/list',
@@ -91,13 +127,14 @@ $(function(){
 										  		'priority/list',
 										  		'measureUnit/list',
 										  		'price/list',
-										  		'vdcinfo/update'
+										  		'vdcinfo/update',
+										  		'document/list',
+										  		'mailer/list'
 										  		)))
 								{ ?>class="active"<? } ?>>
-						<?php if(  User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'){ ?>
 						<a href="<?php echo $this->createUrl('/client/list'); ?>">Настройки</a>
-						<?php } ?>
 					</li>
+					<?php } ?>
 					<li><a href="<?php echo $this->createUrl('/site/logout'); ?>">
 						<!-- <?php echo 'Выход' /* ('.Yii::app()->user->name.')'*/ ?> -->
 						Выход

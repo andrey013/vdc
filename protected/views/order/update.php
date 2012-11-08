@@ -52,14 +52,15 @@ tinyMCE.init({
 				status.val(this.value);
                 status.change();
 			});
+        <?php
+            $role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id;
+            if($role_id=='Admin') { ?>
 		var link = "<?php echo $this->createUrl('/payment/jsonlist').'?id='.$model->id; ?>";
 		var addlink = "<?php echo $this->createUrl('/payment/add'); ?>";
 		var updatelink = "<?php echo $this->createUrl('/payment/jsonupdate'); ?>";
 		var datagrid = new DatabaseGrid(link, addlink, updatelink);
-        var link2 = "<?php echo $this->createUrl('/comment/jsonlist').'?id='.$model->id; ?>";
-        var addlink2 = "<?php echo $this->createUrl('/comment/add'); ?>";
-        var updatelink2 = "<?php echo $this->createUrl('/comment/jsonupdate'); ?>";
-        var commentgrid = new CommentGrid(link2, addlink2, updatelink2);
+
+        
 		$("#addpayment").on("click", function(){
 				$.ajax({
 					url: '<?php echo $this->createUrl('/payment/create'); ?>',
@@ -76,6 +77,11 @@ tinyMCE.init({
 					async: true
 				});
 			});
+        <?php } ?>
+        var link2 = "<?php echo $this->createUrl('/comment/jsonlist').'?id='.$model->id; ?>";
+        var addlink2 = "<?php echo $this->createUrl('/comment/add'); ?>";
+        var updatelink2 = "<?php echo $this->createUrl('/comment/jsonupdate'); ?>";
+        var commentgrid = new CommentGrid(link2, addlink2, updatelink2);
         $("#cancel-button").on("click", function(){
             if(confirm("Вы уверены? Несохраненные данные будут потеряны")){
                 window.location = "<?php echo $this->createUrl('/order/list'); ?>";
@@ -181,13 +187,13 @@ $this->renderPartial('_form', array(
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-download fade">
         {% if (file.error) { %}
-            <td class="name"><span class="two-liner span3">{%=file.name%}</span></td>
+            <td class="name"><span class="two-liner span3">{%=file.filename%}</span></td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
             <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
         {% } else { %}
             <td class="name">
                 <div class="two-liner">
-                    <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+                    <a href="{%=file.url%}" title="{%=file.filename%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.filename%}">{%=file.filename%}</a>
                 </div>
             </td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>

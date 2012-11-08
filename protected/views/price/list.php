@@ -44,7 +44,7 @@
 
 <h1>Прайс</h1>
 
-<button class="pull-right btn btn-large btn-magenta">Просмотр прайса</button>
+<!-- <button class="pull-right btn btn-large btn-magenta">Просмотр прайса</button> -->
 
 <div class="clearfix"></div>
 <div id="tablecontent"></div>

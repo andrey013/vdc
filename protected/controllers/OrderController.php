@@ -103,6 +103,9 @@ public function accessRules() {
 			}
 		}
 		$model->orderStatusHist = $model->orderStatusHist->orderStatus->key;
+		$model->clientPrice = $model->client_price;
+		$model->designerPrice = $model->designer_price;
+		$model->debtPrice = $model->client_price - $model->paid;
 		$this->render('update', array(
 				'model' => $model,
 				));

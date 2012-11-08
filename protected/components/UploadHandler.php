@@ -138,14 +138,16 @@ class UploadHandler
             substr($_SERVER['SCRIPT_NAME'],0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
     }
 
-    protected function set_file_delete_url($file) {
-        $file->delete_url = $this->options['script_url']
-            .'?file='.rawurlencode($file->name)
-            .'&id='.$this->options['id']
-            .'&stage='.$this->options['stage'];
-        $file->delete_type = $this->options['delete_type'];
-        if ($file->delete_type !== 'DELETE') {
-            $file->delete_url .= '&_method=DELETE';
+    public function set_file_delete_url($file) {
+        if(isset($file->filename)){
+            $file->delete_url = $this->options['script_url']
+                .'?file='.rawurlencode($file->filename)
+                .'&id='.$this->options['id']
+                .'&stage='.$this->options['stage'];
+            $file->delete_type = $this->options['delete_type'];
+            if ($file->delete_type !== 'DELETE') {
+                $file->delete_url .= '&_method=DELETE';
+            }
         }
     }
 
@@ -170,13 +172,13 @@ class UploadHandler
         $file_path = $this->options['upload_dir'].$file_name;
         if (is_file($file_path) && $file_name[0] !== '.') {
             $file = new stdClass();
-            $file->name = $file_name;
+            $file->filename = $file_name;
             $file->size = $this->get_file_size($file_path);
-            $file->url = $this->options['upload_url'].rawurlencode($file->name);
+            $file->url = $this->options['upload_url'].rawurlencode($file->filename);
             foreach($this->options['image_versions'] as $version => $options) {
                 if (is_file($options['upload_dir'].$file_name)) {
                     $file->{$version.'_url'} = $options['upload_url']
-                        .rawurlencode($file->name);
+                        .rawurlencode($file->filename);
                 }
             }
             $this->set_file_delete_url($file);
@@ -185,7 +187,7 @@ class UploadHandler
         return null;
     }
 
-    protected function get_file_objects() {
+    public function get_file_objects() {
         $dir = $this->options['upload_dir'];
         $content = array();
         

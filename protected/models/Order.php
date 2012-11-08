@@ -10,6 +10,7 @@ class Order extends BaseOrder
 
 	public $clientPrice;
 	public $designerPrice;
+	public $debtPrice;
 
 	public function relations() {
 		return parent::relations() + array(
