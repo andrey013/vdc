@@ -42,6 +42,20 @@ tinyMCE.init({
 				status.val(this.value);
 			});
 
+        $("#Order_order_type_id, #Order_difficulty_id").on("change", function(){
+            $.ajax({
+                type: "POST",
+                url: "<?php echo $this->createUrl('/price/getPrice'); ?>",
+                data: { order_type_id: $("#Order_order_type_id").val(),
+                        difficulty_id: $("#Order_difficulty_id").val()},
+                dataType: "json"
+            }).done(function( msg ) {
+                $("#Order_clientPrice").val(msg.clientPrice);
+                $("#Order_designerPrice").val(msg.designerPrice);
+            });
+        });
+        $("#Order_order_type_id").change();
+
 	});
 </script>
 

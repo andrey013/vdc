@@ -18,7 +18,7 @@ public function accessRules() {
 				'users'=>array('*'),
 				),
 			array('allow', 
-				'actions'=>array('list','jsonlist','jsonupdate'),
+				'actions'=>array('list','jsonlist','jsonupdate','statusChange'),
 				'users'=>array('@'),
 				),
 			array('allow', 
@@ -127,6 +127,24 @@ public function accessRules() {
 			$model = $this->loadModel($id, 'User2');
 			$model->$colname=$newvalue;
 			$model->save();
+		}
+		echo('ok');
+		Yii::app()->end();
+	}
+
+	public function actionStatusChange() {
+		$id = Yii::app()->user->id;
+		$status = $_POST['status'];
+		if($status == 'free'){
+			$model = $this->loadModel($id, 'User2');
+			$profile = $model->profile;
+			$profile->user_status_id = 1;
+			$profile->save();
+		}else if($status == 'busy'){
+			$model = $this->loadModel($id, 'User2');
+			$profile = $model->profile;
+			$profile->user_status_id = 0;
+			$profile->save();
 		}
 		echo('ok');
 		Yii::app()->end();

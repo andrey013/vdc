@@ -61,6 +61,33 @@ $role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role
 
 <script>
 $(function(){
+
+	$("#buttonfree").on("click", function(){
+		$.ajax({
+			type: "POST",
+			url: "<?php echo $this->createUrl('/vdcuser/statusChange'); ?>",
+			data: { status: "free"}
+		}).done(function( msg ) {
+			$("#userstatus").removeClass("btn-danger").addClass("btn-success")
+			.find("i").removeClass("icon-off").addClass("icon-ok");
+		});
+	});
+	$("#buttonbusy").on("click", function(){
+		$.ajax({
+			type: "POST",
+			url: "<?php echo $this->createUrl('/vdcuser/statusChange'); ?>",
+			data: { status: "busy"}
+		}).done(function( msg ) {
+			$("#userstatus").removeClass("btn-success").addClass("btn-danger")
+			.find("i").removeClass("icon-ok").addClass("icon-off");
+		});
+	});
+
+	<?php if(User2::model()->with('profile')->findByPk(Yii::app()->user->id)->profile->user_status_id==0){ ?>
+		$("#userstatus").removeClass("btn-success").addClass("btn-danger")
+		.find("i").removeClass("icon-ok").addClass("icon-off");
+	<?php } ?>
+
 	//$('.dropdown-toggle').dropdown();
 	//$('select').addClass('shadow_select');
 	//$('select').wrap('<span class="select-wrapper" />');
@@ -107,12 +134,12 @@ $(function(){
 					<?php if($role_id=='Designer'){ ?>
 					<li class="dropdown">
 						<div class="btn-group">
-						<a class="btn dropdown-toggle" id="status" role="button" data-toggle="dropdown" href="#">
+						<a class="btn btn-success dropdown-toggle" id="userstatus" role="button" data-toggle="dropdown" href="#">
 							<i class="icon-ok"></i> <?php echo User2::model()->with('profile')->findByPk(Yii::app()->user->id)->profile->lastname ?> <b class="caret"></b>
 						</a>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="status">
-							<li><a href="#"><i class="icon-ok"></i> Свободен</a></li>
-							<li><a href="#"><i class="icon-off"></i> Занят</a></li>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="userstatus">
+							<li><a id='buttonfree' href="#"><i class="icon-ok"></i> Свободен</a></li>
+							<li><a id='buttonbusy' href="#"><i class="icon-off"></i> Занят</a></li>
 						</ul>
 						</div>
 					</li>

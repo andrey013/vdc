@@ -134,6 +134,18 @@ class Order extends BaseOrder
 		return Yii::app()->dateFormatter->format('d.MM.yyyy', $this->create_date);
 	}
 
+	public function getFilter(){
+		$result = new stdClass();
+		$result->order_type = $this->order_type_id;
+		$result->manager = $this->manager_id;
+		$result->designer = $this->designer_id;
+		$result->order_status = $this->orderStatusHist->orderStatus->key;
+		$result->client = $this->client_id;
+		$result->paid = $this->paid;
+		$result->changed = count($this->payments)<=1?0:1;
+		return json_encode($result);
+	}
+
 	protected function beforeSave()
 	{
 		if(parent::beforeSave())

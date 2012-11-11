@@ -52,6 +52,11 @@ public function accessRules() {
 			if ($model->save()) {
 				$model->setOrderStatus($_POST['Order']['orderStatusHist']);
 				$model->setPayment($_POST['Order']['clientPrice'], $_POST['Order']['designerPrice']);
+
+				$profile = User2::model()->with('profile')->findByPk($model->designer_id)->profile;
+				$profile->user_status_id = 0;
+				$profile->save();
+
 				if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
 				else
@@ -166,6 +171,21 @@ public function accessRules() {
 			'profile'
 		)->findAll('disabled=0');
 
+		$start = '2000-01-01';
+		$end   = '2099-01-01';
+		if (isset($_GET['start'])) {
+			$start = date('Y-m-d H:i:s', CDateTimeParser::parse(
+									$_GET['start'], 
+									'dd.MM.yyyy'
+								));
+		}
+		if (isset($_GET['end'])) {
+			$end = date('Y-m-d H:i:s', CDateTimeParser::parse(
+									$_GET['end'], 
+									'dd.MM.yyyy'
+								));
+		}
+
 		$criteria1=new CDbCriteria();
 		$criteria2=new CDbCriteria();
 		//echo $user->role_id;
@@ -185,13 +205,15 @@ public function accessRules() {
 			$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('paid', 'О', 'boolean', null, true);
 			$grid->addColumn('designer_paid', 'Д', 'boolean', null, true);
-			$grid->addColumn('orderStatusHist.key', ' ', 'string');
+			$grid->addColumn('filter', ' ', 'string');
 
 			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\'';
+			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.create_date between :start and :end';
+			$criteria1->params=array(':start'=>$start, ':end'=>$end);
 
 			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\'';
+			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.create_date between :start and :end';
+			$criteria2->params=array(':start'=>$start, ':end'=>$end);
 		}else if($user->role_id=='Manager'){
 			$grid->addColumn('priority.name', '!', 'integer');
 			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
@@ -203,16 +225,16 @@ public function accessRules() {
 				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
 			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
 			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
-			$grid->addColumn('orderStatusHist.key', ' ', 'string');
+			$grid->addColumn('filter', ' ', 'string');
 
 			
 			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.client_id=:client_id';
-			$criteria1->params=array(':client_id'=>$user->profile->client_id);
+			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.client_id=:client_id and t.create_date between :start and :end';
+			$criteria1->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
 
 			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.client_id=:client_id';
-			$criteria2->params=array(':client_id'=>$user->profile->client_id);
+			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.client_id=:client_id and t.create_date between :start and :end';
+			$criteria2->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
 	
 		}else if($user->role_id=='Designer'){
 			$grid->addColumn('priority.name', '!', 'integer');
@@ -225,16 +247,16 @@ public function accessRules() {
 				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
 			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
 			$grid->addColumn('designer_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
-			$grid->addColumn('orderStatusHist.key', ' ', 'string');
+			$grid->addColumn('filter', ' ', 'string');
 
 			
 			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.designer_id=:designer_id';
-			$criteria1->params=array(':designer_id'=>$user->id);
+			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end';
+			$criteria1->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
 
 			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.designer_id=:designer_id';
-			$criteria2->params=array(':designer_id'=>$user->id);
+			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end';
+			$criteria2->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
 	
 		}
 
@@ -268,7 +290,7 @@ public function accessRules() {
 				        $paymentHistory->save();
 				        $row->debt = 0;
 				        if($row->save()){
-					        echo "ok";
+					        
 				        }else{
 					        echo print_r($row->getErrors());
 				        }

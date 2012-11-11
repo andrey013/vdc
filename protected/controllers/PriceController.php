@@ -18,7 +18,7 @@ public function accessRules() {
 				'users'=>array('*'),
 				),
 			array('allow', 
-				'actions'=>array('list','jsonlist','jsonupdate'),
+				'actions'=>array('list','jsonlist','jsonupdate','getPrice'),
 				'users'=>array('@'),
 				),
 			array('allow', 
@@ -133,6 +133,21 @@ public function accessRules() {
 			}
 		}
 		echo('ok');
+		Yii::app()->end();
+	}
+
+	public function actionGetPrice() {
+		$difficulty_id = $_POST['difficulty_id'];
+		$order_type_id = $_POST['order_type_id'];
+		$price = Price::model()->findAll('order_type_id=:otid and difficulty_id=:did',
+				array(':otid'=>$order_type_id, ':did'=>$difficulty_id));
+		if(isset($price[0])){
+				echo('{ "clientPrice": '.$price[0]->client_price.
+					 ', "designerPrice": '.$price[0]->designer_price.'}');
+			}else{
+				echo('{ "clientPrice": 0, "designerPrice": 0}');
+			}
+		
 		Yii::app()->end();
 	}
 }

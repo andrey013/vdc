@@ -40,7 +40,7 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
 			var success = (response == "ok" || !isNaN(parseInt(response))); // by default, a sucessfull reponse can be "ok" or a database id 
 			if (!success) editableGrid.setValueAt(rowIndex, columnIndex, oldValue);
 		    //highlight(row.id, success ? "ok" : "error");
-		    editableGrid.loadJSON(link);
+		    //editableGrid.loadJSON(link);
 		},
 		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
 		async: true
@@ -74,7 +74,10 @@ function DatabaseGrid(config)
 
 	// filter when something is typed into filter
 	$('#filter').on("keyup", function() { grid.filter($('#filter').val()); });
+	$('[id^="filter_"]').on("change", function() { grid.filter($('#filter').val()); });
 }
+
+DatabaseGrid.prototype.fetchUrl = '';
 
 DatabaseGrid.prototype.fetchGrid = function(link)  {
 	// call a PHP script to get the data
