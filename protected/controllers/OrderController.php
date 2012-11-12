@@ -48,6 +48,19 @@ public function accessRules() {
 			$model->orderStatusHist = $_POST['Order']['orderStatusHist'];
 			$model->clientPrice = $_POST['Order']['clientPrice'];
 			$model->designerPrice = $_POST['Order']['designerPrice'];
+
+			$designers=User2::model()->with(array(
+					'authAssignments'=>array(
+						// we don't want to select posts
+						'select'=>false,
+						// but want to get only users with published posts
+						'joinType'=>'INNER JOIN',
+						'condition'=>'authAssignments.itemname=\'Designer\'',
+					),
+				),
+				'profile'
+			)->findAll('disabled=0');
+			$model->designer_id = $designers[0]->id;
 			//$model->create_date = date('Y-m-d H:i:s', $model->create_date);
 			if ($model->save()) {
 				$model->setOrderStatus($_POST['Order']['orderStatusHist']);
@@ -180,10 +193,10 @@ public function accessRules() {
 								));
 		}
 		if (isset($_GET['end'])) {
-			$end = date('Y-m-d H:i:s', CDateTimeParser::parse(
+			$end = date('Y-m-d H:i:s', strtotime("+1 day", CDateTimeParser::parse(
 									$_GET['end'], 
 									'dd.MM.yyyy'
-								));
+								)));
 		}
 
 		$criteria1=new CDbCriteria();
