@@ -40,7 +40,7 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
 			var success = (response == "ok" || !isNaN(parseInt(response))); // by default, a sucessfull reponse can be "ok" or a database id 
 			if (!success) editableGrid.setValueAt(rowIndex, columnIndex, oldValue);
 		    //highlight(row.id, success ? "ok" : "error");
-		    //editableGrid.loadJSON(link);
+		    editableGrid.loadJSON(link);
 		},
 		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
 		async: true
@@ -53,6 +53,7 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
 function DatabaseGrid(config)
 {
 	var t = this;
+	
 	this.editableGrid = new EditableGrid("order", {
 		enableSort: config.sort!==undefined?config.sort:true,
 		pageSize: 20,
@@ -63,9 +64,17 @@ function DatabaseGrid(config)
        	},
        	tableRendered: function() {
    	    	updatePaginator(this);
-
+			var grid = this;
 			// set active (stored) filter if any
-			$('#filter').val(grid.currentFilter ? grid.currentFilter : '');	
+			$('#filter').val(
+				this.localisset('listfilter') ? this.localget('listfilter') : '');
+
+				//grid.currentFilter ? grid.currentFilter : '');
+			var filters = $('[id^="filter_"]');
+			filters.each(function(){
+					var field = $(this).attr('id').substr(7);
+					$(this).val(grid.localisset(field) ? grid.localget(field) : '');
+				});	
        	},
  	});
 	this.fetchGrid(config.fetchUrl);
@@ -89,6 +98,7 @@ DatabaseGrid.prototype.initializeGrid = function(grid, config) {
 	config.init(grid);
 
 	grid.renderGrid("tablecontent", "table " + config.tableClass);
+	grid.filter($('#filter').val());
 };    
 
 // function to render the paginator control

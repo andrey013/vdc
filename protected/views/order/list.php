@@ -4,8 +4,11 @@
 
 <script>
 	$(function(){
+
+		var start = EditableGrid.prototype.localisset('start') ? EditableGrid.prototype.localget('start') : Date.today().add({ days: -29 });
+		var end   = EditableGrid.prototype.localisset('end') ? EditableGrid.prototype.localget('end') : Date.today();
 		datagrid = new DatabaseGrid({
-			fetchUrl: "<?php echo $this->createUrl('/order/jsonlist'); ?>"+"?start="+Date.today().add({ days: -29 }).toString('dd.MM.yyyy')+"&end="+ Date.today().toString('dd.MM.yyyy'),
+			fetchUrl: "<?php echo $this->createUrl('/order/jsonlist'); ?>"+"?start="+start.toString('dd.MM.yyyy')+"&end="+ end.toString('dd.MM.yyyy'),
 			updateUrl: "<?php echo $this->createUrl('/order/jsonupdate/'); ?>",
 			editUrl: "<?php echo $this->createUrl('/order/update/'); ?>",
 			init:
@@ -102,13 +105,18 @@
 
 							if (typeof filterString != 'undefined') {
 								this.currentFilter = filterString;
-								this.localset('filter', filterString);
+								this.localset('listfilter', filterString);
 							}
 
 							// if filtering is done on server-side, we are done here
 							if (this.serverSide) return setPageIndex(0);
 							
 							var filters = $('[id^="filter_"]');
+
+							filters.each(function(){
+									var field = $(this).attr('id').substr(7);
+									grid.localset(field, $(this).val());
+								});
 
 							// un-filter if no or empty filter set
 							if (currentFilter == null) {
@@ -221,7 +229,7 @@
 			tableClass: "table-condensed orders",
 			sort: false
 		});
-
+			
 		  	$('#reportrange').daterangepicker(	{
 				ranges: {
 					//'Сегодня': ['today', 'today'],
@@ -233,8 +241,8 @@
 				},
 				opens: 'left',
 				format: 'dd.MM.yyyy',
-				startDate: Date.today().add({ days: -29 }),
-				endDate: Date.today(),
+				startDate: start,
+				endDate: end,
 				//minDate: '01/01/2012',
 				//maxDate: '12/31/2013',
 				locale: {
@@ -250,10 +258,13 @@
 			function(start, end) {
 				$('#reportrange span').html(start.toString('dd.MM.yyyy') + ' - ' + end.toString('dd.MM.yyyy'));
 				datagrid.fetchGrid("<?php echo $this->createUrl('/order/jsonlist'); ?>"+"?start="+start.toString('dd.MM.yyyy')+"&end="+ end.toString('dd.MM.yyyy'));
+				EditableGrid.prototype.localset('start', start.toString('dd.MM.yyyy'));
+				EditableGrid.prototype.localset('end', end.toString('dd.MM.yyyy'));
 			});
-			$('#reportrange span').html(Date.today().add({ days: -29 }).toString('dd.MM.yyyy') + ' - ' + Date.today().toString('dd.MM.yyyy'));
 
-			$('option[value=""]').addClass('muted')
+			$('#reportrange span').html(start.toString('dd.MM.yyyy') + ' - ' + end.toString('dd.MM.yyyy'));
+			//datagrid.fetchGrid("<?php echo $this->createUrl('/order/jsonlist'); ?>"+"?start="+start.toString('dd.MM.yyyy')+"&end="+ end.toString('dd.MM.yyyy'));
+			$('option[value=""]').addClass('muted');
 		
 	});
 </script>

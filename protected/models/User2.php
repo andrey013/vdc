@@ -18,7 +18,7 @@ class User2 extends BaseUser
 	{
 		$criteria1=new CDbCriteria();
 		$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and designer_id=:id';
+		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and designer_id=:id and t.disabled=0';
 		$criteria1->params=array(':id'=>$this->id);
 		$res = Order::model()
 				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
@@ -39,7 +39,7 @@ class User2 extends BaseUser
 	{
 		$criteria1=new CDbCriteria();
 		$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and designer_id=:id and priority.code=1';
+		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and designer_id=:id and priority.code=1 and t.disabled=0';
 		$criteria1->params=array(':id'=>$this->id);
 		$res = Order::model()
 				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
