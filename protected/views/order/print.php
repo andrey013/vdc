@@ -8,9 +8,9 @@
 		var start = EditableGrid.prototype.localisset('start') ? EditableGrid.prototype.localget('start') : Date.today().add({ days: -29 });
 		var end   = EditableGrid.prototype.localisset('end') ? EditableGrid.prototype.localget('end') : Date.today();
 		datagrid = new DatabaseGrid({
-			fetchUrl: "<?php echo $this->createUrl('/order/jsonlist'); ?>"+"?start="+start.toString('dd.MM.yyyy')+"&end="+ end.toString('dd.MM.yyyy'),
-			updateUrl: "<?php echo $this->createUrl('/order/jsonupdate/'); ?>",
-			editUrl: "<?php echo $this->createUrl('/order/update/'); ?>",
+			fetchUrl: "<?php echo $this->createUrl('/order/jsonprint'); ?>"+"?start="+start.toString('dd.MM.yyyy')+"&end="+ end.toString('dd.MM.yyyy'),
+			updateUrl: "error",
+			editUrl: "error",
 			init:
 				function(grid){
 					grid.setCellRenderer("filter", new CellRenderer({render: function(cell, value) {
@@ -27,10 +27,6 @@
 					grid.setHeaderRenderer("filter", new CellRenderer({render: function(cell, value) {
 						$(cell).hide();
 					}}));
-					grid.setCellRenderer("comment", new CellRenderer({render: function(cell, value) {
-						var rowId = grid.getRowId(cell.rowIndex);
-						$("<div>").append(value).addClass("two-liner").appendTo(cell);
-					}}));
 
 					grid.setCellRenderer("orderStatusHist.statusformatted", new CellRenderer({render: function(cell, value) {
 						var rowId = grid.getRowId(cell.rowIndex);
@@ -42,13 +38,6 @@
 						}
 					}}));
 
-					grid.setCellRenderer("designer_id", new CellRenderer({render: function(cell, value) {
-						var rowId = grid.getRowId(cell.rowIndex);
-						var renderValue = grid.getColumn("designer_id").getOptionValuesForRender()[value];
-						$("<span>").append(renderValue.replace(/ /g,"&nbsp;")).addClass("dotted").appendTo(cell);
-					}}));
-
-					<?php if(User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'){ ?>
 					grid.setHeaderRenderer("client_price", new CellRenderer({render: function(cell, value) {
 						$(cell).attr('colspan', 3).append(value);
 					}}));
@@ -58,51 +47,10 @@
 					grid.setHeaderRenderer("penny", new CellRenderer({render: function(cell, value) {
 						$(cell).hide();
 					}}));
-					grid.setHeaderRenderer("paid", new CellRenderer({render: function(cell, value) {
-						$("<div>").append($("<input type='checkbox'>")).append($("<br>")).append(value).appendTo(cell);
-					}}));
-					grid.setHeaderRenderer("designer_paid", new CellRenderer({render: function(cell, value) {
-						$("<div>").append($("<input type='checkbox'>")).append($("<br>")).append(value).appendTo(cell);
-					}}));
-					grid.setCellRenderer("paid", new CheckboxCellRenderer({render: function(element, value) {
-							// convert value to boolean just in case
-							value = (value && value != 0 && value != "false") ? true : false;
+					
+					
 
-							// if check box already created, just update its state
-							if (element.firstChild) { element.firstChild.checked = value; return; }
-							
-							// create and initialize checkbox
-							var htmlInput = document.createElement("input"); 
-							htmlInput.setAttribute("type", "checkbox");
-
-							// give access to the cell editor and element from the editor field
-							htmlInput.element = element;
-							htmlInput.cellrenderer = this;
-
-							// this renderer is a little special because it allows direct edition
-							var cellEditor = new CellEditor();
-							cellEditor.editablegrid = this.editablegrid;
-							cellEditor.column = this.column;
-							htmlInput.onclick = function(event) {
-								element.rowIndex = this.cellrenderer.editablegrid.getRowIndex(element.parentNode); // in case it has changed due to sorting or remove
-								element.isEditing = true;
-								cellEditor.applyEditing(element, htmlInput.checked ? true : false); 
-							};
-
-							if(!value)element.appendChild(htmlInput);
-							htmlInput.checked = value;
-							htmlInput.disabled = (!this.column.editable || !this.editablegrid.isEditable(element.rowIndex, element.columnIndex));
-							
-							element.className = "boolean";
-						}}));
-					<?php } ?>
-
-					grid.setCellEditor("designer_id", new SelectCellEditor({
-							adaptHeight: false,
-							adaptWidth: true,
-							minWidth: 25 
-						}));
-
+					
 
 					grid.filter = function(filterString)
 					{
@@ -234,47 +182,6 @@
 				},
 			tableClass: "table-condensed orders",
 			sort: false
-		});
-			
-		  	$('#reportrange').daterangepicker(	{
-				ranges: {
-					//'Сегодня': ['today', 'today'],
-					//'Вчера': ['yesterday', 'yesterday'],
-					'7 дней': [Date.today().add({ days: -6 }), 'today'],
-					'30 дней': [Date.today().add({ days: -29 }), 'today'],
-					'Этот месяц': [Date.today().moveToFirstDayOfMonth(), Date.today().moveToLastDayOfMonth()],
-					'Прошлый месяц': [Date.today().moveToFirstDayOfMonth().add({ months: -1 }), Date.today().moveToFirstDayOfMonth().add({ days: -1 })]
-				},
-				opens: 'left',
-				format: 'dd.MM.yyyy',
-				startDate: start,
-				endDate: end,
-				//minDate: '01/01/2012',
-				//maxDate: '12/31/2013',
-				locale: {
-					applyLabel: 'OK',
-					fromLabel: 'От',
-					toLabel: 'До',
-					customRangeLabel: 'Другой',
-					daysOfWeek: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт','Сб'],
-					monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-					firstDay: 1
-				}
-			},
-			function(start, end) {
-				$('#reportrange span').html(start.toString('dd.MM.yyyy') + ' - ' + end.toString('dd.MM.yyyy'));
-				datagrid.fetchGrid("<?php echo $this->createUrl('/order/jsonlist'); ?>"+"?start="+start.toString('dd.MM.yyyy')+"&end="+ end.toString('dd.MM.yyyy'));
-				EditableGrid.prototype.localset('start', start.toString('dd.MM.yyyy'));
-				EditableGrid.prototype.localset('end', end.toString('dd.MM.yyyy'));
-			});
-
-			$('#reportrange span').html(start.toString('dd.MM.yyyy') + ' - ' + end.toString('dd.MM.yyyy'));
-			//datagrid.fetchGrid("<?php echo $this->createUrl('/order/jsonlist'); ?>"+"?start="+start.toString('dd.MM.yyyy')+"&end="+ end.toString('dd.MM.yyyy'));
-			$('option[value=""]').addClass('muted');
-		
-		$("#clearButton").on("click", function(){
-			$('[id^="filter"]').val("");
-			$('#filter').keyup();
 		});
 	});
 </script>

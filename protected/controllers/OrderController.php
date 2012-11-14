@@ -15,7 +15,7 @@ public function accessRules() {
 				'users'=>array('*'),
 				),
 			array('allow', 
-				'actions'=>array('minicreate', 'create','update','index','view','list','jsonlist','jsonupdate'),
+				'actions'=>array('minicreate', 'create','update','index','view','list','print','jsonlist','jsonprint','jsonupdate'),
 				'users'=>array('@'),
 				),
 			array('allow', 
@@ -165,6 +165,13 @@ public function accessRules() {
 		));
 	}
 
+	public function actionPrint() {
+		$dataProvider = new CActiveDataProvider('Order');
+		$this->render('print', array(
+			'dataProvider' => $dataProvider,
+		));
+	}
+
 	public function actionJsonlist() {
 		
 		// create a new EditableGrid object
@@ -218,7 +225,7 @@ public function accessRules() {
 			$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('paid', 'О', 'boolean', null, true);
 			$grid->addColumn('designer_paid', 'Д', 'boolean', null, true);
-			$grid->addColumn('disabled', 'Удалить', 'boolean', null, true);
+			$grid->addColumn('disabled', 'X', 'boolean', null, true);
 			$grid->addColumn('filter', ' ', 'string');
 
 			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
@@ -273,6 +280,96 @@ public function accessRules() {
 			$criteria2->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
 	
 		}
+
+		$result = array_merge(
+				  Order::model()
+				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
+				->findAll($criteria1)
+				, Order::model()
+				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
+				->findAll($criteria2)
+				);
+		$this->layout=false;
+		// send data to the browser
+		$grid->renderJSON($result);
+		Yii::app()->end();
+	}
+
+	public function actionJsonprint() {
+		
+		// create a new EditableGrid object
+		$grid = new EditableGrid();
+
+		$designers=User2::model()->with(array(
+				'authAssignments'=>array(
+					// we don't want to select posts
+					'select'=>false,
+					// but want to get only users with published posts
+					'joinType'=>'INNER JOIN',
+					'condition'=>'authAssignments.itemname=\'Designer\'',
+				),
+			),
+			'profile'
+		)->findAll('disabled=0');
+
+		$managers=User2::model()->with(array(
+				'authAssignments'=>array(
+					// we don't want to select posts
+					'select'=>false,
+					// but want to get only users with published posts
+					'joinType'=>'INNER JOIN',
+					'condition'=>'authAssignments.itemname=\'Manager\'',
+				),
+			),
+			'profile'
+		)->findAll('disabled=0');
+
+		$start = '2000-01-01';
+		$end   = '2099-01-01';
+		if (isset($_GET['start'])) {
+			$start = date('Y-m-d H:i:s', CDateTimeParser::parse(
+									$_GET['start'], 
+									'dd.MM.yyyy'
+								));
+		}
+		if (isset($_GET['end'])) {
+			$end = date('Y-m-d H:i:s', strtotime("+1 day", CDateTimeParser::parse(
+									$_GET['end'], 
+									'dd.MM.yyyy'
+								)));
+		}
+
+		$criteria1=new CDbCriteria();
+		$criteria2=new CDbCriteria();
+		//echo $user->role_id;
+			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
+			$grid->addColumn('priority.name', '!', 'integer');
+			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
+			$grid->addColumn('client.name', 'Клиент', 'string');
+			$grid->addColumn('global_number', '№ заказа', 'string');
+			$grid->addColumn('client_number', '№ заказа у заказчика', 'string');
+			$grid->addColumn('manager_id', 'Менеджер', 'integer',
+				$grid->fetch_pairs($managers, 'id', 'profile.lastname'), false);
+			$grid->addColumn('orderType.name', 'Вид заказа', 'string');
+			$grid->addColumn('customer.name', 'Заказчик', 'string');
+			
+			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
+				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
+			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('debt', 'Долг', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('filter', ' ', 'string');
+			
+			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.create_date between :start and :end and t.disabled=0';
+			$criteria1->params=array(':start'=>$start, ':end'=>$end);
+
+			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.create_date between :start and :end and t.disabled=0';
+			$criteria2->params=array(':start'=>$start, ':end'=>$end);
+		
 
 		$result = array_merge(
 				  Order::model()
