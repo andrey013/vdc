@@ -45,7 +45,7 @@
 					grid.setCellRenderer("designer_id", new CellRenderer({render: function(cell, value) {
 						var rowId = grid.getRowId(cell.rowIndex);
 						var renderValue = grid.getColumn("designer_id").getOptionValuesForRender()[value];
-						$("<span>").append(renderValue.replace(/ /g,"&nbsp;")).addClass("dotted").appendTo(cell);
+						$("<span>").append((renderValue?renderValue:"--").replace(/ /g,"&nbsp;")).addClass("dotted").appendTo(cell);
 					}}));
 
 					<?php if(User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'){ ?>

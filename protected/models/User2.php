@@ -14,6 +14,48 @@ class User2 extends BaseUser
 		);
 	}
 
+	/**
+	* Возвращает следующего дизайнера (автоматический выбор)
+	*/
+	public static function getNext()
+	{
+		$designers=User2::model()->with(array(
+				'authAssignments'=>array(
+					// we don't want to select posts
+					'select'=>false,
+					// but want to get only users with published posts
+					'joinType'=>'INNER JOIN',
+					'condition'=>'authAssignments.itemname=\'Designer\'',
+				),
+			),
+			'profile'
+		)->findAll(array('order'=>'username', 'condition'=>'disabled=0'));
+		$variables = Variables::model()->find();
+		$prev_designer_id = $variables->prev_designer_id;
+		$found = false;
+		foreach ($designers as $key => $value) {
+			if($found && $value->profile->user_status_id==1) {
+				return $value;
+			}
+			if($value->id == $prev_designer_id) {
+				$found = true;
+			}
+		}
+		foreach ($designers as $key => $value) {
+			if($value->profile->user_status_id==1) {
+				return $value;
+			}
+		}
+		return null;
+	}
+
+	public function getIsnext()
+	{
+		$next = $this->next;
+		if(!is_null($next) && $this->id == $next->id) return true;
+		return false;
+	}
+
 	public function getJsonprojects()
 	{
 		$criteria1=new CDbCriteria();

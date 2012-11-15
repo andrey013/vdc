@@ -78,7 +78,7 @@
 			<?php if($role_id=='Admin'){ ?>
 			<label class="span1 down14px" for="Order_designer_id">дизайнер</label>
 			<?php echo $form->dropDownList($model, 'designer_id',
-				GxHtml::listDataEx($designers, null, 'profile.lastname'), array('class' => 'span2 down7px')); ?>
+				GxHtml::listDataEx($designers, null, 'profile.lastname'), array('class' => 'span2 down7px', 'empty' => '--')); ?>
 			<?php } ?>
 		</div>
 		<hr>

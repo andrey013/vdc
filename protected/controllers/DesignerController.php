@@ -54,6 +54,7 @@ public function accessRules() {
 		$grid = new EditableGrid();
 
 		//$grid->addColumn('id', 'ID', 'integer', NULL, false);
+		$grid->addColumn('isnext', ' ', 'boolean', NULL, false);
 		$grid->addColumn('lastname', 'Дизайнер', 'string', NULL, false);
 		$grid->addColumn('profile.user_status_id', 'Статус', 'integer',
 				$grid->fetch_pairs(UserStatus::model()->findAll(), 'id', 'name'), false);

@@ -64,12 +64,12 @@ abstract class BaseOrder extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('create_date, global_number, client_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id', 'required'),
+			array('create_date, global_number, client_number, client_id, manager_id, customer_id, order_type_id, difficulty_id, priority_id', 'required'),
 			array('global_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, chromaticity_id, density_id, size_x, size_y, measure_unit_id, designer_paid, disabled', 'numerical', 'integerOnly'=>true),
 			array('client_number', 'length', 'max'=>20),
 			array('comment', 'length', 'max'=>200),
 			array('text', 'safe'),
-			array('comment, chromaticity_id, density_id, size_x, size_y, measure_unit_id, text, designer_paid, disabled', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('designer_id, comment, chromaticity_id, density_id, size_x, size_y, measure_unit_id, text, designer_paid, disabled', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('id, create_date, global_number, client_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, comment, chromaticity_id, density_id, size_x, size_y, measure_unit_id, text, designer_paid, disabled', 'safe', 'on'=>'search'),
 		);
 	}

@@ -49,26 +49,24 @@ public function accessRules() {
 			$model->clientPrice = $_POST['Order']['clientPrice'];
 			$model->designerPrice = $_POST['Order']['designerPrice'];
 
-			$designers=User2::model()->with(array(
-					'authAssignments'=>array(
-						// we don't want to select posts
-						'select'=>false,
-						// but want to get only users with published posts
-						'joinType'=>'INNER JOIN',
-						'condition'=>'authAssignments.itemname=\'Designer\'',
-					),
-				),
-				'profile'
-			)->findAll('disabled=0');
-			$model->designer_id = $designers[0]->id;
+			$next = User2::getNext();
+			if(!is_null($next)){
+				$model->designer_id = $next->id;
+			}
 			//$model->create_date = date('Y-m-d H:i:s', $model->create_date);
 			if ($model->save()) {
 				$model->setOrderStatus($_POST['Order']['orderStatusHist']);
 				$model->setPayment($_POST['Order']['clientPrice'], $_POST['Order']['designerPrice']);
 
-				$profile = User2::model()->with('profile')->findByPk($model->designer_id)->profile;
-				$profile->user_status_id = 0;
-				$profile->save();
+				$variables = Variables::model()->find();
+				$variables->prev_designer_id = $model->designer_id;
+				$variables->save();
+
+				if(isset($model->designer_id)){
+					$profile = User2::model()->with('profile')->findByPk($model->designer_id)->profile;
+					$profile->user_status_id = 0;
+					$profile->save();
+				}
 
 				if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
@@ -441,7 +439,7 @@ public function accessRules() {
 		$ids = array();
 		if (isset($_POST['id'])) {
 			$ids[] = $_POST['id'];
-		} else {
+		} else if(isset($_POST['ids'])){
 			$ids = $_POST['ids'];
 		}
 		$colname = $_POST['colname'];
