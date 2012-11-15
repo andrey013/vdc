@@ -123,7 +123,7 @@ public function accessRules() {
 		$model->orderStatusHist = $model->orderStatusHist->orderStatus->key;
 		$model->clientPrice = $model->client_price;
 		$model->designerPrice = $model->designer_price;
-		$model->debtPrice = $model->client_price - $model->paid;
+		$model->debtPrice = $model->debt;
 		$this->render('update', array(
 				'model' => $model,
 				));
@@ -166,6 +166,7 @@ public function accessRules() {
 	}
 
 	public function actionPrint() {
+		$this->layout='login';
 		$dataProvider = new CActiveDataProvider('Order');
 		$this->render('print', array(
 			'dataProvider' => $dataProvider,
@@ -300,6 +301,8 @@ public function accessRules() {
 		// create a new EditableGrid object
 		$grid = new EditableGrid();
 
+		$user = User2::model()->with('profile')->findByPk(Yii::app()->user->id);
+
 		$designers=User2::model()->with(array(
 				'authAssignments'=>array(
 					// we don't want to select posts
@@ -342,6 +345,7 @@ public function accessRules() {
 		$criteria1=new CDbCriteria();
 		$criteria2=new CDbCriteria();
 		//echo $user->role_id;
+		if($user->role_id=='Admin'){
 			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
 			$grid->addColumn('priority.name', '!', 'integer');
 			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
@@ -369,7 +373,55 @@ public function accessRules() {
 			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
 			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.create_date between :start and :end and t.disabled=0';
 			$criteria2->params=array(':start'=>$start, ':end'=>$end);
-		
+		}else if($user->role_id=='Manager'){
+			$grid->addColumn('priority.name', '!', 'integer');
+			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
+			$grid->addColumn('client.name', 'Клиент', 'string');
+			$grid->addColumn('global_number', '№ заказа', 'string');
+			$grid->addColumn('client_number', '№ заказа у заказчика', 'string');
+			$grid->addColumn('orderType.name', 'Вид заказа', 'string');
+			$grid->addColumn('customer.name', 'Заказчик', 'string');
+			
+			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
+				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
+			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('debt', 'Долг', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('filter', ' ', 'string');
+
+			
+			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
+			$criteria1->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
+
+			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
+			$criteria2->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
+	
+		}else if($user->role_id=='Designer'){
+			$grid->addColumn('priority.name', '!', 'integer');
+			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
+			$grid->addColumn('client.name', 'Клиент', 'string');
+			$grid->addColumn('global_number', '№ заказа', 'string');
+			$grid->addColumn('client_number', '№ заказа у заказчика', 'string');
+			$grid->addColumn('manager_id', 'Менеджер', 'integer',
+				$grid->fetch_pairs($managers, 'id', 'profile.lastname'), false);
+			$grid->addColumn('orderType.name', 'Вид заказа', 'string');
+			$grid->addColumn('customer.name', 'Заказчик', 'string');
+			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('designer_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('filter', ' ', 'string');
+
+			
+			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
+			$criteria1->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
+
+			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
+			$criteria2->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
+	
+		}
 
 		$result = array_merge(
 				  Order::model()
@@ -386,14 +438,20 @@ public function accessRules() {
 	}
 
 	public function actionJsonupdate() {
-		$id = $_POST['id'];
+		$ids = array();
+		if (isset($_POST['id'])) {
+			$ids[] = $_POST['id'];
+		} else {
+			$ids = $_POST['ids'];
+		}
 		$colname = $_POST['colname'];
 		$newvalue = $_POST['newvalue'];
-		if($colname == 'paid' && $newvalue == 1){
-			$model = $this->loadModel($id, 'Order');
-			$rows = $model->payments;
-			foreach ($rows as $row) {
-                                if($row->debt == 1){
+		foreach ($ids as $id) {
+			if($colname == 'paid' && $newvalue == 1){
+				$model = $this->loadModel($id, 'Order');
+				$rows = $model->payments;
+				foreach ($rows as $row) {
+	                if($row->debt == 1){
 				        $paymentHistory = new PaymentHistory;
 				        $paymentHistory->payment_id = $row->id;
 				        $paymentHistory->create_date = time();
@@ -405,12 +463,13 @@ public function accessRules() {
 				        }else{
 					        echo print_r($row->getErrors());
 				        }
-                                }
+	                }
+				}
+			}else{
+				$model = $this->loadModel($id, 'Order');
+				$model->$colname=$newvalue;
+				$model->save();
 			}
-		}else{
-			$model = $this->loadModel($id, 'Order');
-			$model->$colname=$newvalue;
-			$model->save();
 		}
 		echo('ok');
 		Yii::app()->end();

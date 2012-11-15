@@ -58,11 +58,72 @@
 					grid.setHeaderRenderer("penny", new CellRenderer({render: function(cell, value) {
 						$(cell).hide();
 					}}));
+					grid.setHeaderRenderer("disabled", new CellRenderer({render: function(cell, value) {
+						$(cell).append('<i class="icon-remove"></i>');
+					}}));
 					grid.setHeaderRenderer("paid", new CellRenderer({render: function(cell, value) {
-						$("<div>").append($("<input type='checkbox'>")).append($("<br>")).append(value).appendTo(cell);
+						$("<div>").append($("<input type='checkbox'>").on('click', function(){
+								var designer_paidIndex = grid.getColumnIndex("paid");
+								var idIndex = grid.getColumnIndex("id");
+								var ids = [];
+								for(var i = 0; i < grid.getRowCount() ; i++){
+									if(!grid.getValueAt(i, designer_paidIndex))
+										ids.push(grid.getRowId(i));
+								}
+								if(confirm('Оплатить ' + ids.length + ' зак.')){
+									$.ajax({
+										url: '<?php echo $this->createUrl('/order/jsonupdate'); ?>',
+										type: 'POST',
+										dataType: "html",
+										data: {
+											ids: ids,
+											colname: 'paid',
+											newvalue: 1
+										},
+										success: function (response) 
+										{ 
+										    grid.loadJSON(grid.fetchUrl);
+										},
+										async: true
+									});
+								} else {
+									$(this).attr("checked", false);
+								}
+							})
+						).append($("<br>")).append(value).appendTo(cell);
 					}}));
 					grid.setHeaderRenderer("designer_paid", new CellRenderer({render: function(cell, value) {
-						$("<div>").append($("<input type='checkbox'>")).append($("<br>")).append(value).appendTo(cell);
+						$("<div>").append(
+							$("<input type='checkbox'>").on('click', function(){
+								var designer_paidIndex = grid.getColumnIndex("designer_paid");
+								var idIndex = grid.getColumnIndex("id");
+								var ids = [];
+								for(var i = 0; i < grid.getRowCount() ; i++){
+									if(!grid.getValueAt(i, designer_paidIndex))
+										ids.push(grid.getRowId(i));
+								}
+								if(confirm('Оплатить дизайнерам ' + ids.length + ' зак.')){
+									$.ajax({
+										url: '<?php echo $this->createUrl('/order/jsonupdate'); ?>',
+										type: 'POST',
+										dataType: "html",
+										data: {
+											ids: ids,
+											colname: 'designer_paid',
+											newvalue: 1			
+										},
+										success: function (response) 
+										{ 
+										    grid.loadJSON(grid.fetchUrl);
+										},
+										async: true
+									});
+								} else {
+									$(this).attr("checked", false);
+								}
+									
+							})
+						).append($("<br>")).append(value).appendTo(cell);
 					}}));
 					grid.setCellRenderer("paid", new CheckboxCellRenderer({render: function(element, value) {
 							// convert value to boolean just in case
@@ -278,8 +339,9 @@
 		});
 	});
 </script>
-<?php if(  User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'
-		|| User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Manager'){ ?>
+<?php
+$role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id;
+if(  $role_id=='Admin' || $role_id=='Manager'){ ?>
 <a class="btn btn-large btn-magenta" id="add" href="<?php echo $this->createUrl('/order/create'); ?>">
     Оформить заказ
 </a>
@@ -308,7 +370,7 @@ $designers=User2::model()->with(array(
 	),
 	'profile'
 )->findAll('disabled=0');
-$role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id;
+
 ?>
 <form class="controls controls-row pull-right down7px">
 	<?php echo GxHtml::dropDownList('filter_order_status', '',

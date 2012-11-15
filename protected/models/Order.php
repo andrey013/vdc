@@ -33,6 +33,22 @@ class Order extends BaseOrder
 		return 1;//print_r($this->getRelated("payments"));
 	}
 
+	public function getPaidSum()
+	{
+		$rows = $this->payments;
+		$sum = 0;
+		foreach ($rows as $row) {
+			if($row->debt == 1) $sum += $row->paid;
+		}
+		return $sum;//print_r($this->getRelated("payments"));
+	}
+
+	public function getDebt()
+	{
+		if($this->paid==1) return 0;
+		return $this->client_price - $this->paidSum;
+	}
+
 	public function setPaid($name)
 	{
 		

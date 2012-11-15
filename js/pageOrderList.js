@@ -40,7 +40,7 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
 			var success = (response == "ok" || !isNaN(parseInt(response))); // by default, a sucessfull reponse can be "ok" or a database id 
 			if (!success) editableGrid.setValueAt(rowIndex, columnIndex, oldValue);
 		    //highlight(row.id, success ? "ok" : "error");
-		    editableGrid.loadJSON(link);
+		    editableGrid.loadJSON(editableGrid.fetchUrl);
 		},
 		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
 		async: true
@@ -48,7 +48,31 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
    
 }
    
-
+function updateSum(editableGrid){
+	var client_priceIndex = editableGrid.getColumnIndex("client_price");
+	var designer_priceIndex = editableGrid.getColumnIndex("designer_price");
+	var pennyIndex = editableGrid.getColumnIndex("penny");
+	var debtIndex = editableGrid.getColumnIndex("debt");
+	var client_price = 0;
+	var designer_price = 0;
+	var penny = 0;
+	var debt = 0;
+	for(var i = 0; i < editableGrid.getRowCount() ; i++){
+		if(client_priceIndex >= 0) client_price += editableGrid.getValueAt(i, client_priceIndex);
+		if(designer_priceIndex >= 0) designer_price += editableGrid.getValueAt(i, designer_priceIndex);
+		if(pennyIndex >= 0) penny += editableGrid.getValueAt(i, pennyIndex);
+		if(debtIndex >= 0) debt += editableGrid.getValueAt(i, debtIndex);
+	}
+	var fmt = function(val){
+		return number_format(val, 0, ',', ' ');
+	}
+	var sum = ''
+	if(client_priceIndex >= 0) sum += fmt(client_price) + ' &nbsp; ';
+	if(designer_priceIndex >= 0) sum += fmt(designer_price) + ' &nbsp; ';
+	if(pennyIndex >= 0) sum += fmt(penny) + ' &nbsp; ';
+	if(debtIndex >= 0) sum += fmt(debt) + ' &nbsp; ';
+	$("#sum").html('Итого: &nbsp; ' + sum);
+}
 
 function DatabaseGrid(config)
 {
@@ -56,14 +80,18 @@ function DatabaseGrid(config)
 	
 	this.editableGrid = new EditableGrid("order", {
 		enableSort: config.sort!==undefined?config.sort:true,
-		pageSize: 20,
-   	    tableLoaded: function() { t.initializeGrid(this, config); },
+		pageSize: config.pageSize!==undefined?config.pageSize:20,
+   	    tableLoaded: function() {
+   	    	t.initializeGrid(this, config);
+   	    	config.updateSum!==undefined?updateSum(this):0;
+   	    },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
    	    	if(confirm("Вы уверены?"))updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, config.updateUrl, config.fetchUrl);
    	    	else this.setValueAt(rowIndex, columnIndex, oldValue);
+   	    	config.updateSum!==undefined?updateSum(this):0;
        	},
        	tableRendered: function() {
-   	    	updatePaginator(this);
+   	    	if(this.pageSize>0)updatePaginator(this);
 			var grid = this;
 			// set active (stored) filter if any
 			$('#filter').val(
@@ -86,10 +114,9 @@ function DatabaseGrid(config)
 	$('[id^="filter_"]').on("change", function() { grid.filter($('#filter').val()); });
 }
 
-DatabaseGrid.prototype.fetchUrl = '';
-
 DatabaseGrid.prototype.fetchGrid = function(link)  {
 	// call a PHP script to get the data
+	this.editableGrid.fetchUrl = link;
 	this.editableGrid.loadJSON(link);
 };
 

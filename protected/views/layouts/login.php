@@ -6,17 +6,15 @@
 	<meta name="language" content="en" />
 	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 
-	
 	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" rel="stylesheet"/>
 
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.min.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.min.js"></script>
-	<title>Вход в систему</title>
+	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/editablegrid.min.js"></script>
+	<title>ВДЦ</title>
 </head>
 <body>
-	<div id="loginForm" class="loginForm">
-		<?php echo $content; ?>
-	</div><!-- loginForm -->
+	<?php echo $content; ?>
 </body>
 </html>

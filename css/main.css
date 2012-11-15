@@ -399,6 +399,11 @@ button.active i.icon-active-ok {
   background-color: #f0f0f0;
 }
 
+
+.table.table-print td {
+  background-color: #fff;
+  border: 1px solid #000;
+}
 .comment-table {
   margin-top: -40px;
 }

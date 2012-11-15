@@ -4,7 +4,7 @@
 
 <script>
 	$(function(){
-
+		$("body").css('background-image','none');
 		var start = EditableGrid.prototype.localisset('start') ? EditableGrid.prototype.localget('start') : Date.today().add({ days: -29 });
 		var end   = EditableGrid.prototype.localisset('end') ? EditableGrid.prototype.localget('end') : Date.today();
 		datagrid = new DatabaseGrid({
@@ -16,13 +16,13 @@
 					grid.setCellRenderer("filter", new CellRenderer({render: function(cell, value) {
 						var info = $.parseJSON(value);
 						var rowId = grid.getRowId(cell.rowIndex);
-						$("#order_"+rowId).addClass("row-"+info.order_status);
+						//$("#order_"+rowId).addClass("row-"+info.order_status);
 						cell.innerHTML = "<a href=\"" + "<?php echo $this->createUrl('/order/update/'); ?>" + "/id/" + rowId + "\">" +
 						 "<i class='icon-edit'></i></a>";
 						$(cell).hide();
-						$(cell).parent().on('dblclick', function(event) {
-								window.location = "<?php echo $this->createUrl('/order/update/'); ?>" + "/id/" + rowId;
-							})
+						// $(cell).parent().on('dblclick', function(event) {
+						// 		window.location = "<?php echo $this->createUrl('/order/update/'); ?>" + "/id/" + rowId;
+						// 	})
 					}}));
 					grid.setHeaderRenderer("filter", new CellRenderer({render: function(cell, value) {
 						$(cell).hide();
@@ -38,6 +38,7 @@
 						}
 					}}));
 
+					<?php if(User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'){ ?>
 					grid.setHeaderRenderer("client_price", new CellRenderer({render: function(cell, value) {
 						$(cell).attr('colspan', 3).append(value);
 					}}));
@@ -48,7 +49,7 @@
 						$(cell).hide();
 					}}));
 					
-					
+					<?php } ?>
 
 					
 
@@ -180,18 +181,14 @@
 						}
 					}
 				},
-			tableClass: "table-condensed orders",
-			sort: false
+			tableClass: "table-condensed table-print",
+			sort: false,
+			pageSize: 0,
+			updateSum: true
 		});
 	});
 </script>
-<?php if(  User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'
-		|| User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Manager'){ ?>
-<a class="btn btn-large btn-magenta" id="add" href="<?php echo $this->createUrl('/order/create'); ?>">
-    Оформить заказ
-</a>
 
-<?php } ?>
 <?php
 $managers=User2::model()->with(array(
 		'authAssignments'=>array(
@@ -215,17 +212,9 @@ $designers=User2::model()->with(array(
 	),
 	'profile'
 )->findAll('disabled=0');
-$role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id;
 ?>
-<form class="controls controls-row pull-right down7px">
-	<?php echo GxHtml::dropDownList('filter_order_status', '',
-			GxHtml::listDataEx(OrderStatus::model()->findAllAttributes('name, `key`', true), 'key', 'name'),
-			array('class' => 'span2', 'empty' => '* Статус')); ?>
-	<div id="reportrange" class="btn span" style="background: #fff; cursor: pointer; padding: 4px 10px; border: 1px solid #ccc">
-		<i class="icon-calendar icon-large"></i>
-		<span></span> <b class="caret" style="margin-top: 8px"></b>
-	</div>
-    <div class="input-prepend input-append span">
+<div class="hidden">
+	<div class="input-prepend input-append span">
     	<div class="btn-group">
     	<button type="button" class="btn disabled"><i class="icon-search"></i>&nbsp;</button>
     	<span></span>
@@ -235,26 +224,22 @@ $role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role
 	   	<button id="clearButton" type="button" class="btn"><i class="icon-trash"></i>&nbsp;</button>
 	   	</div>
     </div>
-    <a class="btn span" id="add" target="_blank" href="<?php echo $this->createUrl('/order/print'); ?>">
-	    <i class="icon-print"></i> Печать
-	</a>
-</form>
-
-<div class="clearfix"></div>
-<div class="controls controls-row">
+	<?php echo GxHtml::dropDownList('filter_order_status', '',
+			GxHtml::listDataEx(OrderStatus::model()->findAllAttributes('name, `key`', true), 'key', 'name'),
+			array('class' => 'span2', 'empty' => '* Статус')); ?>
 	<?php echo GxHtml::dropDownList('filter_order_type', '',
 			GxHtml::listDataEx(OrderType::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'),
 			array('class' => 'span2', 'empty' => '* Вид заказа')); ?>
-	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_manager', '',
+	<?php echo GxHtml::dropDownList('filter_manager', '',
 			GxHtml::listDataEx($managers, null, 'profile.lastname'),
 			array('class' => 'span2', 'empty' => '* ФИО менеджера')); ?>
-	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_designer', '',
+	<?php echo GxHtml::dropDownList('filter_designer', '',
 			GxHtml::listDataEx($designers, null, 'profile.lastname'),
 			array('class' => 'span2', 'empty' => '* ФИО дизайнера')); ?>
-	<?php if($role_id!='Designer') if($role_id=='Admin') echo GxHtml::dropDownList('filter_client', '',
+	<?php echo GxHtml::dropDownList('filter_client', '',
 			GxHtml::listDataEx(Client::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'),
 			array('class' => 'span2', 'empty' => '* Редакция')); ?>
-	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_paid', '',
+	<?php echo GxHtml::dropDownList('filter_paid', '',
 			array('1' => 'Оплаченные', '0' => 'Не оплаченные'),
 			array('class' => 'span2', 'empty' => '* Оплата')); ?>
 	<?php echo GxHtml::dropDownList('filter_changed', '',
@@ -262,9 +247,7 @@ $role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role
 			array('class' => 'span2', 'empty' => '* Измененность')); ?>
 
 </div>
-<div class="clearfix"></div>
+
+<label class="lead"><strong><?php echo Yii::app()->dateFormatter->format('d.MM.yyyy HH:mm:ss', time()); ?></strong></label>
 <div id="tablecontent"></div>
-<div class="pagination pagination-centered">
-	<ul id="paginator">
-	</ul>
-</div>
+<label class="lead" style="float: right;"><strong id="sum"></strong></label>

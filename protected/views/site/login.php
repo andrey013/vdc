@@ -1,4 +1,5 @@
 
+<div id="loginForm" class="loginForm">
 <?php 
 	$form=$this->beginWidget('CActiveForm', array(
 		'id'=>'login-form',
@@ -38,3 +39,4 @@
 
 <?php $this->endWidget(); ?>
 <!-- form -->
+</div><!-- loginForm -->
