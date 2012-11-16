@@ -59,7 +59,35 @@
 						$(cell).hide();
 					}}));
 					grid.setHeaderRenderer("disabled", new CellRenderer({render: function(cell, value) {
-						$(cell).append('<i class="icon-remove"></i>');
+						$("<div>").append($("<input type='checkbox'>").on('click', function(){
+								var designer_paidIndex = grid.getColumnIndex("disabled");
+								var idIndex = grid.getColumnIndex("id");
+								var ids = [];
+								for(var i = 0; i < grid.getRowCount() ; i++){
+									if(!grid.getValueAt(i, designer_paidIndex))
+										ids.push(grid.getRowId(i));
+								}
+								if(confirm('Удалить ' + ids.length + ' зак.')){
+									$.ajax({
+										url: '<?php echo $this->createUrl('/order/jsonupdate'); ?>',
+										type: 'POST',
+										dataType: "html",
+										data: {
+											ids: ids,
+											colname: 'disabled',
+											newvalue: 1
+										},
+										success: function (response) 
+										{ 
+										    grid.loadJSON(grid.fetchUrl);
+										},
+										async: true
+									});
+								} else {
+									$(this).attr("checked", false);
+								}
+							})
+						).append($("<br>")).append('<i class="icon-remove"></i>').appendTo(cell);
 					}}));
 					grid.setHeaderRenderer("paid", new CellRenderer({render: function(cell, value) {
 						$("<div>").append($("<input type='checkbox'>").on('click', function(){
