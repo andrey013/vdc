@@ -56,7 +56,7 @@ public function accessRules() {
 		$grid->addColumn('disabled', 'Удален', 'boolean', NULL, true);
 
 		$result = OrderType::model()
-				->findAll();
+				->findAll('disabled=0');
 
 		$this->layout=false;
 		// send data to the browser

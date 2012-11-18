@@ -159,6 +159,11 @@ class Order extends BaseOrder
 		$result->client = $this->client_id;
 		$result->paid = $this->paid;
 		$result->changed = count($this->payments)<=1?0:1;
+		$result->filter = ''.$this->customer->name.' '
+							.$this->orderType->name.' '
+							.$this->comment.' '
+							.$this->client->name.' '
+							.$this->manager->username.' ';
 		return json_encode($result);
 	}
 

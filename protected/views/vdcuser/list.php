@@ -120,9 +120,9 @@
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="CreateUserForm_lastname">ФИО</label>
+				<label class="control-label" for="CreateUserForm_lastname">Имя</label>
 				<div class="controls">
-					<!-- <input type="text" id="lastname" placeholder="ФИО"> -->
+					<!-- <input type="text" id="lastname" placeholder="Имя"> -->
 					<?php echo $form->textField($model, 'lastname'); ?>
 				</div>
 			</div>

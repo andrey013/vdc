@@ -241,8 +241,6 @@ public function accessRules() {
 			$grid->addColumn('orderType.name', 'Вид', 'string');
 			$grid->addColumn('comment', 'Комментарий', 'string');
 			$grid->addColumn('client.name', 'Клиент', 'string');
-			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
-				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
 			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
 			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('filter', ' ', 'string');
@@ -263,8 +261,6 @@ public function accessRules() {
 			$grid->addColumn('orderType.name', 'Вид', 'string');
 			$grid->addColumn('comment', 'Комментарий', 'string');
 			$grid->addColumn('client.name', 'Клиент', 'string');
-			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
-				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
 			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
 			$grid->addColumn('designer_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('filter', ' ', 'string');
@@ -380,8 +376,6 @@ public function accessRules() {
 			$grid->addColumn('orderType.name', 'Вид заказа', 'string');
 			$grid->addColumn('customer.name', 'Заказчик', 'string');
 			
-			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
-				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
 			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
 			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('debt', 'Долг', 'double(,0,comma,&nbsp;,)');

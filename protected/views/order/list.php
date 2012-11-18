@@ -42,13 +42,17 @@
 						}
 					}}));
 
+					<?php if(User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'){ ?>
 					grid.setCellRenderer("designer_id", new CellRenderer({render: function(cell, value) {
 						var rowId = grid.getRowId(cell.rowIndex);
 						var renderValue = grid.getColumn("designer_id").getOptionValuesForRender()[value];
 						$("<span>").append((renderValue?renderValue:"--").replace(/ /g,"&nbsp;")).addClass("dotted").appendTo(cell);
 					}}));
-
-					<?php if(User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id=='Admin'){ ?>
+					grid.setCellEditor("designer_id", new SelectCellEditor({
+							adaptHeight: false,
+							adaptWidth: true,
+							minWidth: 25 
+						}));
 					grid.setHeaderRenderer("client_price", new CellRenderer({render: function(cell, value) {
 						$(cell).attr('colspan', 3).append(value);
 					}}));
@@ -186,12 +190,7 @@
 						}}));
 					<?php } ?>
 
-					grid.setCellEditor("designer_id", new SelectCellEditor({
-							adaptHeight: false,
-							adaptWidth: true,
-							minWidth: 25 
-						}));
-
+					
 
 					grid.filter = function(filterString)
 					{
@@ -251,7 +250,7 @@
 								var rowContent = ""; 
 								
 								var searchValue = $.parseJSON(getValueAt(r, grid.getColumnIndex("filter")));
-
+								rowContent = searchValue["filter"];
 								filters.each(function(){
 									var field = $(this).attr('id').substr(7);
 									if($(this).val()){
@@ -261,6 +260,7 @@
 									}
 								});
 
+								/*
 								// add column values
 								for (var c = 0; c < columnCount; c++) {
 									if (getColumnType(c) == 'boolean') continue;
@@ -273,7 +273,8 @@
 								for (var attributeName in row) {
 									if (attributeName != "visible" && attributeName != "originalIndex" && attributeName != "columns") rowContent += row[attributeName];
 								}
-								
+								*/
+
 								// if row contents do not match one word in the filter, hide the row
 								for (var i = 0; i < words.length; i++) {
 									var word = words[i];
@@ -401,6 +402,10 @@ $designers=User2::model()->with(array(
 
 ?>
 <form class="controls controls-row pull-right down7px">
+	<a class="btn span" id="add" target="_blank" href="<?php echo $this->createUrl('/order/print'); ?>">
+	    <i class="icon-print"></i> Печать
+	</a>
+	<button id="clearButton" type="button" class="btn span"><i class="icon-trash"></i> Сброс</button>
 	<?php echo GxHtml::dropDownList('filter_order_status', '',
 			GxHtml::listDataEx(OrderStatus::model()->findAllAttributes('name, `key`', true), 'key', 'name'),
 			array('class' => 'span2', 'empty' => '* Статус')); ?>
@@ -408,19 +413,14 @@ $designers=User2::model()->with(array(
 		<i class="icon-calendar icon-large"></i>
 		<span></span> <b class="caret" style="margin-top: 8px"></b>
 	</div>
-    <div class="input-prepend input-append span">
-    	<div class="btn-group">
+    <div class="input-append span">
+    	
+	    <input type="text" id="filter" class="" style="width:100px" autofocus>
+	    <div class="btn-group">
     	<button type="button" class="btn disabled"><i class="icon-search"></i>&nbsp;</button>
     	<span></span>
     	</div>
-	    <input type="text" id="filter" class="" style="width:100px" autofocus>
-	    <div class="btn-group">
-	   	<button id="clearButton" type="button" class="btn"><i class="icon-trash"></i>&nbsp;</button>
-	   	</div>
     </div>
-    <a class="btn span" id="add" target="_blank" href="<?php echo $this->createUrl('/order/print'); ?>">
-	    <i class="icon-print"></i> Печать
-	</a>
 </form>
 
 <div class="clearfix"></div>
@@ -430,11 +430,11 @@ $designers=User2::model()->with(array(
 			array('class' => 'span2', 'empty' => '* Вид заказа')); ?>
 	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_manager', '',
 			GxHtml::listDataEx($managers, null, 'profile.lastname'),
-			array('class' => 'span2', 'empty' => '* ФИО менеджера')); ?>
-	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_designer', '',
+			array('class' => 'span2', 'empty' => '* Имя менеджера')); ?>
+	<?php if($role_id=='Admin') echo GxHtml::dropDownList('filter_designer', '',
 			GxHtml::listDataEx($designers, null, 'profile.lastname'),
-			array('class' => 'span2', 'empty' => '* ФИО дизайнера')); ?>
-	<?php if($role_id!='Designer') if($role_id=='Admin') echo GxHtml::dropDownList('filter_client', '',
+			array('class' => 'span2', 'empty' => '* Имя дизайнера')); ?>
+	<?php if($role_id=='Admin') echo GxHtml::dropDownList('filter_client', '',
 			GxHtml::listDataEx(Client::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'),
 			array('class' => 'span2', 'empty' => '* Редакция')); ?>
 	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_paid', '',

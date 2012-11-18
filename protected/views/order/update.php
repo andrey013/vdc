@@ -104,6 +104,7 @@ tinyMCE.init({
                 }
             });
         });
+
         // Initialize the jQuery File Upload widget:
         $('#fileupload2').fileupload();
         // Load existing files:
@@ -128,6 +129,15 @@ tinyMCE.init({
                 }
             });
         });
+        $('#fileupload1').bind('fileuploaddone', function (e, data) {
+            status.change();
+        })
+        $('#fileupload2').bind('fileuploaddone', function (e, data) {
+            status.change();
+        })
+        $('#fileupload3').bind('fileuploaddone', function (e, data) {
+            status.change();
+        })
 
         $("#order-form :input")
             .on("change", function() {

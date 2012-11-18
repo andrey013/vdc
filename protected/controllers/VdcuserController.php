@@ -85,12 +85,12 @@ public function accessRules() {
 				$grid->fetch_pairs(AuthItem::model()->findAll('description IS NOT NULL'), 'name', 'description'), true);
 		$grid->addColumn('email', 'email', 'email', NULL, true);//'date');
 		$grid->addColumn('emptypassword', 'Пароль', 'string', NULL, true);
-		$grid->addColumn('lastname', 'ФИО', 'string', NULL, true);
+		$grid->addColumn('lastname', 'Имя', 'string', NULL, true);
 		$grid->addColumn('disabled', 'Удален', 'boolean', NULL, true);
 
 		$result = User2::model()
 				->with('authAssignment', 'profile')
-				->findAll();
+				->findAll('disabled=0');
 
 		$this->layout=false;
 		// send data to the browser

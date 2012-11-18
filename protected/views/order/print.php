@@ -111,7 +111,7 @@
 								var rowContent = ""; 
 								
 								var searchValue = $.parseJSON(getValueAt(r, grid.getColumnIndex("filter")));
-
+								rowContent = searchValue["filter"];
 								filters.each(function(){
 									var field = $(this).attr('id').substr(7);
 									if($(this).val()){
@@ -120,7 +120,7 @@
 										}
 									}
 								});
-
+								/*
 								// add column values
 								for (var c = 0; c < columnCount; c++) {
 									if (getColumnType(c) == 'boolean') continue;
@@ -133,7 +133,7 @@
 								for (var attributeName in row) {
 									if (attributeName != "visible" && attributeName != "originalIndex" && attributeName != "columns") rowContent += row[attributeName];
 								}
-								
+								*/
 								// if row contents do not match one word in the filter, hide the row
 								for (var i = 0; i < words.length; i++) {
 									var word = words[i];
@@ -232,10 +232,10 @@ $designers=User2::model()->with(array(
 			array('class' => 'span2', 'empty' => '* Вид заказа')); ?>
 	<?php echo GxHtml::dropDownList('filter_manager', '',
 			GxHtml::listDataEx($managers, null, 'profile.lastname'),
-			array('class' => 'span2', 'empty' => '* ФИО менеджера')); ?>
+			array('class' => 'span2', 'empty' => '* Имя менеджера')); ?>
 	<?php echo GxHtml::dropDownList('filter_designer', '',
 			GxHtml::listDataEx($designers, null, 'profile.lastname'),
-			array('class' => 'span2', 'empty' => '* ФИО дизайнера')); ?>
+			array('class' => 'span2', 'empty' => '* Имя дизайнера')); ?>
 	<?php echo GxHtml::dropDownList('filter_client', '',
 			GxHtml::listDataEx(Client::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'),
 			array('class' => 'span2', 'empty' => '* Редакция')); ?>
