@@ -84,8 +84,13 @@ public function accessRules() {
 				$model->orderStatusHist = 'work';
 			}
 			$model->create_date = time(); //Yii::app()->dateFormatter->format('d.MM.yyyy H:m:s', time());
-			$model->client = Client::model()->findByPk(User2::model()->findByPk(Yii::app()->user->id)->profile->client_id);
+			$user = User2::model()->findByPk(Yii::app()->user->id);
+			$model->client = Client::model()->findByPk($user->profile->client_id);
 			$model->client_id = $model->client->id;
+			if($user->role_id == 'Manager'){
+				$model->manager = $user;
+				$model->manager_id = $user->id;
+			}
 			$model->clientPrice = '0';
 			$model->designerPrice = '0';
 			$model->difficulty = Difficulty::model()->findByPk('2');
