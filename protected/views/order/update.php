@@ -82,14 +82,18 @@ tinyMCE.init({
         var addlink2 = "<?php echo $this->createUrl('/comment/add'); ?>";
         var updatelink2 = "<?php echo $this->createUrl('/comment/jsonupdate'); ?>";
         var commentgrid = new CommentGrid(link2, addlink2, updatelink2);
-        $("#cancel-button").on("click", function(){
+        $(".cancel-button").on("click", function(){
             if(confirm("Вы уверены? Несохраненные данные будут потеряны")){
                 window.location = "<?php echo $this->createUrl('/order/list'); ?>";
             }
         });
-        $("#copy-button").on("click", function(){
+        $(".copy-button").on("click", function(){
             var form = $("#order-form");
             form.attr("action","<?php echo $this->createUrl('/order/create'); ?>");
+            form.submit();
+        });
+        $(".submit-button").on("click", function(){
+            var form = $("#order-form");
             form.submit();
         });
 		// Initialize the jQuery File Upload widget:

@@ -42,7 +42,7 @@
 					<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">
 						Отмена
 					</a>
-					<button class="btn btn-large btn-magenta span2">
+					<button type="button" class="btn btn-large btn-magenta span2 submit-button">
 						Оформить
 					</button>
 				</div>
@@ -52,14 +52,14 @@
 						Назад
 					</a>
 					<?php if($role_id!='Designer'){ ?>
-					<button id="copy-button" type="button" class="btn btn-large btn-magenta span3 new-button">
+					<button type="button" class="btn btn-large btn-magenta span3 new-button copy-button">
 						Создать на основе
 					</button>
 					<?php } ?>
-					<button id="cancel-button" type="button" class="btn btn-large span2 hidden edit-button">
+					<button type="button" class="btn btn-large span2 hidden edit-button cancel-button">
 						Отмена
 					</button>
-					<button class="btn btn-large btn-magenta span2 hidden edit-button">
+					<button type="button" class="btn btn-large btn-magenta span2 hidden edit-button submit-button">
 						Сохранить
 					</button>
 				</div>
@@ -330,3 +330,32 @@ $this->endWidget();
 		</div>
 		<?php } ?>
 
+		<div class="controls controls-row row">
+			<?php if(isset($buttons)) { ?>
+				<div class="controls controls-row row pull-right">
+					<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">
+						Отмена
+					</a>
+					<button type="button" class="btn btn-large btn-magenta span2 submit-button">
+						Оформить
+					</button>
+				</div>
+			<?php } else { ?>
+				<div class="pull-right">
+					<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span2 new-button">
+						Назад
+					</a>
+					<?php if($role_id!='Designer'){ ?>
+					<button type="button" class="btn btn-large btn-magenta span3 new-button copy-button">
+						Создать на основе
+					</button>
+					<?php } ?>
+					<button type="button" class="btn btn-large span2 hidden edit-button cancel-button">
+						Отмена
+					</button>
+					<button type="button" class="btn btn-large btn-magenta span2 hidden edit-button submit-button">
+						Сохранить
+					</button>
+				</div>
+			<?php } ?>
+		</div>
