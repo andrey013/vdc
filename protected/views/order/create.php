@@ -17,6 +17,10 @@ tinyMCE.init({
         theme_advanced_resizing_max_height : 400,
         onchange_callback : "myCustomOnChangeHandler",
 
+	$(".submit-button").on("click", function(){
+            var form = $("#order-form");
+            form.submit();
+        });
 
         theme_advanced_buttons1 : "bold,italic,underline,strikethrough,sub,sup,fontsizeselect,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull",
         theme_advanced_toolbar_location : "bottom",
