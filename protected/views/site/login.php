@@ -18,7 +18,7 @@
 		<label class="control-label" for="LoginForm_username">Пользователь: </label>
 		<div class="controls">
 			<?php echo $form->dropDownList($model, 'username',
-				GxHtml::listDataEx($users, 'username', 'profile.lastname', 'role')); ?>
+				GxHtml::listDataEx($users, 'username', 'profile.lastname', 'role'), array('empty' => 'Выберите имя')); ?>
 		</div>
 	</div>
 	<div class="control-group">

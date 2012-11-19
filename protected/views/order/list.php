@@ -415,9 +415,9 @@ $designers=User2::model()->with(array(
 	</div>
     <div class="input-append span">
     	
-	    <input type="text" id="filter" class="" style="width:100px" autofocus>
+	    <input type="text" id="filter" class="" style="width:90px" autofocus>
 	    <div class="btn-group">
-    	<button type="button" class="btn disabled"><i class="icon-search"></i>&nbsp;</button>
+    	<button type="button" class="btn disabled">&nbsp;<i class="icon-search"></i></button>
     	<span></span>
     	</div>
     </div>

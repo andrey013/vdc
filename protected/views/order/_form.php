@@ -68,13 +68,30 @@
 		<hr>
 		<div class="controls controls-row row">
 			<label class="span2" for="Order_client_number">№ заказа оформленный<br>у клиента</label>
-			<?php echo $form->textField($model, 'client_number', array('class' => 'span1 down7px')); ?>
+			<?php if($role_id!='Designer') { ?>
+				<?php echo $form->textField($model, 'client_number', array('class' => 'span1 down7px')); ?>
+			<?php } else { ?>
+				<span class="lead span2 down7px"><?php echo $model->client_number; ?></span>
+			<?php }?>
+
 			<label class="span1 down7px" for="Order_client_id">клиент (редакция)</label>
-			<?php echo $form->dropDownList($model, 'client_id',
-				GxHtml::listDataEx(Client::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span2 down7px')); ?>
+			<?php if($role_id=='Admin') { ?>
+				<?php echo $form->dropDownList($model, 'client_id',
+					GxHtml::listDataEx(Client::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span2 down7px')); ?>
+			<?php } else { ?>
+				<span class="lead span2 down7px"><?php echo $model->client->name; ?></span>
+				<?php echo $form->textField($model, 'client_id', array('class' => 'hidden')); ?>
+			<?php }?>
+
 			<label class="span1 down14px" for="Order_manager_id">менеджер</label>
-			<?php echo $form->dropDownList($model, 'manager_id',
-				GxHtml::listDataEx($managers, null, 'profile.lastname'), array('class' => 'span2 down7px')); ?>
+			<?php if($role_id=='Admin') { ?>
+				<?php echo $form->dropDownList($model, 'manager_id',
+					GxHtml::listDataEx($managers, null, 'profile.lastname'), array('class' => 'span2 down7px')); ?>
+			<?php } else { ?>
+				<span class="lead span2 down7px"><?php echo $model->manager->username; ?></span>
+				<?php echo $form->textField($model, 'manager_id', array('class' => 'hidden')); ?>
+			<?php }?>
+
 			<?php if($role_id=='Admin'){ ?>
 			<label class="span1 down14px" for="Order_designer_id">дизайнер</label>
 			<?php echo $form->dropDownList($model, 'designer_id',
@@ -84,42 +101,87 @@
 		<hr>
 		<div class="controls controls-row row">
 			<label class="span2" for="Order_customername">Наименование заказчика</label>
-			<?php echo $form->textField($model, 'customername', array('class' => 'span2'.($model->hasErrors('customer_id')?' error':''))); ?>
+			<?php if($role_id!='Designer') { ?>
+				<?php echo $form->textField($model, 'customername', array('class' => 'span2'.($model->hasErrors('customer_id')?' error':''))); ?>
+			<?php } else { ?>
+				<span class="lead span2"><?php echo $model->customername; ?></span>
+				<?php echo $form->textField($model, 'customername', array('class' => 'hidden')); ?>
+			<?php }?>
+
 			<label class="span1" for="Order_order_type_id">Вид заказа</label>
-			<?php echo $form->dropDownList($model, 'order_type_id',
-				GxHtml::listDataEx(OrderType::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span2')); ?>
+			<?php if($role_id!='Designer') { ?>
+				<?php echo $form->dropDownList($model, 'order_type_id',
+					GxHtml::listDataEx(OrderType::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span2')); ?>
+			<?php } else { ?>
+				<span class="lead span2"><?php echo $model->orderType->name; ?></span>
+			<?php }?>
+
 			<label class="span1 down7px" for="Order_difficulty_id">Сложность</label>
-			<?php echo $form->dropDownList($model, 'difficulty_id',
-				GxHtml::listDataEx(Difficulty::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span2')); ?>
+			<?php if($role_id!='Designer') { ?>
+				<?php echo $form->dropDownList($model, 'difficulty_id',
+					GxHtml::listDataEx(Difficulty::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span2')); ?>
+			<?php } else { ?>
+				<span class="lead span2"><?php echo $model->difficulty->name; ?></span>
+			<?php }?>
+
 			<label class="span1 down7px" for="Order_priority_id">Приоритет</label>
-			<?php echo $form->dropDownList($model, 'priority_id',
-				GxHtml::listDataEx(Priority::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span1')); ?>	
+			<?php if($role_id!='Designer') { ?>
+				<?php echo $form->dropDownList($model, 'priority_id',
+					GxHtml::listDataEx(Priority::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span1')); ?>	
+			<?php } else { ?>
+				<span class="lead span1"><?php echo $model->priority->name; ?></span>
+			<?php }?>
 		</div>
 		<div class="controls controls-row row">
 			<label class="span2" for="Order_comment">Комментарий к заказу</label>
-			<?php echo $form->textField($model, 'comment', array('class' => 'span10', 'maxlength' => 200)); ?>
+			<?php if($role_id!='Designer') { ?>
+				<?php echo $form->textField($model, 'comment', array('class' => 'span10', 'maxlength' => 200)); ?>
+			<?php } else { ?>
+				<span class="lead span10"><?php echo $model->comment; ?></span>
+			<?php }?>
 		</div>
 		<hr>
 		<div class="controls controls-row row">
 			<label class="span2 down7px" for="Order_chromaticity_id">Цветность</label>
-			<?php echo $form->textField($model, 'chromaticityname', array('class' => 'span2')); ?>
-			<!-- <?php echo $form->dropDownList($model, 'chromaticity_id',
-				GxHtml::listDataEx(Chromaticity::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
-			-->
+			<?php if($role_id!='Designer') { ?>
+				<?php echo $form->textField($model, 'chromaticityname', array('class' => 'span2')); ?>
+			<?php } else { ?>
+				<span class="lead span2"><?php echo $model->chromaticityname; ?></span>
+				<?php echo $form->textField($model, 'chromaticityname', array('class' => 'hidden')); ?>
+			<?php }?>
+
 			<label class="span4 down7px" for="Order_density_id">Разрешение</label>
-			<?php echo $form->textField($model, 'densityname', array('class' => 'span2')); ?>
+			<?php if($role_id!='Designer') { ?>
+				<?php echo $form->textField($model, 'densityname', array('class' => 'span2')); ?>
+			<?php } else { ?>
+				<span class="lead span4"><?php echo $model->densityname; ?></span>
+				<?php echo $form->textField($model, 'densityname', array('class' => 'hidden')); ?>
+			<?php }?>
 			<!-- <?php echo $form->dropDownList($model, 'density_id',
 				GxHtml::listDataEx(Density::model()->findAllAttributes(null, true), null, 'name'), array('class' => 'span2')); ?>
 			-->
 		</div>
 		<div class="controls controls-row row">
 			<label class="span2 down7px" for="Order_size_x">Формат</label>
-			<?php echo $form->textField($model, 'size_x', array('class' => 'span1')); ?>
+			<?php if($role_id!='Designer') { ?>
+				<?php echo $form->textField($model, 'size_x', array('class' => 'span1')); ?>
+			<?php } else { ?>
+				<span class="lead span1"><?php echo $model->size_x; ?></span>
+			<?php }?>
+
 			<label class="spanx down7px" for="Order_size_y">x</label>
-			<?php echo $form->textField($model, 'size_y', array('class' => 'span1')); ?>
+			<?php if($role_id!='Designer') { ?>
+				<?php echo $form->textField($model, 'size_y', array('class' => 'span1')); ?>
+			<?php } else { ?>
+				<span class="lead span1"><?php echo $model->size_y; ?></span>
+			<?php }?>
 			<!-- <label class="span1" for="Order_measure_unit_id">Ед. изм</label> -->
-			<?php echo $form->dropDownList($model, 'measure_unit_id',
-				GxHtml::listDataEx(MeasureUnit::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span1')); ?>
+			<?php if($role_id!='Designer') { ?>
+				<?php echo $form->dropDownList($model, 'measure_unit_id',
+					GxHtml::listDataEx(MeasureUnit::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span1')); ?>
+			<?php } else { ?>
+				<span class="lead span1"><?php echo $model->measureUnit->name; ?></span>
+			<?php }?>
 		</div>
 		<hr>
 		
@@ -179,7 +241,7 @@
 		</div>
 		<div class="controls controls-row row pull-left" style="z-index: 10;">
 			<div class="span6">
-				<?php echo $form->textArea($model, 'text', array('class' => 'span6', 'rows' => '6')); ?>
+				<?php echo $form->textArea($model, 'text', array('class' => 'span6', 'rows' => '15')); ?>
 				<!-- <textarea name="text" cols="200" rows="15" class="span7"></textarea> -->
 			</div>
 		</div>

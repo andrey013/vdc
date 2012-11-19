@@ -26,8 +26,11 @@ tinyMCE.init({
         theme_advanced_resizing_min_width : 460,
         theme_advanced_resizing_max_height : 400,
         onchange_callback : "myCustomOnChangeHandler",
-
-
+        <?php
+            $role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id;
+            if($role_id=='Designer') { ?>
+        readonly : true,
+        <?php } ?>
         theme_advanced_buttons1 : "bold,italic,underline,strikethrough,sub,sup,fontsizeselect,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull",
         theme_advanced_toolbar_location : "bottom",
         setup : function(ed)

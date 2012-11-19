@@ -38,6 +38,12 @@ body > .navbar .brand:hover {
   margin-bottom: 8px;
 }
 
+span.lead {
+  text-align: left;
+  font-style: oblique;
+  font-size: 18px;
+}
+
 #logout {
   margin-right: -50px;
 }
@@ -468,6 +474,11 @@ input[type="color"]:focus,
 .down7px {
   margin-top: 7px;
   margin-bottom: 12px;
+}
+
+.down10px {
+  margin-top: 10px;
+  margin-bottom: 9px;
 }
 
 .down14px {

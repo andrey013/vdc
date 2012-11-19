@@ -16,12 +16,11 @@ tinyMCE.init({
         theme_advanced_resizing_min_width : 460,
         theme_advanced_resizing_max_height : 400,
         onchange_callback : "myCustomOnChangeHandler",
-
-	$(".submit-button").on("click", function(){
-            var form = $("#order-form");
-            form.submit();
-        });
-
+        <?php
+            $role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id;
+            if($role_id=='Designer') { ?>
+        readonly : true,
+        <?php } ?>
         theme_advanced_buttons1 : "bold,italic,underline,strikethrough,sub,sup,fontsizeselect,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull",
         theme_advanced_toolbar_location : "bottom",
         setup : function(ed)
@@ -45,6 +44,11 @@ tinyMCE.init({
 		$(".statusRadio").bind('click', function(){
 				status.val(this.value);
 			});
+
+        $(".submit-button").on("click", function(){
+            var form = $("#order-form");
+            form.submit();
+        });
 
         $("#Order_order_type_id, #Order_difficulty_id").on("change", function(){
             $.ajax({
