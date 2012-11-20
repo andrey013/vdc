@@ -39,9 +39,14 @@ body > .navbar .brand:hover {
 }
 
 span.lead {
-  text-align: left;
+  background-color: white;
+  text-align: center;
   font-style: oblique;
   font-size: 18px;
+  outline: 1px solid #cccccc;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
 }
 
 #logout {

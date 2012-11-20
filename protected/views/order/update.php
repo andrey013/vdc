@@ -210,7 +210,7 @@ $this->renderPartial('_form', array(
         {% } else { %}
             <td class="name">
                 <div class="two-liner">
-                    <a href="{%=file.url%}" title="{%=file.filename%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.filename%}">{%=file.filename%}</a>
+                    <a target="_blank" href="{%=file.url%}" title="{%=file.filename%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.filename%}">{%=file.filename?file.filename:file.name%}</a>
                 </div>
             </td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>

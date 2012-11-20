@@ -33,7 +33,30 @@ public function accessRules() {
 
 
 	public function actionList() {
-		$this->render('list');
+		
+		if(isset($_POST['Mailer'])){
+			$users = User2::model()->with(array(
+					'authAssignments'=>array(
+						// we don't want to select posts
+						'select'=>false,
+						// but want to get only users with published posts
+						'joinType'=>'INNER JOIN',
+						'condition'=>'authAssignments.itemname=:role_id',
+						'params'=>array(':role_id'=>$_POST['Mailer']['role_id'])
+					),
+				),
+				'profile'
+			)->findAll('disabled=0');
+			foreach ($users as $key => $value) {
+				$message = new YiiMailMessage;
+				$message->setBody($_POST['Mailer']['text']);
+				$message->subject = 'Новости vdv-design.ru';
+				$message->addTo($value->email);
+				$message->from = Yii::app()->params['adminEmail'];
+				Yii::app()->mail->send($message);
+			}
+		}
+		$this->render('list', array());
 	}
 
 }

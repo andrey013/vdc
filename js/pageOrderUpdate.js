@@ -205,7 +205,7 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 	grid.setHeaderRenderer("comment", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		
-		cell.innerHTML ='<span class="lead pull-left">Комментарии: </span>' +
+		cell.innerHTML ='<label class="lead pull-left down7px">Комментарии: </label>' +
 						'<div class="pull-right">' +
 						'<button type="button" id="commentButton" class="btn"' +
 						' data-content="<textarea id=\'addCommentText\' class=\'span5\'></textarea>' +

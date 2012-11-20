@@ -14,6 +14,6 @@ $app = Yii::createWebApplication($config);
 
 // we need to set this to UTC, regardless of default timezone 
 // which is only for display. UTC is what timestamps etc. are using.
-Yii::app()->setTimeZone("UTC");
+Yii::app()->setTimeZone("Europe/Moscow");
 
 $app->run();

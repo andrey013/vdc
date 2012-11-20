@@ -68,6 +68,32 @@ public function accessRules() {
 					$profile->save();
 				}
 
+				$model->refresh();
+				$users = User2::model()->with(array(
+						'authAssignments'=>array(
+							// we don't want to select posts
+							'select'=>false,
+							// but want to get only users with published posts
+							'joinType'=>'INNER JOIN',
+							'condition'=>'authAssignments.itemname=:role_id',
+							'params'=>array(':role_id'=>'Admin')
+						),
+					),
+					'profile'
+				)->findAll('disabled=0');
+				$users[] = $model->designer;
+				$users[] = $model->manager;
+				foreach ($users as $key => $value) {
+					if(is_null($value)) continue;
+					$message = new YiiMailMessage;
+					$message->setBody('');
+					$message->subject = 'Заказ №'.$model->global_number.'_'.$model->client->code
+										.' создан в статусе: '.$model->orderStatusHist->orderStatus->name;
+					$message->addTo($value->email);
+					$message->from = Yii::app()->params['adminEmail'];
+					Yii::app()->mail->send($message);
+				}
+
 				if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
 				else
@@ -118,8 +144,34 @@ public function accessRules() {
 			$model->setChromaticityName($_POST['Order']['chromaticityname']);
 			$model->setDensityName($_POST['Order']['densityname']);
 			if ($model->save()) {
-				if($_POST['Order']['orderStatusHist'] != $model->orderStatusHist->orderStatus->key)
+				if($_POST['Order']['orderStatusHist'] != $model->orderStatusHist->orderStatus->key){
 					$model->setOrderStatus($_POST['Order']['orderStatusHist']);
+					$model->refresh();
+					$users = User2::model()->with(array(
+							'authAssignments'=>array(
+								// we don't want to select posts
+								'select'=>false,
+								// but want to get only users with published posts
+								'joinType'=>'INNER JOIN',
+								'condition'=>'authAssignments.itemname=:role_id',
+								'params'=>array(':role_id'=>'Admin')
+							),
+						),
+						'profile'
+					)->findAll('disabled=0');
+					$users[] = $model->designer;
+					$users[] = $model->manager;
+					foreach ($users as $key => $value) {
+						if(is_null($value)) continue;
+						$message = new YiiMailMessage;
+						$message->setBody('');
+						$message->subject = 'Заказ №'.$model->global_number.'_'.$model->client->code
+											.' изменил статус на: '.$model->orderStatusHist->orderStatus->name;
+						$message->addTo($value->email);
+						$message->from = Yii::app()->params['adminEmail'];
+						Yii::app()->mail->send($message);
+					}
+				}
 				$this->redirect(array('list'));
 			}
 		}
@@ -461,6 +513,35 @@ public function accessRules() {
 					        echo print_r($row->getErrors());
 				        }
 	                }
+				}
+			}else if($colname == 'designer_id'){
+				$model = $this->loadModel($id, 'Order');
+				$model->$colname=$newvalue;
+				$model->save();
+
+				$model->refresh();
+				$users = User2::model()->with(array(
+						'authAssignments'=>array(
+							// we don't want to select posts
+							'select'=>false,
+							// but want to get only users with published posts
+							'joinType'=>'INNER JOIN',
+							'condition'=>'authAssignments.itemname=:role_id',
+							'params'=>array(':role_id'=>'Admin')
+						),
+					),
+					'profile'
+				)->findAll('disabled=0');
+				$users[] = $model->designer;
+				foreach ($users as $key => $value) {
+					if(is_null($value)) continue;
+					$message = new YiiMailMessage;
+					$message->setBody('');
+					$message->subject = 'Заказ №'.$model->global_number.'_'.$model->client->code
+										.' назначен дизайнеру в статусе: '.$model->orderStatusHist->orderStatus->name;
+					$message->addTo($value->email);
+					$message->from = Yii::app()->params['adminEmail'];
+					Yii::app()->mail->send($message);
 				}
 			}else{
 				$model = $this->loadModel($id, 'Order');

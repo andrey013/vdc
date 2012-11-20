@@ -27,6 +27,7 @@ return array(
         'application.modules.user.components.*',
         'application.modules.rights.*',
         'application.modules.rights.components.*',
+        'ext.yii-mail.YiiMailMessage',
     ),
 
     'modules'=>array(
@@ -80,7 +81,20 @@ return array(
                 '' => 'order/list',
             ),
         ),
-
+        'mail' => array(
+            'class' => 'ext.yii-mail.YiiMail',
+            'transportType' => 'smtp',
+            'viewPath' => 'application.views.mail',
+            'logging' => true,
+            'dryRun' => false,
+            'transportOptions' => array(
+                'host' => '',
+                'username' => '',
+                'password' => '',
+                'port' => 465,
+                'encryption' => 'ssl'
+            )
+        ),
         // uncomment the following to enable URLs in path-format
         /*
         'urlManager'=>array(
@@ -111,12 +125,10 @@ return array(
         'log'=>array(
             'class'=>'CLogRouter',
             'routes'=>array(
-                /*
                 array(
                     'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning, trace',
+                    'levels'=>'error, warning, info',
                 ),
-                */
                 // uncomment the following to show log messages on web pages
                 /*
                 array(
