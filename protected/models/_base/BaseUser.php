@@ -48,7 +48,7 @@ abstract class BaseUser extends GxActiveRecord {
 		return array(
 			array('username, password, email, create_at', 'required'),
 			array('superuser, status, disabled', 'numerical', 'integerOnly'=>true),
-			array('username', 'length', 'max'=>20),
+			array('username', 'length', 'max'=>60),
 			array('password, email, activkey', 'length', 'max'=>128),
 			array('lastvisit_at', 'safe'),
 			array('activkey, lastvisit_at, superuser, status, disabled', 'default', 'setOnEmpty' => true, 'value' => null),

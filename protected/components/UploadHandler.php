@@ -139,15 +139,16 @@ class UploadHandler
     }
 
     public function set_file_delete_url($file) {
-        if(isset($file->filename)){
-            $file->delete_url = $this->options['script_url']
-                .'?file='.rawurlencode($file->filename)
-                .'&id='.$this->options['id']
-                .'&stage='.$this->options['stage'];
-            $file->delete_type = $this->options['delete_type'];
-            if ($file->delete_type !== 'DELETE') {
-                $file->delete_url .= '&_method=DELETE';
-            }
+        if(!isset($file->filename)){
+            $file->filename = $file->name;
+        }
+        $file->delete_url = $this->options['script_url']
+            .'?file='.rawurlencode($file->filename)
+            .'&id='.$this->options['id']
+            .'&stage='.$this->options['stage'];
+        $file->delete_type = $this->options['delete_type'];
+        if ($file->delete_type !== 'DELETE') {
+            $file->delete_url .= '&_method=DELETE';
         }
     }
 

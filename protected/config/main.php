@@ -86,7 +86,7 @@ return array(
             'transportType' => 'smtp',
             'viewPath' => 'application.views.mail',
             'logging' => true,
-            'dryRun' => false,
+            'dryRun' => true,
             'transportOptions' => array(
                 'host' => '',
                 'username' => '',

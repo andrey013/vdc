@@ -58,11 +58,11 @@ public function accessRules() {
 				$model->setOrderStatus($_POST['Order']['orderStatusHist']);
 				$model->setPayment($_POST['Order']['clientPrice'], $_POST['Order']['designerPrice']);
 
-				$variables = Variables::model()->find();
-				$variables->prev_designer_id = $model->designer_id;
-				$variables->save();
-
 				if(isset($model->designer_id)){
+					$variables = Variables::model()->find();
+					$variables->prev_designer_id = $model->designer_id;
+					$variables->save();
+
 					$profile = User2::model()->with('profile')->findByPk($model->designer_id)->profile;
 					$profile->user_status_id = 0;
 					$profile->save();
@@ -265,6 +265,9 @@ public function accessRules() {
 		$criteria1=new CDbCriteria();
 		$criteria2=new CDbCriteria();
 		//echo $user->role_id;
+
+		$order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order, global_number DESC';
+
 		if($user->role_id=='Admin'){
 			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
 			$grid->addColumn('priority.name', '!', 'integer');
@@ -284,11 +287,11 @@ public function accessRules() {
 			$grid->addColumn('disabled', 'X', 'boolean', null, true);
 			$grid->addColumn('filter', ' ', 'string');
 
-			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->order = $order;
 			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':start'=>$start, ':end'=>$end);
 
-			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->order = $order;
 			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.create_date between :start and :end and t.disabled=0';
 			$criteria2->params=array(':start'=>$start, ':end'=>$end);
 		}else if($user->role_id=='Manager'){
@@ -303,11 +306,11 @@ public function accessRules() {
 			$grid->addColumn('filter', ' ', 'string');
 
 			
-			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->order = $order;
 			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
 
-			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->order = $order;
 			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria2->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
 	
@@ -323,11 +326,11 @@ public function accessRules() {
 			$grid->addColumn('filter', ' ', 'string');
 
 			
-			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->order = $order;
 			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
 
-			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->order = $order;
 			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria2->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
 	
@@ -396,6 +399,9 @@ public function accessRules() {
 		$criteria1=new CDbCriteria();
 		$criteria2=new CDbCriteria();
 		//echo $user->role_id;
+
+		$order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order, global_number DESC';
+
 		if($user->role_id=='Admin'){
 			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
 			$grid->addColumn('priority.name', '!', 'integer');
@@ -417,11 +423,11 @@ public function accessRules() {
 			$grid->addColumn('debt', 'Долг', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('filter', ' ', 'string');
 			
-			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->order = $order;
 			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':start'=>$start, ':end'=>$end);
 
-			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->order = $order;
 			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.create_date between :start and :end and t.disabled=0';
 			$criteria2->params=array(':start'=>$start, ':end'=>$end);
 		}else if($user->role_id=='Manager'){
@@ -439,11 +445,11 @@ public function accessRules() {
 			$grid->addColumn('filter', ' ', 'string');
 
 			
-			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->order = $order;
 			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
 
-			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->order = $order;
 			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria2->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
 	
@@ -462,11 +468,11 @@ public function accessRules() {
 			$grid->addColumn('filter', ' ', 'string');
 
 			
-			$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria1->order = $order;
 			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
 
-			$criteria2->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
+			$criteria2->order = $order;
 			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria2->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
 	

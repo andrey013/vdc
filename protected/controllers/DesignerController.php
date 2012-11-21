@@ -18,7 +18,7 @@ public function accessRules() {
 				'users'=>array('*'),
 				),
 			array('allow', 
-				'actions'=>array('list','jsonlist'),
+				'actions'=>array('list','jsonlist','changeAutoMode'),
 				'users'=>array('@'),
 				),
 			array('allow', 
@@ -33,7 +33,7 @@ public function accessRules() {
 
 
 	public function actionList() {
-		$this->render('list');
+		$this->render('list', array('variables' => Variables::model()->find()));
 	}
 
 	public function actionJsonlist() {
@@ -69,4 +69,11 @@ public function accessRules() {
 		$grid->renderJSON($result);
 		Yii::app()->end();
 	}
+
+	public function actionChangeAutoMode($order_busy_designers){
+		$variables = Variables::model()->find();
+		$variables->order_busy_designers = $order_busy_designers;
+		$variables->save();
+	}
+
 }

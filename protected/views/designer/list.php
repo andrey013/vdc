@@ -25,18 +25,32 @@
 					grid.setCellRenderer("highpriorityjsonprojects", renderer);
 				}
 		});
-		
+		$("#order_busy_designers").on('change', function(){
+			var that = $(this);
+			$.ajax({
+				type: "GET",
+				url: "<?php echo $this->createUrl('/designer/changeAutoMode'); ?>",
+				data: { order_busy_designers: that.attr('checked')?1:0}
+			}).done(function( msg ) {
+				datagrid.fetchGrid("<?php echo $this->createUrl('/designer/jsonlist'); ?>");
+			});
+		});
 	});
 </script>
+<div class="controls controls-row row">
+	<!-- <h1>Дизайнеры</h1> -->
+	<label class="checkbox span6" for="order_busy_designers">
+		<input id="order_busy_designers" type="checkbox" <?php if($variables->order_busy_designers) echo 'checked'; ?>></input>
+		Не учитывать статус при распределении заказа
+	</label>
 
-<!-- <h1>Дизайнеры</h1> -->
-
-<form class="form pull-right">
-    <div class="input-append span">
-	    <input type="search" id="filter" class="span2" autofocus>
-	    <button type="button" class="btn disabled"><i class="icon-search"></i>&nbsp;</button>
-    </div>
-</form>
+	<form class="form pull-right">
+	    <div class="input-append span">
+		    <input type="search" id="filter" class="span2" autofocus>
+		    <button type="button" class="btn disabled"><i class="icon-search"></i>&nbsp;</button>
+	    </div>
+	</form>
+</div>
 <div class="clearfix"></div>
 <div id="tablecontent"></div>
 <div class="pagination pagination-centered">

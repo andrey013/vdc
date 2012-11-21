@@ -100,7 +100,11 @@ tinyMCE.init({
             form.submit();
         });
 		// Initialize the jQuery File Upload widget:
-    	$('#fileupload1').fileupload();
+    	$('#fileupload1').fileupload({
+            <?php if($role_id=='Designer'){ ?>
+            downloadTemplateId: 'template-download-readonly'
+            <?php } ?>
+        });
     	// Load existing files:
         $('#fileupload1').each(function () {
             var that = this;
@@ -113,7 +117,11 @@ tinyMCE.init({
         });
 
         // Initialize the jQuery File Upload widget:
-        $('#fileupload2').fileupload();
+        $('#fileupload2').fileupload({
+            <?php if($role_id=='Manager'){ ?>
+            downloadTemplateId: 'template-download-readonly'
+            <?php } ?>
+        });
         // Load existing files:
         $('#fileupload2').each(function () {
             var that = this;
@@ -125,7 +133,11 @@ tinyMCE.init({
             });
         });
         // Initialize the jQuery File Upload widget:
-        $('#fileupload3').fileupload();
+        $('#fileupload3').fileupload({
+            <?php if($role_id=='Manager'){ ?>
+            downloadTemplateId: 'template-download-readonly'
+            <?php } ?>
+        });
         // Load existing files:
         $('#fileupload3').each(function () {
             var that = this;
@@ -216,7 +228,32 @@ $this->renderPartial('_form', array(
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
         {% } %}
         <td class="delete">
-            <button class="btn btn-mini" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+            <button class="btn btn-mini pull-right" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+                <i class="icon-remove">&nbsp;</i>
+            </button>
+            <input class="hidden" type="checkbox" name="delete" value="1">
+        </td>
+    </tr>
+{% } %}
+</script>
+
+<script id="template-download-readonly" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        {% if (file.error) { %}
+            <td class="name"><span class="two-liner span3">{%=file.filename%}</span></td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
+        {% } else { %}
+            <td class="name">
+                <div class="two-liner">
+                    <a target="_blank" href="{%=file.url%}" title="{%=file.filename%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.filename%}">{%=file.filename?file.filename:file.name%}</a>
+                </div>
+            </td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% } %}
+        <td class="delete hidden">
+            <button class="btn btn-mini pull-right" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
                 <i class="icon-remove">&nbsp;</i>
             </button>
             <input class="hidden" type="checkbox" name="delete" value="1">

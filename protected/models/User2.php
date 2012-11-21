@@ -34,7 +34,8 @@ class User2 extends BaseUser
 		$prev_designer_id = $variables->prev_designer_id;
 		$found = false;
 		foreach ($designers as $key => $value) {
-			if($found && $value->profile->user_status_id==1) {
+			if($found && ($value->profile->user_status_id==1
+					||$variables->order_busy_designers==1)) {
 				return $value;
 			}
 			if($value->id == $prev_designer_id) {
@@ -42,7 +43,8 @@ class User2 extends BaseUser
 			}
 		}
 		foreach ($designers as $key => $value) {
-			if($value->profile->user_status_id==1) {
+			if($value->profile->user_status_id==1
+					||$variables->order_busy_designers==1) {
 				return $value;
 			}
 		}

@@ -90,13 +90,25 @@ class SiteController extends Controller
 		// collect user input data
 		if(isset($_POST['LoginForm']))
 		{
+			if(isset($_POST['LoginForm']['activkey'])){
+				$user = User2::model()->find('activkey=:activkey', array(':activkey'=>$_POST['LoginForm']['activkey']));
+				if(isset($user)&&$user->activkey!=0){
+					$user->password = UserModule::encrypting($_POST['LoginForm']['password']);
+					$user->activkey = 0;
+					$user->save();
+				}
+			}
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
 				$this->redirect(Yii::app()->user->returnUrl);
 		}
 		// display the login form
-		$this->render('login',array('model'=>$model));
+		$user = null;
+		if(isset($_GET['activkey'])){
+			$user = User2::model()->find('activkey=:activkey', array(':activkey'=>$_GET['activkey']));
+		}
+		$this->render('login', array('model'=>$model, 'user'=>$user));
 	}
 
 	/**
@@ -106,5 +118,21 @@ class SiteController extends Controller
 	{
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
+	}
+
+	public function actionSendRecoveryMail($username)
+	{
+		$user = User2::model()->find('username=:username', array(':username'=>$username));
+		$user->activkey = UserModule::encrypting(microtime().$user->password);
+		$user->save();
+		$message = new YiiMailMessage;
+		$message->setBody('Для восстановления перейдите по ссылке: '
+							.$this->createAbsoluteUrl('/site/login', array('activkey'=>$user->activkey)));
+		$message->subject = 'Восстановление пароля';
+		$message->addTo($user->email);
+		$message->from = Yii::app()->params['adminEmail'];
+		Yii::app()->mail->send($message);
+		echo 'ok';
+		Yii::app()->end();
 	}
 }
