@@ -31,6 +31,10 @@
 			<li <?php if($this->getRoute()=='measureUnit/list'){ ?>class="active"<? } ?>>
 				<a href="<?php echo $this->createUrl('/measureUnit/list'); ?>"><i class="icon-resize-full"></i> Ед. изм.</a>
 			</li>
+			
+			<li <?php if($this->getRoute()=='orderStatus/list'){ ?>class="active"<? } ?>>
+				<a href="<?php echo $this->createUrl('/orderStatus/list'); ?>"><i class="icon-check"></i> Статусы</a>
+			</li>
 			<li class="divider"></li>
 			<li <?php if($this->getRoute()=='document/list'){ ?>class="active"<? } ?>>
 				<a href="<?php echo $this->createUrl('/document/list'); ?>"><i class="icon-folder-open"></i> Документы</a>

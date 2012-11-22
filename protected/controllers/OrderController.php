@@ -69,7 +69,7 @@ public function accessRules() {
 				}
 
 				$model->refresh();
-				$users = User2::model()->with(array(
+				$users = array();/*User2::model()->with(array(
 						'authAssignments'=>array(
 							// we don't want to select posts
 							'select'=>false,
@@ -80,15 +80,18 @@ public function accessRules() {
 						),
 					),
 					'profile'
-				)->findAll('disabled=0');
+				)->findAll('disabled=0');*/
 				$users[] = $model->designer;
-				$users[] = $model->manager;
+				//$users[] = $model->manager;
 				foreach ($users as $key => $value) {
 					if(is_null($value)) continue;
 					$message = new YiiMailMessage;
-					$message->setBody('');
-					$message->subject = 'Заказ №'.$model->global_number.'_'.$model->client->code
-										.' создан в статусе: '.$model->orderStatusHist->orderStatus->name;
+					$message->setBody('Уважаемый дизайнер '.$value->username
+						.'. Вам поступил в разработку новый заказ: '
+						.$model->customername.' '
+						.$model->client_number.' '
+						.' + '.$model->orderType->name);
+					$message->subject = 'Новый заказ';
 					$message->addTo($value->email);
 					$message->from = Yii::app()->params['adminEmail'];
 					Yii::app()->mail->send($message);
@@ -147,7 +150,7 @@ public function accessRules() {
 				if($_POST['Order']['orderStatusHist'] != $model->orderStatusHist->orderStatus->key){
 					$model->setOrderStatus($_POST['Order']['orderStatusHist']);
 					$model->refresh();
-					$users = User2::model()->with(array(
+					$users = array();/*User2::model()->with(array(
 							'authAssignments'=>array(
 								// we don't want to select posts
 								'select'=>false,
@@ -158,15 +161,20 @@ public function accessRules() {
 							),
 						),
 						'profile'
-					)->findAll('disabled=0');
-					$users[] = $model->designer;
-					$users[] = $model->manager;
+					)->findAll('disabled=0');*/
+					$user_id = Yii::app()->user->id;
+					if($user_id!=$model->designer_id) $users[] = $model->designer;
+					if($user_id!=$model->manager_id) $users[] = $model->manager;
 					foreach ($users as $key => $value) {
 						if(is_null($value)) continue;
 						$message = new YiiMailMessage;
-						$message->setBody('');
-						$message->subject = 'Заказ №'.$model->global_number.'_'.$model->client->code
-											.' изменил статус на: '.$model->orderStatusHist->orderStatus->name;
+						$message->setBody('Уважаемый '.$value->username
+							.' заказ '
+							.$model->customername.' '
+							.$model->client_number.' '
+							.' + '.$model->orderType->name
+							.' сменил свой статус - "'.$model->orderStatusHist->orderStatus->name.'"');
+						$message->subject = 'Смена статуса';
 						$message->addTo($value->email);
 						$message->from = Yii::app()->params['adminEmail'];
 						Yii::app()->mail->send($message);
@@ -522,33 +530,43 @@ public function accessRules() {
 				}
 			}else if($colname == 'designer_id'){
 				$model = $this->loadModel($id, 'Order');
+				$olddesigner = $model->designer;
 				$model->$colname=$newvalue;
+
 				$model->save();
 
 				$model->refresh();
-				$users = User2::model()->with(array(
-						'authAssignments'=>array(
-							// we don't want to select posts
-							'select'=>false,
-							// but want to get only users with published posts
-							'joinType'=>'INNER JOIN',
-							'condition'=>'authAssignments.itemname=:role_id',
-							'params'=>array(':role_id'=>'Admin')
-						),
-					),
-					'profile'
-				)->findAll('disabled=0');
-				$users[] = $model->designer;
+				//новому
+				$users = array($model->designer);
 				foreach ($users as $key => $value) {
 					if(is_null($value)) continue;
 					$message = new YiiMailMessage;
-					$message->setBody('');
-					$message->subject = 'Заказ №'.$model->global_number.'_'.$model->client->code
-										.' назначен дизайнеру в статусе: '.$model->orderStatusHist->orderStatus->name;
+					$message->setBody('Уважаемый дизайнер '.$value->username
+						.'. Вам поступил в разработку новый заказ: '
+						.$model->customername.' '
+						.$model->client_number.' '
+						.' + '.$model->orderType->name);
+					$message->subject = 'Новый заказ';
 					$message->addTo($value->email);
 					$message->from = Yii::app()->params['adminEmail'];
 					Yii::app()->mail->send($message);
 				}
+				//старому
+				$users = array($olddesigner);
+				foreach ($users as $key => $value) {
+					if(is_null($value)) continue;
+					$message = new YiiMailMessage;
+					$message->setBody('Внимание! Заказ '
+						.$model->customername.' '
+						.$model->client_number.' '
+						.' + '.$model->orderType->name
+						.' передан другому дизайнеру');
+					$message->subject = 'Заказ передан другому дизайнеру';
+					$message->addTo($value->email);
+					$message->from = Yii::app()->params['adminEmail'];
+					Yii::app()->mail->send($message);
+				}
+
 			}else{
 				$model = $this->loadModel($id, 'Order');
 				$model->$colname=$newvalue;

@@ -239,7 +239,7 @@
 			"file": "protected/views/layouts/column2.php",
 			"settings":
 			{
-				"buffer_size": 2327,
+				"buffer_size": 2527,
 				"line_ending": "Unix"
 			}
 		},
@@ -255,7 +255,7 @@
 			"file": "protected/views/layouts/main.php",
 			"settings":
 			{
-				"buffer_size": 7435,
+				"buffer_size": 7469,
 				"line_ending": "Unix"
 			}
 		},
@@ -303,7 +303,7 @@
 			"file": "protected/controllers/OrderController.php",
 			"settings":
 			{
-				"buffer_size": 21173,
+				"buffer_size": 21750,
 				"line_ending": "Unix"
 			}
 		},
@@ -327,7 +327,7 @@
 			"file": "protected/views/order/_form.php",
 			"settings":
 			{
-				"buffer_size": 18587,
+				"buffer_size": 19418,
 				"line_ending": "Unix"
 			}
 		},
@@ -351,7 +351,7 @@
 			"file": "protected/views/order/update.php",
 			"settings":
 			{
-				"buffer_size": 11240,
+				"buffer_size": 11330,
 				"line_ending": "Unix"
 			}
 		},
@@ -364,58 +364,26 @@
 			}
 		},
 		{
-			"file": "protected/extensions/giix-components/GxHtml.php",
+			"file": "protected/controllers/OrderStatusController.php",
 			"settings":
 			{
-				"buffer_size": 7799,
+				"buffer_size": 1384,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "protected/extensions/giix-components/GxActiveRecord.php",
+			"file": "protected/views/orderStatus/list.php",
 			"settings":
 			{
-				"buffer_size": 27614,
+				"buffer_size": 1702,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "protected/controllers/PriceController.php",
+			"file": "protected/controllers/MeasureUnitController.php",
 			"settings":
 			{
-				"buffer_size": 4183,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "protected/controllers/SiteController.php",
-			"settings":
-			{
-				"buffer_size": 3815,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "protected/views/site/login.php",
-			"settings":
-			{
-				"buffer_size": 2558,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "protected/controllers/VdcuserController.php",
-			"settings":
-			{
-				"buffer_size": 4291,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "protected/controllers/FileController.php",
-			"settings":
-			{
-				"buffer_size": 2014,
+				"buffer_size": 1624,
 				"line_ending": "Unix"
 			}
 		},
@@ -448,6 +416,14 @@
 			"settings":
 			{
 				"buffer_size": 2213,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/controllers/FileController.php",
+			"settings":
+			{
+				"buffer_size": 2014,
 				"line_ending": "Unix"
 			}
 		},
@@ -524,6 +500,54 @@
 			}
 		},
 		{
+			"file": "protected/models/PaymentHistory.php",
+			"settings":
+			{
+				"buffer_size": 1084,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/models/Payment.php",
+			"settings":
+			{
+				"buffer_size": 1548,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/models/_base/BasePaymentHistory.php",
+			"settings":
+			{
+				"buffer_size": 2016,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/models/_base/BasePayment.php",
+			"settings":
+			{
+				"buffer_size": 2464,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/models/OrderStatus.php",
+			"settings":
+			{
+				"buffer_size": 203,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "protected/models/_base/BaseOrderStatus.php",
+			"settings":
+			{
+				"buffer_size": 2244,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "js/pageOrderList.js",
 			"settings":
 			{
@@ -576,14 +600,19 @@
 	},
 	"file_history":
 	[
+		"/home/andrey/yii/vdc/protected/extensions/giix-components/GxHtml.php",
+		"/home/andrey/yii/vdc/protected/extensions/giix-components/GxActiveRecord.php",
+		"/home/andrey/yii/vdc/protected/controllers/PriceController.php",
+		"/home/andrey/yii/vdc/protected/controllers/SiteController.php",
+		"/home/andrey/yii/vdc/protected/views/site/login.php",
 		"/home/andrey/yii/vdc/protected/controllers/VdcuserController.php",
+		"/home/andrey/yii/vdc/protected/controllers/FileController.php",
 		"/home/andrey/yii/vdc/protected/models/LoginForm.php",
 		"/home/andrey/yii/vdc/protected/modules/user/UserModule.php",
 		"/home/andrey/yii/vdc/protected/models/Users.php",
 		"/home/andrey/yii/vdc/protected/views/designer/list.php",
 		"/home/andrey/yii/vdc/protected/modules/user/controllers/LoginController.php",
 		"/home/andrey/yii/vdc/protected/controllers/DesignerController.php",
-		"/home/andrey/yii/vdc/protected/views/site/login.php",
 		"/home/andrey/yii/vdc/protected/views/layouts/login.php",
 		"/home/andrey/yii/vdc/protected/models/_base/BasePrice.php",
 		"/home/andrey/yii/vdc/protected/models/_base/BaseMeasureUnit.php",
@@ -608,20 +637,15 @@
 		"/home/andrey/yii/vdc/protected/controllers/DocumentController.php",
 		"/home/andrey/yii/vdc/js/commonDatabaseGrid.js",
 		"/home/andrey/yii/vdc/protected/views/order/update.php",
-		"/home/andrey/yii/vdc/protected/controllers/PriceController.php",
 		"/home/andrey/yii/vdc/protected/views/client/list.php",
-		"/home/andrey/yii/vdc/protected/controllers/FileController.php",
 		"/home/andrey/yii/vdc/protected/views/priority/list.php",
 		"/home/andrey/yii/vdc/js/pageOrderUpdate.js",
 		"/home/andrey/yii/vdc/protected/views/order/create.php",
 		"/home/andrey/yii/vdc/protected/views/price/list.php",
 		"/home/andrey/yii/vdc/js/pageOrderList.js",
-		"/home/andrey/yii/vdc/protected/controllers/SiteController.php",
 		"/home/andrey/yii/vdc/protected/views/site/pages/about.php",
-		"/home/andrey/yii/vdc/protected/extensions/giix-components/GxHtml.php",
 		"/home/andrey/yii/vdc/protected/controllers/VdcinfoController.php",
 		"/home/andrey/yii/vdc/protected/views/order/_form.php",
-		"/home/andrey/yii/vdc/protected/extensions/giix-components/GxActiveRecord.php",
 		"/home/andrey/yii/vdc/protected/views/difficulty/list.php",
 		"/home/andrey/yii/vdc/protected/views/measureUnit/list.php",
 		"/home/andrey/yii/vdc/protected/models/Client.php",
@@ -692,6 +716,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"measureUnit",
+			"YiiMail",
 			"$file->filename",
 			"$file->name",
 			"filename",
@@ -817,9 +843,7 @@
 			"findalla",
 			"user",
 			"itemTable",
-			"Table",
-			";",
-			"BaseOrder"
+			"Table"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -839,7 +863,7 @@
 	"groups":
 	[
 		{
-			"selected": 9,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -930,15 +954,15 @@
 					"file": "protected/views/layouts/column2.php",
 					"settings":
 					{
-						"buffer_size": 2327,
+						"buffer_size": 2527,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								581,
-								581
+								1852,
+								1852
 							]
 						],
 						"settings":
@@ -947,7 +971,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 156.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -984,15 +1008,15 @@
 					"file": "protected/views/layouts/main.php",
 					"settings":
 					{
-						"buffer_size": 7435,
+						"buffer_size": 7469,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2993,
-								2993
+								6582,
+								6582
 							]
 						],
 						"settings":
@@ -1001,7 +1025,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 702.0,
+						"translation.y": 1833.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1148,7 +1172,7 @@
 			]
 		},
 		{
-			"selected": 6,
+			"selected": 9,
 			"sheets":
 			[
 				{
@@ -1156,15 +1180,15 @@
 					"file": "protected/controllers/OrderController.php",
 					"settings":
 					{
-						"buffer_size": 21173,
+						"buffer_size": 21750,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								19447,
-								19447
+								5965,
+								5965
 							]
 						],
 						"settings":
@@ -1173,7 +1197,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 6212.0,
+						"translation.y": 1997.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1237,15 +1261,15 @@
 					"file": "protected/views/order/_form.php",
 					"settings":
 					{
-						"buffer_size": 18587,
+						"buffer_size": 19418,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12935,
-								12935
+								19196,
+								19196
 							]
 						],
 						"settings":
@@ -1253,8 +1277,8 @@
 							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 277.0,
-						"translation.y": 3211.0,
+						"translation.x": 0.0,
+						"translation.y": 5470.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1271,8 +1295,8 @@
 						"selection":
 						[
 							[
-								13952,
-								13952
+								1452,
+								1452
 							]
 						],
 						"settings":
@@ -1281,7 +1305,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3120.0,
+						"translation.y": 39.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1318,15 +1342,15 @@
 					"file": "protected/views/order/update.php",
 					"settings":
 					{
-						"buffer_size": 11240,
+						"buffer_size": 11330,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5790,
-								5790
+								2091,
+								2091
 							]
 						],
 						"settings":
@@ -1336,7 +1360,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1319.0,
+						"translation.y": 117.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1353,8 +1377,8 @@
 						"selection":
 						[
 							[
-								3557,
-								3557
+								8164,
+								8164
 							]
 						],
 						"settings":
@@ -1370,18 +1394,18 @@
 				},
 				{
 					"buffer": 19,
-					"file": "protected/extensions/giix-components/GxHtml.php",
+					"file": "protected/controllers/OrderStatusController.php",
 					"settings":
 					{
-						"buffer_size": 7799,
+						"buffer_size": 1384,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3234,
-								3234
+								1289,
+								1289
 							]
 						],
 						"settings":
@@ -1390,106 +1414,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 729.0,
+						"translation.y": 507.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 20,
-					"file": "protected/extensions/giix-components/GxActiveRecord.php",
+					"file": "protected/views/orderStatus/list.php",
 					"settings":
 					{
-						"buffer_size": 27614,
+						"buffer_size": 1702,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9461,
-								9461
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2769.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 21,
-					"file": "protected/controllers/PriceController.php",
-					"settings":
-					{
-						"buffer_size": 4183,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								547,
-								547
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 6.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 22,
-					"file": "protected/controllers/SiteController.php",
-					"settings":
-					{
-						"buffer_size": 3815,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2845,
-								2845
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1286.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 23,
-					"file": "protected/views/site/login.php",
-					"settings":
-					{
-						"buffer_size": 2558,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								710,
-								710
+								1065,
+								1065
 							]
 						],
 						"settings":
@@ -1504,38 +1447,11 @@
 					"type": "text"
 				},
 				{
-					"buffer": 24,
-					"file": "protected/controllers/VdcuserController.php",
+					"buffer": 21,
+					"file": "protected/controllers/MeasureUnitController.php",
 					"settings":
 					{
-						"buffer_size": 4291,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								939,
-								939
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 234.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 25,
-					"file": "protected/controllers/FileController.php",
-					"settings":
-					{
-						"buffer_size": 2014,
+						"buffer_size": 1624,
 						"regions":
 						{
 						},
@@ -1552,7 +1468,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 429.0,
+						"translation.y": 312.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1560,11 +1476,11 @@
 			]
 		},
 		{
-			"selected": 9,
+			"selected": 19,
 			"sheets":
 			[
 				{
-					"buffer": 26,
+					"buffer": 22,
 					"file": "protected/models/Order.php",
 					"settings":
 					{
@@ -1575,8 +1491,8 @@
 						"selection":
 						[
 							[
-								4296,
-								4296
+								2894,
+								2894
 							]
 						],
 						"settings":
@@ -1585,13 +1501,13 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 67.0,
+						"translation.y": 106.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 27,
+					"buffer": 23,
 					"file": "protected/models/_base/BaseOrder.php",
 					"settings":
 					{
@@ -1602,8 +1518,8 @@
 						"selection":
 						[
 							[
-								2096,
-								2096
+								1973,
+								1973
 							]
 						],
 						"settings":
@@ -1618,7 +1534,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 28,
+					"buffer": 24,
 					"file": "protected/models/OrderStatusHistory.php",
 					"settings":
 					{
@@ -1645,7 +1561,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 29,
+					"buffer": 25,
 					"file": "protected/models/_base/BaseOrderStatusHistory.php",
 					"settings":
 					{
@@ -1672,7 +1588,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 25,
+					"buffer": 26,
 					"file": "protected/controllers/FileController.php",
 					"settings":
 					{
@@ -1699,7 +1615,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 30,
+					"buffer": 27,
 					"file": "protected/models/Comment.php",
 					"settings":
 					{
@@ -1726,7 +1642,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 31,
+					"buffer": 28,
 					"file": "protected/models/_base/BaseComment.php",
 					"settings":
 					{
@@ -1753,7 +1669,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 32,
+					"buffer": 29,
 					"file": "protected/models/_base/BaseAuthAssignment.php",
 					"settings":
 					{
@@ -1780,7 +1696,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 33,
+					"buffer": 30,
 					"file": "protected/models/_base/BaseAuthItem.php",
 					"settings":
 					{
@@ -1807,7 +1723,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 34,
+					"buffer": 31,
 					"file": "protected/models/User2.php",
 					"settings":
 					{
@@ -1834,7 +1750,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 35,
+					"buffer": 32,
 					"file": "protected/models/_base/BaseUser.php",
 					"settings":
 					{
@@ -1861,7 +1777,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 36,
+					"buffer": 33,
 					"file": "protected/models/Profile2.php",
 					"settings":
 					{
@@ -1887,7 +1803,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 37,
+					"buffer": 34,
 					"file": "protected/models/_base/BaseProfile.php",
 					"settings":
 					{
@@ -1914,7 +1830,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 38,
+					"buffer": 35,
 					"file": "protected/models/_base/BaseVariables.php",
 					"settings":
 					{
@@ -1939,15 +1855,176 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 36,
+					"file": "protected/models/PaymentHistory.php",
+					"settings":
+					{
+						"buffer_size": 1084,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								251,
+								251
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 37,
+					"file": "protected/models/Payment.php",
+					"settings":
+					{
+						"buffer_size": 1548,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								694,
+								694
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 38,
+					"file": "protected/models/_base/BasePaymentHistory.php",
+					"settings":
+					{
+						"buffer_size": 2016,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								537,
+								537
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 78.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 39,
+					"file": "protected/models/_base/BasePayment.php",
+					"settings":
+					{
+						"buffer_size": 2464,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								684,
+								684
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 390.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 40,
+					"file": "protected/models/OrderStatus.php",
+					"settings":
+					{
+						"buffer_size": 203,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								203,
+								203
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 41,
+					"file": "protected/models/_base/BaseOrderStatus.php",
+					"settings":
+					{
+						"buffer_size": 2244,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								537,
+								537
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 3,
+			"selected": 5,
 			"sheets":
 			[
 				{
-					"buffer": 39,
+					"buffer": 42,
 					"file": "js/pageOrderList.js",
 					"settings":
 					{
@@ -1974,7 +2051,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 40,
+					"buffer": 43,
 					"file": "protected/views/order/create.php",
 					"settings":
 					{
@@ -2002,7 +2079,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 41,
+					"buffer": 44,
 					"file": "js/pageOrderCreate.js",
 					"settings":
 					{
@@ -2033,15 +2110,15 @@
 					"file": "protected/views/order/update.php",
 					"settings":
 					{
-						"buffer_size": 11240,
+						"buffer_size": 11330,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9447,
-								9447
+								2106,
+								2106
 							]
 						],
 						"settings":
@@ -2051,7 +2128,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2685.0,
+						"translation.y": 364.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -2088,15 +2165,15 @@
 					"file": "protected/views/order/_form.php",
 					"settings":
 					{
-						"buffer_size": 18587,
+						"buffer_size": 19418,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11594,
-								11594
+								12136,
+								12136
 							]
 						],
 						"settings":
@@ -2105,7 +2182,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1045.0,
+						"translation.y": 499.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -2153,13 +2230,13 @@
 		"cols":
 		[
 			0.0,
-			0.470833333333,
+			0.484895833333,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.625894375894,
+			0.477245727245,
 			1.0
 		]
 	},
@@ -2174,6 +2251,42 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"baseorsta",
+				"protected/models/_base/BaseOrderStatus.php"
+			],
+			[
+				"ordesta",
+				"protected/models/OrderStatus.php"
+			],
+			[
+				"mea",
+				"protected/controllers/MeasureUnitController.php"
+			],
+			[
+				"orderstali",
+				"protected/views/orderStatus/list.php"
+			],
+			[
+				"orderst",
+				"protected/controllers/OrderStatusController.php"
+			],
+			[
+				"basepa",
+				"protected/models/_base/BasePayment.php"
+			],
+			[
+				"basepay",
+				"protected/models/_base/BasePaymentHistory.php"
+			],
+			[
+				"paymen",
+				"protected/models/Payment.php"
+			],
+			[
+				"paymenthi",
+				"protected/models/PaymentHistory.php"
+			],
 			[
 				"file",
 				"protected/controllers/FileController.php"
@@ -2241,10 +2354,6 @@
 			[
 				"vdc",
 				"protected/controllers/VdcuserController.php"
-			],
-			[
-				"mea",
-				"protected/controllers/MeasureUnitController.php"
 			],
 			[
 				"priori",
@@ -2653,38 +2762,6 @@
 			[
 				"comme",
 				"protected/models/Comment.php"
-			],
-			[
-				"basecomm",
-				"protected/models/_base/BaseComment.php"
-			],
-			[
-				"comm",
-				"protected/controllers/CommentController.php"
-			],
-			[
-				"baseord",
-				"protected/models/_base/BaseOrderStatusHistory.php"
-			],
-			[
-				"gxa",
-				"protected/extensions/giix-components/GxActiveForm.php"
-			],
-			[
-				"inde",
-				"index.php"
-			],
-			[
-				"uplo",
-				"protected/components/UploadHandler.php"
-			],
-			[
-				"da",
-				"js/daterangepicker.js"
-			],
-			[
-				"order",
-				"protected/models/OrderStatusHistory.php"
 			]
 		],
 		"width": 0.0

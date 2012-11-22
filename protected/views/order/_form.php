@@ -189,10 +189,20 @@
 				if($role_id=='Manager'&&(!isset($buttons))){ ?>
 					<div class="controls controls-row row">
 						<label class="span2" for="Order_clientPrice">Общая стоимость, руб.</label>
+						<label class="span2" for="Order_clientPrice">Оплачено</label>
 						<label class="span2" for="Order_debtPrice">Долг</label>
 					</div>
 					<div class="controls controls-row row">
 						<label class="lead span2"><?php echo $model->clientPrice; ?></label>
+						<label class="lead span1"> </label>
+						<label id="paidSum" class="lead span1 dotted" rel="tooltip"
+							title="<?php
+								foreach ($model->payments as $key => $value) {
+									foreach ($value->paymentHistories as $key => $paymentHistory) {
+										echo $paymentHistory->createDateFormatted.' - '.$paymentHistory->amount.'р.<br>';
+									}
+								}
+							?>"><?php echo $model->paidSum; ?></label>
 						<label class="lead span2"><?php echo $model->debtPrice; ?></label>
 					</div>
 				<?php } else if($role_id=='Designer'&&(!isset($buttons))){ ?>
@@ -208,8 +218,8 @@
 						<label class="span2" for="Order_designerPrice">Дизайнеру</label>
 					</div>
 					<div class="controls controls-row">
-						<?php echo $form->textField($model, 'clientPrice', array('class' => 'span2')); ?>
-						<?php echo $form->textField($model, 'designerPrice', array('class' => 'span2')); ?>
+						<?php echo $form->textField($model, 'clientPrice', array('class' => 'span2', 'readonly' => 'readonly')); ?>
+						<?php echo $form->textField($model, 'designerPrice', array('class' => 'span2', 'readonly' => 'readonly')); ?>
 					</div>
 				<?php }?>
 		<?php } else { ?>
@@ -246,6 +256,7 @@
 			</div>
 		</div>
 		<?php if(isset($buttons)) { ?>
+		
 		<?php } else { ?>
 		<div class="controls controls-row row pull-right" style="z-index: 9;">
 			<div class="span6" style="min-height : 500px" id="commentcontent"></div>
@@ -421,3 +432,13 @@ $this->endWidget();
 				</div>
 			<?php } ?>
 		</div>
+
+		<?php if(isset($buttons)) { ?>
+			<div class="clearfix"> </div>
+			<div class="clearfix"> &nbsp;</div>
+			<div class="controls controls-row row">
+				<button type="button" class="btn btn-large btn-magenta span6 submit-button">
+					Прикрепить файлы
+				</button>
+			</div>
+		<?php } ?>

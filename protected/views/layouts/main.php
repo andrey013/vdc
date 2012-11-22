@@ -156,7 +156,8 @@ $(function(){
 										  		'price/list',
 										  		'vdcinfo/update',
 										  		'document/list',
-										  		'mailer/list'
+										  		'mailer/list',
+										  		'orderStatus/list'
 										  		)))
 								{ ?>class="active"<? } ?>>
 						<a href="<?php echo $this->createUrl('/client/list'); ?>">Настройки</a>

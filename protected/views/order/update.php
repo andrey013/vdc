@@ -41,6 +41,10 @@ tinyMCE.init({
             });
         }
 });
+
+    $(function(){
+        $('#paidSum').tooltip({placement:'right', html:true});
+    });
 </script >
 
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/pageOrderUpdate.js"></script>
