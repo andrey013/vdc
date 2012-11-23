@@ -1,0 +1,58 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<project name="testsite" basedir="." default="rebuild">
+    <property file="./build.properties" />
+
+    <property name="package"  value="${phing.project.name}" override="true" />
+    <property name="builddir" value="./build" override="true" />
+    <property name="srcdir"   value="${project.basedir}" override="true" />
+
+    <fileset dir="." id="phpfiles">
+        <exclude name="build/**/*" />
+        <include name="**/*.php" />
+    </fileset>
+
+    <fileset dir="." id="allfiles">
+        <exclude name="build/**/*" />
+        <include name="css/*.css" />
+        <include name="img/**/*.png" />
+        <include name="js/**/*.png" />
+        <include name="tinymce/jscript/**/*" />
+    </fileset>
+
+    <fileset dir="." id="jsfiles">
+        <exclude name="build/**/*" />
+        <include name="js/**/*.js" />
+    </fileset>
+
+    <!-- ============================================  -->
+    <!-- Target: main                        -->
+    <!-- ============================================  -->
+    <target name="main" description="main target">
+        <phplint>
+            <fileset refid="phpfiles" />
+        </phplint>
+        <!-- <jsllint>
+            <fileset refid="jsfiles" />
+        </jsllint> -->
+
+        <copy todir="${builddir}">
+            <filterchain>
+                <stripwhitespace />
+                <striplinebreaks />
+            </filterchain>
+            <fileset refid="phpfiles" />
+        </copy>
+        <jsMin targetDir="${builddir}" failOnError="false" suffix="">
+            <fileset refid="jsfiles" />
+        </jsMin>
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: Rebuild                               -->
+    <!-- ============================================  -->
+    <target name="rebuild" description="rebuilds this package">
+        <delete dir="${builddir}" />
+        <phingcall target="main" />
+    </target>
+</project>
