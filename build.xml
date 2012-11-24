@@ -23,6 +23,8 @@
         <include name="css/*.min.css" />
         <exclude name="tinymce/jscripts/tiny_mce/plugins/**/*" />
         <include name="tinymce/jscripts/**/*" />
+        <include name=".htaccess" />
+        <include name="protected/.htaccess" />
     </fileset>
 
     <fileset dir="." id="jsfiles">
