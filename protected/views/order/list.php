@@ -260,21 +260,6 @@
 									}
 								});
 
-								/*
-								// add column values
-								for (var c = 0; c < columnCount; c++) {
-									if (getColumnType(c) == 'boolean') continue;
-									var displayValue = getDisplayValueAt(r, c);
-									var value = getValueAt(r, c);
-									rowContent += displayValue + " " + (displayValue == value ? "" : value + " ");
-								}
-								
-								// add attribute values
-								for (var attributeName in row) {
-									if (attributeName != "visible" && attributeName != "originalIndex" && attributeName != "columns") rowContent += row[attributeName];
-								}
-								*/
-
 								// if row contents do not match one word in the filter, hide the row
 								for (var i = 0; i < words.length; i++) {
 									var word = words[i];

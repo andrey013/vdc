@@ -1,51 +1,89 @@
 <?xml version="1.0"  encoding="UTF-8" ?>
 
 <project name="testsite" basedir="." default="rebuild">
-    <property file="./build.properties" />
+    <!-- <property file="./build.properties" /> -->
 
     <property name="package"  value="${phing.project.name}" override="true" />
     <property name="builddir" value="./build" override="true" />
     <property name="srcdir"   value="${project.basedir}" override="true" />
 
+    <taskdef name="yuic" classname="phing.tasks.YuiCompressorTask" />
+
     <fileset dir="." id="phpfiles">
         <exclude name="build/**/*" />
+        <exclude name="phing/**/*" />
         <include name="**/*.php" />
     </fileset>
 
     <fileset dir="." id="allfiles">
         <exclude name="build/**/*" />
-        <include name="css/*.css" />
+        <exclude name="phing/**/*" />
         <include name="img/**/*.png" />
-        <include name="js/**/*.png" />
-        <include name="tinymce/jscript/**/*" />
+        <include name="js/*.min.js" />
+        <include name="css/*.min.css" />
+        <exclude name="tinymce/jscripts/tiny_mce/plugins/**/*" />
+        <include name="tinymce/jscripts/**/*" />
     </fileset>
 
     <fileset dir="." id="jsfiles">
         <exclude name="build/**/*" />
-        <include name="js/**/*.js" />
+        <exclude name="phing/**/*" />
+        <exclude name="js/*.min.js" />
+        <include name="js/*.js" />
+    </fileset>
+
+    <fileset dir="." id="cssfiles">
+        <exclude name="build/**/*" />
+        <exclude name="phing/**/*" />
+        <exclude name="css/*.min.css" />
+        <include name="css/*.css" />
     </fileset>
 
     <!-- ============================================  -->
     <!-- Target: main                        -->
     <!-- ============================================  -->
     <target name="main" description="main target">
-        <phplint>
+        <!-- <phplint>
             <fileset refid="phpfiles" />
         </phplint>
-        <!-- <jsllint>
+        <jsllint>
             <fileset refid="jsfiles" />
-        </jsllint> -->
-
-        <copy todir="${builddir}">
-            <filterchain>
-                <stripwhitespace />
-                <striplinebreaks />
-            </filterchain>
-            <fileset refid="phpfiles" />
-        </copy>
+        </jsllint>
         <jsMin targetDir="${builddir}" failOnError="false" suffix="">
             <fileset refid="jsfiles" />
-        </jsMin>
+        </jsMin> -->
+        <parallel threadCount="4">
+            <copy todir="${builddir}">
+                <filterchain>
+                    <stripwhitespace />
+                    <replaceregexp>
+	                    <regexp pattern="//(.*)" replace=""/>
+                    </replaceregexp>
+                    <!-- <striplinecomments>
+                        <comment value="//" />
+                    </striplinecomments> -->
+                    
+                    <striplinebreaks />
+                    <replaceregexp>
+	                    <regexp pattern="\s+" replace=" "/>
+                    </replaceregexp>
+                    <replaceregexp>
+	                    <regexp pattern="&lt;!--[^\[](.*?)--&gt;" replace=""/>
+                    </replaceregexp>
+                    
+                </filterchain>
+                <fileset refid="phpfiles" />
+            </copy>
+            <copy todir="${builddir}">
+                <fileset refid="allfiles" />
+            </copy>
+            <yuic targetdir="${builddir}">
+                <fileset refid="jsfiles" />
+            </yuic>
+            <yuic targetdir="${builddir}">
+                <fileset refid="cssfiles" />
+            </yuic>
+        </parallel>
     </target>
 
     <!-- ============================================  -->

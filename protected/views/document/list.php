@@ -11,29 +11,9 @@
 <!-- The File Upload user interface plugin -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.fileupload-ui.js"></script>
 
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script>
 
 <script>
 	$(function(){
-		tinyMCE.init({
-		        mode : "textareas",
-		        language : "ru",
-		        body_class : "span10",
-		        theme : "advanced",
-		        theme_advanced_resizing : true,
-		        onchange_callback : "myCustomOnChangeHandler",
-
-
-		        theme_advanced_buttons1 : "bold,italic,underline,strikethrough,sub,sup,fontsizeselect,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull",
-		        theme_advanced_toolbar_location : "bottom",
-		        setup : function(ed)
-		        {
-		            ed.onInit.add(function(ed)
-		            {
-		                ed.getDoc().body.style.fontSize = 14;
-		            });
-		        }
-		});
 
 		// Initialize the jQuery File Upload widget:
     	$('#fileupload').fileupload();
