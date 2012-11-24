@@ -8,18 +8,18 @@
     <property name="srcdir"   value="${project.basedir}" override="true" />
 
     <taskdef name="yuic" classname="phing.tasks.YuiCompressorTask" />
+    <taskdef name="sync" classname="phing.tasks.ext.FileSyncTask" />
 
     <fileset dir="." id="phpfiles">
         <exclude name="build/**/*" />
         <exclude name="phing/**/*" />
-        <exclude name="protected/yii-1.1.12/demos/**/*" />
+        <exclude name="protected/yii-1.1.12/**/*" />
         <exclude name="protected/runtime/**/*" />
         <include name="**/*.php" />
     </fileset>
 
     <fileset dir="." id="allfiles">
-        <exclude name="build/**/*" />
-        <exclude name="phing/**/*" />
+        <include name="protected/yii-1.1.12/**/*" />
         <include name="img/**/*.png" />
         <include name="js/*.min.js" />
         <include name="css/*.min.css" />
@@ -30,15 +30,11 @@
     </fileset>
 
     <fileset dir="." id="jsfiles">
-        <exclude name="build/**/*" />
-        <exclude name="phing/**/*" />
         <exclude name="js/*.min.js" />
         <include name="js/*.js" />
     </fileset>
 
     <fileset dir="." id="cssfiles">
-        <exclude name="build/**/*" />
-        <exclude name="phing/**/*" />
         <exclude name="css/*.min.css" />
         <include name="css/*.css" />
     </fileset>
@@ -59,22 +55,27 @@
         <parallel threadCount="4">
             <copy todir="${builddir}">
                 <filterchain>
+                    
                     <stripwhitespace />
-                    <replaceregexp>
-	                    <regexp pattern="//(.*)" replace=""/>
-                    </replaceregexp>
-                    <!-- <striplinecomments>
+                    <striplinecomments>
                         <comment value="//" />
-                    </striplinecomments> -->
-                    
-                    <striplinebreaks />
-                    <replaceregexp>
-	                    <regexp pattern="\s+" replace=" "/>
+                    </striplinecomments>
+                    <!--<replaceregexp>
+	                    <regexp pattern="^(.*)//([^'&quot;]*" replace="\1"/>
                     </replaceregexp>
                     <replaceregexp>
-	                    <regexp pattern="&lt;!--[^\[](.*?)--&gt;" replace=""/>
-                    </replaceregexp>
+	                    <regexp pattern="(?&lt;=&quot;.*&quot;.*)//.*$|(?&lt;!&quot;.*)//.*$" replace="\1"/>
+                    </replaceregexp> -->
                     
+                    <!-- <prefixlines prefix=" " />
+                    <striplinebreaks /> -->
+                    <replaceregexp>
+	                    <regexp pattern="^\s+" replace=" "/>
+                        <regexp pattern="\s+$" replace=" "/>
+                    </replaceregexp>
+                    <replaceregexp>
+	                    <regexp pattern="&lt;!--(.*?)--&gt;" replace="" multiline="true"/>
+                    </replaceregexp>
                 </filterchain>
                 <fileset refid="phpfiles" />
             </copy>
@@ -87,7 +88,29 @@
             <yuic targetdir="${builddir}">
                 <fileset refid="cssfiles" />
             </yuic>
+            
         </parallel>
+        <mkdir dir="${builddir}/protected/runtime" />
+        <chmod file="${builddir}/protected/runtime" mode="0777" />
+    </target>
+
+    <target name="synctest" description="synctest">
+        <sync
+            sourcedir="${builddir}"
+            destinationdir="yankin013@vdvdesign.ru:~/htdocs"
+            dryrun="true"
+            itemizechanges="true"
+            verbose="true"
+            checksum="true" />
+    </target>
+
+    <target name="realsync" description="realsync">
+        <sync
+            sourcedir="${builddir}"
+            destinationdir="yankin013@vdvdesign.ru:~/htdocs"
+            itemizechanges="true"
+            verbose="true"
+            checksum="true" />
     </target>
 
     <!-- ============================================  -->
