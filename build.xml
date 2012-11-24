@@ -12,6 +12,8 @@
     <fileset dir="." id="phpfiles">
         <exclude name="build/**/*" />
         <exclude name="phing/**/*" />
+        <exclude name="protected/yii-1.1.12/demos/**/*" />
+        <exclude name="protected/runtime/**/*" />
         <include name="**/*.php" />
     </fileset>
 

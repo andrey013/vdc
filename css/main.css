@@ -136,57 +136,57 @@ select:focus {
 }
 
 .row-work {
-  -webkit-text-shadow: 0 0 3px rgba(174, 255, 174, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(174, 255, 174, 1);
      -moz-text-shadow: 0 0 3px rgba(174, 255, 174, 1);
-          text-shadow: 0 0 3px rgba(174, 255, 174, 1);
+          text-shadow: 0 0 3px rgba(174, 255, 174, 1);*/
   
   background-color: rgba(174, 255, 174, 0.9);
 }
 
 .row-confirm {
-  -webkit-text-shadow: 0 0 3px rgba(255, 253, 153, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(255, 253, 153, 1);
      -moz-text-shadow: 0 0 3px rgba(255, 253, 153, 1);
-          text-shadow: 0 0 3px rgba(255, 253, 153, 1);
+          text-shadow: 0 0 3px rgba(255, 253, 153, 1);*/
   
   background-color: rgba(255, 253, 153, 0.9);
 }
 
 .row-agreed {
-  -webkit-text-shadow: 0 0 3px rgba(238, 191, 209, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(238, 191, 209, 1);
      -moz-text-shadow: 0 0 3px rgba(238, 191, 209, 1);
-          text-shadow: 0 0 3px rgba(238, 191, 209, 1);
+          text-shadow: 0 0 3px rgba(238, 191, 209, 1);*/
   
   background-color: rgba(238, 191, 209, 0.9);
 }
 
 .row-changed {
-  -webkit-text-shadow: 0 0 3px rgba(253, 107, 107, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(253, 107, 107, 1);
      -moz-text-shadow: 0 0 3px rgba(253, 107, 107, 1);
-          text-shadow: 0 0 3px rgba(253, 107, 107, 1);
+          text-shadow: 0 0 3px rgba(253, 107, 107, 1);*/
   
   background-color: rgba(253, 107, 107, 0.9);
 }
 
 .row-done {
-  -webkit-text-shadow: 0 0 3px rgba(225, 225, 225, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(225, 225, 225, 1);
      -moz-text-shadow: 0 0 3px rgba(225, 225, 225, 1);
-          text-shadow: 0 0 3px rgba(225, 225, 225, 1);
+          text-shadow: 0 0 3px rgba(225, 225, 225, 1);*/
   
   background-color: rgba(225, 225, 225, 0.9);
 }
 
 .row-paused {
-  -webkit-text-shadow: 0 0 3px rgba(152, 143, 190, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(152, 143, 190, 1);
      -moz-text-shadow: 0 0 3px rgba(152, 143, 190, 1);
-          text-shadow: 0 0 3px rgba(152, 143, 190, 1);
+          text-shadow: 0 0 3px rgba(152, 143, 190, 1);*/
   
   background-color: rgba(152, 143, 190, 0.9);
 }
 
 .row-cancelled {
-  -webkit-text-shadow: 0 0 3px rgba(241, 168, 92, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(241, 168, 92, 1);
      -moz-text-shadow: 0 0 3px rgba(241, 168, 92, 1);
-          text-shadow: 0 0 3px rgba(241, 168, 92, 1);
+          text-shadow: 0 0 3px rgba(241, 168, 92, 1);*/
   
   background-color: rgba(241, 168, 92, 0.9);
 }
