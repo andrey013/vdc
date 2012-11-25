@@ -8,13 +8,13 @@ class Comment extends BaseComment
 		return parent::model($className);
 	}
 
-	function int2vancode($i = 0) {
+	public static function int2vancode($i = 0) {
 		$num = base_convert((int) $i, 10, 36);
 		$length = strlen($num);
 		return chr($length + ord('0') - 1) . $num;
 	}
 
-	function vancode2int($c = '00') {
+	public static function vancode2int($c = '00') {
 	  	return base_convert(substr($c, 1), 36, 10);
 	}
 

@@ -3,5 +3,6 @@
 /assets
 /protected/runtime
 /files
+/files2
 /build
 /protected/config/server.production.php

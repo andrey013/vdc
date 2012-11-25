@@ -1,9 +1,7 @@
 AddDefaultCharset UTF-8
 
-# if a directory or a file exists, use it directly
+RewriteEngine On
+RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-# otherwise forward it to index.php
-RewriteRule . index.php
-
+RewriteRule ^(.*)\?*$ index.php/$1 [L,QSA]

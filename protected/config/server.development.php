@@ -17,7 +17,9 @@ return array(
 
     // application components
     'components'=>array(
-        
+        'urlManager' => array(
+            'showScriptName'=>true,
+        ),
         'mail' => array(
             'dryRun' => true,
         ),
