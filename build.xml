@@ -13,13 +13,11 @@
     <fileset dir="." id="phpfiles">
         <exclude name="build/**/*" />
         <exclude name="phing/**/*" />
-        <exclude name="protected/yii-1.1.12/**/*" />
         <exclude name="protected/runtime/**/*" />
         <include name="**/*.php" />
     </fileset>
 
     <fileset dir="." id="allfiles">
-        <include name="protected/yii-1.1.12/**/*" />
         <include name="img/**/*.png" />
         <include name="js/*.min.js" />
         <include name="css/*.min.css" />
@@ -60,7 +58,12 @@
                     <striplinecomments>
                         <comment value="//" />
                     </striplinecomments>
-                    <!--<replaceregexp>
+                    
+                    <!--<tidyfilter encoding="utf8">
+                        <config name="output-html" value="false" />
+                        <config name="indent" value="false" />
+                    </tidyfilter>
+                    <replaceregexp>
 	                    <regexp pattern="^(.*)//([^'&quot;]*" replace="\1"/>
                     </replaceregexp>
                     <replaceregexp>
@@ -68,14 +71,26 @@
                     </replaceregexp> -->
                     
                     <!-- <prefixlines prefix=" " />
-                    <striplinebreaks /> -->
+                    <striplinebreaks />
                     <replaceregexp>
 	                    <regexp pattern="^\s+" replace=" "/>
                         <regexp pattern="\s+$" replace=" "/>
-                    </replaceregexp>
+                    </replaceregexp> -->
                     <replaceregexp>
 	                    <regexp pattern="&lt;!--(.*?)--&gt;" replace="" multiline="true"/>
                     </replaceregexp>
+                   <!--  <replaceregexp>
+                        <regexp pattern="^[[:space:]]*" replace=" "/>
+                    </replaceregexp> -->
+                    <replaceregexp>
+                        <regexp pattern="[^\r\n\S]+" replace=" " multiline="false"/>
+                    </replaceregexp>
+                    <replaceregexp>
+                        <regexp pattern="(\n)[^\r\n\S]+" replace="\1" multiline="true"/>
+                    </replaceregexp>
+                    <linecontainsregexp>
+                        <regexp pattern="\S" />
+                    </linecontainsregexp>
                 </filterchain>
                 <fileset refid="phpfiles" />
             </copy>
@@ -96,18 +111,36 @@
 
     <target name="synctest" description="synctest">
         <sync
-            sourcedir="${builddir}"
+            rsyncPath="cd ${builddir}; rsync"
+            sourcedir="."
             destinationdir="yankin013@vdvdesign.ru:~/htdocs"
-            dryrun="true"
             itemizechanges="true"
             verbose="true"
-            checksum="true" />
+            checksum="true"
+            delete="true"
+            excludeFile="../.syncignore"
+            dryrun="true"
+        />
     </target>
 
     <target name="realsync" description="realsync">
         <sync
-            sourcedir="${builddir}"
+            rsyncPath="cd ${builddir}; rsync"
+            sourcedir="."
             destinationdir="yankin013@vdvdesign.ru:~/htdocs"
+            itemizechanges="true"
+            verbose="true"
+            checksum="true"
+            delete="true"
+            excludeFile="../.syncignore"
+        />
+    </target>
+
+    <target name="realyiisync" description="realyiisync">
+        <sync
+            rsyncPath="cd ./protected/yii-1.1.12; rsync"
+            sourcedir="."
+            destinationdir="yankin013@vdvdesign.ru:~/htdocs/protected/yii-1.1.12"
             itemizechanges="true"
             verbose="true"
             checksum="true" />

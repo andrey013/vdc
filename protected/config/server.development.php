@@ -13,24 +13,6 @@ return array(
                 'ext.giix-core', // giix generators
             ),
         ),
-        'user'=>array(
-            'hash' => 'md5',
-            'sendActivationMail' => false,
-            'loginNotActiv' => false,
-            'activeAfterRegister' => true,
-            'autoLogin' => true,
-            'registrationUrl' => array('/user/registration'),
-            'recoveryUrl' => array('/user/recovery'),
-            'loginUrl' => array('/user/login'),
-            'returnUrl' => array('/user/profile'),
-            'returnLogoutUrl' => array('/user/login'),
-            'tableUsers' => 'vdc_user',
-            'tableProfiles' => 'vdc_profile',
-            'tableProfileFields' => 'vdc_profiles_field',
-        ),
-        'rights'=>array(
-            //'install'=>true,
-        ),
     ),
 
     // application components
@@ -45,6 +27,8 @@ return array(
             'password' => '123',
             'enableProfiling'=>true,
             'enableParamLogging'=>true,
+            // Cache queries
+            'schemaCachingDuration' => 180,
         ),
         'log'=>array(
             'class'=>'CLogRouter',

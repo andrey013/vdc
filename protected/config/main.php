@@ -24,7 +24,26 @@ return array(
         'application.modules.rights.components.*',
         'ext.yii-mail.YiiMailMessage',
     ),
-    'modules'=>array(),
+    'modules'=>array(
+        'user'=>array(
+            'hash' => 'md5',
+            'sendActivationMail' => false,
+            'loginNotActiv' => false,
+            'activeAfterRegister' => true,
+            'autoLogin' => true,
+            'registrationUrl' => array('/user/registration'),
+            'recoveryUrl' => array('/user/recovery'),
+            'loginUrl' => array('/user/login'),
+            'returnUrl' => array('/user/profile'),
+            'returnLogoutUrl' => array('/user/login'),
+            'tableUsers' => 'vdc_user',
+            'tableProfiles' => 'vdc_profile',
+            'tableProfileFields' => 'vdc_profiles_field',
+        ),
+        'rights'=>array(
+            //'install'=>true,
+        ),
+    ),
     // application components
     'components'=>array(
         'user'=>array(
