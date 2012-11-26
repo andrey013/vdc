@@ -4,9 +4,18 @@
 
 <script>
 	$(function(){
+		var timesetdate = EditableGrid.prototype.localisset('timesetdate') ? EditableGrid.prototype.localget('timesetdate') : Date.today().toString('dd.MM.yyyy');
+		EditableGrid.prototype.localset('timesetdate', Date.today().toString('dd.MM.yyyy'));
+		var diff = (Date.today() - Date.parseExact(timesetdate, 'dd.MM.yyyy'))/(1000*60*60*24);
 
-		var start = EditableGrid.prototype.localisset('start') ? EditableGrid.prototype.localget('start') : Date.today().add({ days: -29 });
-		var end   = EditableGrid.prototype.localisset('end') ? EditableGrid.prototype.localget('end') : Date.today();
+		var start = EditableGrid.prototype.localisset('start') ? EditableGrid.prototype.localget('start') : Date.today().add({ days: -6 }).toString('dd.MM.yyyy');
+		var end   = EditableGrid.prototype.localisset('end') ? EditableGrid.prototype.localget('end') : Date.today().toString('dd.MM.yyyy');
+		if(diff!=0){
+			start = Date.parseExact(start, 'dd.MM.yyyy').add({ days: diff });
+			end   = Date.parseExact(end, 'dd.MM.yyyy').add({ days: diff });
+		}
+		EditableGrid.prototype.localset('start', start.toString('dd.MM.yyyy'));
+		EditableGrid.prototype.localset('end', end.toString('dd.MM.yyyy'));
 		datagrid = new DatabaseGrid({
 			fetchUrl: "<?php echo $this->createUrl('/order/jsonlist'); ?>"+"?start="+start.toString('dd.MM.yyyy')+"&end="+ end.toString('dd.MM.yyyy'),
 			updateUrl: "<?php echo $this->createUrl('/order/jsonupdate/'); ?>",
