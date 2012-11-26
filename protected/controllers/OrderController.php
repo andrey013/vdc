@@ -48,10 +48,11 @@ public function accessRules() {
 			$model->orderStatusHist = $_POST['Order']['orderStatusHist'];
 			$model->clientPrice = $_POST['Order']['clientPrice'];
 			$model->designerPrice = $_POST['Order']['designerPrice'];
-
 			$next = User2::getNext();
-			if(!is_null($next)){
-				$model->designer_id = $next->id;
+			if(is_null($model->designer_id)){
+				if(!is_null($next)){
+					$model->designer_id = $next->id;
+				}
 			}
 			//$model->create_date = date('Y-m-d H:i:s', $model->create_date);
 			if ($model->save()) {
@@ -59,13 +60,15 @@ public function accessRules() {
 				$model->setPayment($_POST['Order']['clientPrice'], $_POST['Order']['designerPrice']);
 
 				if(isset($model->designer_id)){
-					$variables = Variables::model()->find();
-					$variables->prev_designer_id = $model->designer_id;
-					$variables->save();
+					if($model->designer_id==$next->id){
+						$variables = Variables::model()->find();
+						$variables->prev_designer_id = $model->designer_id;
+						$variables->save();
 
-					$profile = User2::model()->with('profile')->findByPk($model->designer_id)->profile;
-					$profile->user_status_id = 0;
-					$profile->save();
+						$profile = User2::model()->with('profile')->findByPk($model->designer_id)->profile;
+						$profile->user_status_id = 0;
+						$profile->save();
+					}
 				}
 
 				$model->refresh();
@@ -86,11 +89,11 @@ public function accessRules() {
 				foreach ($users as $key => $value) {
 					if(is_null($value)) continue;
 					$message = new YiiMailMessage;
-					$message->setBody('Уважаемый дизайнер '.$value->username
+					$message->setBody('Уважаемый(ая) дизайнер '.$value->username
 						.'. Вам поступил в разработку новый заказ: '
 						.$model->customername.' '
 						.$model->client_number.' '
-						.' + '.$model->orderType->name);
+						.' '.$model->orderType->name);
 					$message->subject = 'Новый заказ';
 					$message->addTo($value->email);
 					$message->from = Yii::app()->params['adminEmail'];
@@ -168,11 +171,11 @@ public function accessRules() {
 					foreach ($users as $key => $value) {
 						if(is_null($value)) continue;
 						$message = new YiiMailMessage;
-						$message->setBody('Уважаемый '.$value->username
+						$message->setBody('Уважаемый(ая) '.$value->username
 							.' заказ '
 							.$model->customername.' '
 							.$model->client_number.' '
-							.' + '.$model->orderType->name
+							.' '.$model->orderType->name
 							.' сменил свой статус - "'.$model->orderStatusHist->orderStatus->name.'"');
 						$message->subject = 'Смена статуса';
 						$message->addTo($value->email);
@@ -309,6 +312,8 @@ public function accessRules() {
 			$grid->addColumn('orderType.name', 'Вид', 'string');
 			$grid->addColumn('comment', 'Комментарий', 'string');
 			$grid->addColumn('client.name', 'Клиент', 'string');
+			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
+				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
 			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
 			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('filter', ' ', 'string');
@@ -446,7 +451,8 @@ public function accessRules() {
 			$grid->addColumn('client_number', '№ заказа у заказчика', 'string');
 			$grid->addColumn('orderType.name', 'Вид заказа', 'string');
 			$grid->addColumn('customer.name', 'Заказчик', 'string');
-			
+			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
+				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
 			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
 			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('debt', 'Долг', 'double(,0,comma,&nbsp;,)');
@@ -541,11 +547,11 @@ public function accessRules() {
 				foreach ($users as $key => $value) {
 					if(is_null($value)) continue;
 					$message = new YiiMailMessage;
-					$message->setBody('Уважаемый дизайнер '.$value->username
+					$message->setBody('Уважаемый(ая) дизайнер '.$value->username
 						.'. Вам поступил в разработку новый заказ: '
 						.$model->customername.' '
 						.$model->client_number.' '
-						.' + '.$model->orderType->name);
+						.' '.$model->orderType->name);
 					$message->subject = 'Новый заказ';
 					$message->addTo($value->email);
 					$message->from = Yii::app()->params['adminEmail'];
@@ -559,7 +565,7 @@ public function accessRules() {
 					$message->setBody('Внимание! Заказ '
 						.$model->customername.' '
 						.$model->client_number.' '
-						.' + '.$model->orderType->name
+						.' '.$model->orderType->name
 						.' передан другому дизайнеру');
 					$message->subject = 'Заказ передан другому дизайнеру';
 					$message->addTo($value->email);

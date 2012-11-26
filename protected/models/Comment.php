@@ -24,7 +24,7 @@ class Comment extends BaseComment
 		//preg_replace('/(\r\n|\r|\n)+/', "<br/>", 
 		'{ "depth": '.(count(explode('.', $this->thread)) - 1).', '
 		.'"role": "'.$this->user->role.'", '
-		.'"user": "'.(($this->user->role_id=='Designer')?'':$this->user->profile->lastname).'", '
+		.'"user": "'.$this->user->profile->lastname.'", '
 		.'"date": "'.Yii::app()->dateFormatter->format('d.MM.yyyy H:mm', $this->create_date).'", '
 		.'"text": "'.$this->text.'" }';//);
 	}

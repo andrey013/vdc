@@ -94,7 +94,7 @@
 				<div class="controls">
 					<!-- <input type="text" id="type" placeholder="Тип пользователя"> -->
 					<?php echo $form->dropDownList($model, 'client_id',
-						GxHtml::listDataEx(Client::model()->findAll(), null, 'name')); ?>
+						GxHtml::listDataEx(Client::model()->findAll('disabled=0'), null, 'name')); ?>
 				</div>
 			</div>
 			<div class="control-group">

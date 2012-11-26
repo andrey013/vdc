@@ -416,10 +416,10 @@ $designers=User2::model()->with(array(
 	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_manager', '',
 			GxHtml::listDataEx($managers, null, 'profile.lastname'),
 			array('class' => 'span2', 'empty' => '* Имя менеджера')); ?>
-	<?php if($role_id=='Admin') echo GxHtml::dropDownList('filter_designer', '',
+	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_designer', '',
 			GxHtml::listDataEx($designers, null, 'profile.lastname'),
 			array('class' => 'span2', 'empty' => '* Имя дизайнера')); ?>
-	<?php if($role_id=='Admin') echo GxHtml::dropDownList('filter_client', '',
+	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_client', '',
 			GxHtml::listDataEx(Client::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'),
 			array('class' => 'span2', 'empty' => '* Редакция')); ?>
 	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_paid', '',
