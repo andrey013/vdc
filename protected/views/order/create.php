@@ -1,5 +1,3 @@
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/pageOrderCreate.js"></script>
-
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script >
 <script type="text/javascript" >
 function myCustomOnChangeHandler(inst) {
@@ -46,6 +44,7 @@ tinyMCE.init({
 			});
 
         $(".submit-button").on("click", function(){
+            $("#action").val($(this).val());
             var form = $("#order-form");
             form.submit();
         });

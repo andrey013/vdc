@@ -36,13 +36,13 @@
 			<?php echo $form->textField($model, 'create_date', array('class' => 'hidden')); ?>
 			<label class="span3 lead down7px">Заказ №<strong> <?php echo $model->global_number.'_'.$model->client->code; ?></strong></label>
 			<?php echo $form->textField($model, 'global_number', array('class' => 'hidden')); ?>
-
+			<input type="hidden" name="action" id="action"></input>
 			<?php if(isset($buttons)) { ?>
 				<div class="controls controls-row row pull-right">
 					<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">
 						Отмена
 					</a>
-					<button type="button" class="btn btn-large btn-magenta span2 submit-button">
+					<button type="button" value="submit" class="btn btn-large btn-magenta span2 submit-button">
 						Оформить
 					</button>
 				</div>
@@ -59,7 +59,7 @@
 					<button type="button" class="btn btn-large span2 hidden edit-button cancel-button">
 						Отмена
 					</button>
-					<button type="button" class="btn btn-large btn-magenta span2 hidden edit-button submit-button">
+					<button type="button" value="submit" class="btn btn-large btn-magenta span2 hidden edit-button submit-button">
 						Сохранить
 					</button>
 				</div>
@@ -271,6 +271,7 @@ $this->endWidget();
 		<div class="controls controls-row pull-left">
 		<div class="controls controls-row row">
 			<label class="lead span6  down7px">Файлы: </label>
+			<a name="tofiles"></a> 
 		</div>
 		<div class="controls controls-row row">
 			<!-- The file upload form used as target for the file upload widget -->
@@ -409,7 +410,7 @@ $this->endWidget();
 					<a href="<?php echo $this->createUrl('/order/list'); ?>" class="btn btn-large span1">
 						Отмена
 					</a>
-					<button type="button" class="btn btn-large btn-magenta span2 submit-button">
+					<button type="button" value="submit" class="btn btn-large btn-magenta span2 submit-button">
 						Оформить
 					</button>
 				</div>
@@ -426,7 +427,7 @@ $this->endWidget();
 					<button type="button" class="btn btn-large span2 hidden edit-button cancel-button">
 						Отмена
 					</button>
-					<button type="button" class="btn btn-large btn-magenta span2 hidden edit-button submit-button">
+					<button type="button" value="submit" class="btn btn-large btn-magenta span2 hidden edit-button submit-button">
 						Сохранить
 					</button>
 				</div>
@@ -437,7 +438,7 @@ $this->endWidget();
 			<div class="clearfix"> </div>
 			<div class="clearfix"> &nbsp;</div>
 			<div class="controls controls-row row">
-				<button type="button" class="btn btn-large btn-magenta span6 submit-button">
+				<button type="button" value="files" class="btn btn-large btn-magenta span6 submit-button">
 					Прикрепить файлы
 				</button>
 			</div>

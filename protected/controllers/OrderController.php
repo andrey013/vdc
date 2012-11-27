@@ -100,10 +100,15 @@ public function accessRules() {
 					Yii::app()->mail->send($message);
 				}
 
-				if (Yii::app()->getRequest()->getIsAjaxRequest())
+				if (Yii::app()->getRequest()->getIsAjaxRequest()){
 					Yii::app()->end();
-				else
-					$this->redirect(array('update', 'id' => $model->id));
+				} else {
+					if(isset($_POST['action'])&&$_POST['action']=='files'){
+						$this->redirect(array('update', 'id' => $model->id, '#' => 'tofiles'));
+					} else {
+						$this->redirect(array('list'));
+					}
+				}
 			}
 		} else {
 			if (isset($_POST['Order'])) {
