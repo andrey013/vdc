@@ -148,7 +148,10 @@ public function accessRules() {
 		$model = $this->loadModel($id, 'Order');
 
 		$this->performAjaxValidation($model, 'order-form');
-
+		$user = User2::model()->with('profile')->findByPk(Yii::app()->user->id);
+		$user_id = $user->id;
+		if($user->role_id=='Designer'&&($user_id!=$model->designer_id||$model->disabled==1))
+			throw new CHttpException(401, 'У вас недостаточно прав для просмотра этой информации');
 		if (isset($_POST['Order'])) {
 			$model->setAttributes($_POST['Order']);
 			$model->setCustomerName($_POST['Order']['customername']);
@@ -170,7 +173,7 @@ public function accessRules() {
 						),
 						'profile'
 					)->findAll('disabled=0');*/
-					$user_id = Yii::app()->user->id;
+					
 					if($user_id!=$model->designer_id) $users[] = $model->designer;
 					if($user_id!=$model->manager_id) $users[] = $model->manager;
 					foreach ($users as $key => $value) {

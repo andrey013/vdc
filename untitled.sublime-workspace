@@ -311,7 +311,7 @@
 			"file": "protected/controllers/OrderController.php",
 			"settings":
 			{
-				"buffer_size": 22254,
+				"buffer_size": 22498,
 				"line_ending": "Unix"
 			}
 		},
@@ -781,6 +781,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"user",
 			"role_id",
 			"email",
 			"tofiles",
@@ -907,8 +908,7 @@
 			"verti",
 			"168",
 			"82",
-			"thead",
-			"first"
+			"thead"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1239,7 +1239,7 @@
 			]
 		},
 		{
-			"selected": 15,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -1247,15 +1247,15 @@
 					"file": "protected/controllers/OrderController.php",
 					"settings":
 					{
-						"buffer_size": 22254,
+						"buffer_size": 22498,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8069,
-								8069
+								5072,
+								5072
 							]
 						],
 						"settings":
@@ -1264,7 +1264,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1248.0,
+						"translation.y": 1742.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1660,8 +1660,8 @@
 						"selection":
 						[
 							[
-								1000,
-								1000
+								927,
+								927
 							]
 						],
 						"settings":
@@ -1687,8 +1687,8 @@
 						"selection":
 						[
 							[
-								442,
-								442
+								4738,
+								4738
 							]
 						],
 						"settings":
@@ -1697,7 +1697,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1365.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
