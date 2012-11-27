@@ -15,7 +15,6 @@ class CreateUserForm extends CFormModel {
 			array('password', 'length', 'max'=>128, 'min' => 3, 'message' => "Минимальная длина пароля - 3 символа."),
 			array('lastname', 'length', 'max'=>128, 'min' => 3, 'message' => "Минимальная длина имени - 3 символа."),
 			array('email', 'email'),
-			array('email', 'unique', 'className'=> 'User2'),
 		);
 	}
 
