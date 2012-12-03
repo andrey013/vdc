@@ -89,7 +89,7 @@ public function accessRules() {
 				foreach ($users as $key => $value) {
 					if(is_null($value)) continue;
 					$message = new YiiMailMessage;
-					$message->setBody('Уважаемый(ая) дизайнер '.$value->username
+					$message->setBody('Уважаемый(ая) '.$value->username
 						.'. Вам поступил в разработку новый заказ: '
 						.$model->customername.' '
 						.$model->client_number.' '
@@ -555,7 +555,7 @@ public function accessRules() {
 				foreach ($users as $key => $value) {
 					if(is_null($value)) continue;
 					$message = new YiiMailMessage;
-					$message->setBody('Уважаемый(ая) дизайнер '.$value->username
+					$message->setBody('Уважаемый(ая) '.$value->username
 						.'. Вам поступил в разработку новый заказ: '
 						.$model->customername.' '
 						.$model->client_number.' '

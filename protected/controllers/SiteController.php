@@ -91,7 +91,7 @@ class SiteController extends Controller
 		if(isset($_POST['LoginForm']))
 		{
 			if(isset($_POST['LoginForm']['activkey'])){
-				$user = User2::model()->find('activkey=:activkey', array(':activkey'=>$_POST['LoginForm']['activkey']));
+				$user = User2::model()->find('activkey=:activkey and disables=0', array(':activkey'=>$_POST['LoginForm']['activkey']));
 				if(isset($user)&&$user->activkey!=0){
 					$user->password = UserModule::encrypting($_POST['LoginForm']['password']);
 					$user->activkey = 0;
@@ -106,7 +106,7 @@ class SiteController extends Controller
 		// display the login form
 		$user = null;
 		if(isset($_GET['activkey'])){
-			$user = User2::model()->find('activkey=:activkey', array(':activkey'=>$_GET['activkey']));
+			$user = User2::model()->find('activkey=:activkey and disabled=0', array(':activkey'=>$_GET['activkey']));
 		}
 		$this->render('login', array('model'=>$model, 'user'=>$user));
 	}
@@ -122,7 +122,7 @@ class SiteController extends Controller
 
 	public function actionSendRecoveryMail($username)
 	{
-		$user = User2::model()->find('username=:username', array(':username'=>$username));
+		$user = User2::model()->find('username=:username and disabled=0', array(':username'=>$username));
 		$user->activkey = UserModule::encrypting(microtime().$user->password);
 		$user->save();
 		$message = new YiiMailMessage;
