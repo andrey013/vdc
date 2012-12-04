@@ -26,7 +26,7 @@ class Comment extends BaseComment
 		.'"role": "'.$this->user->role.'", '
 		.'"user": "'.$this->user->profile->lastname.'", '
 		.'"date": "'.Yii::app()->dateFormatter->format('d.MM.yyyy H:mm', $this->create_date).'", '
-		.'"text": "'.$this->text.'" }';//);
+		.'"text": "'.str_replace( "<", "&lt;", addcslashes( $this->text, "\"\\" )).'" }';//);
 	}
 
 	protected function beforeSave()
