@@ -25,6 +25,7 @@
         <include name="tinymce/jscripts/**/*" />
         <include name=".htaccess" />
         <include name="protected/.htaccess" />
+        <include name="files/.htaccess" />
     </fileset>
 
     <fileset dir="." id="jsfiles">

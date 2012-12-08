@@ -1,2 +1,3 @@
 protected/runtime/*
-files/
+/files/[0-9]*
+/files/documents
