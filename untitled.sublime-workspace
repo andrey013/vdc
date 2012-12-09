@@ -287,7 +287,7 @@
 			"file": "protected/components/UploadHandler.php",
 			"settings":
 			{
-				"buffer_size": 21243,
+				"buffer_size": 21244,
 				"line_ending": "Unix"
 			}
 		},
@@ -805,6 +805,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"abort",
 			"User2",
 			"user2",
 			"user",
@@ -931,8 +932,7 @@
 			"template",
 			"wi",
 			"btn-success",
-			"08",
-			"0088"
+			"08"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -952,7 +952,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 8,
 			"sheets":
 			[
 				{
@@ -1181,15 +1181,15 @@
 					"file": "protected/components/UploadHandler.php",
 					"settings":
 					{
-						"buffer_size": 21243,
+						"buffer_size": 21244,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5738,
-								5738
+								3450,
+								3450
 							]
 						],
 						"settings":
@@ -1199,7 +1199,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1562.0,
+						"translation.y": 989.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -2590,7 +2590,7 @@
 		"cols":
 		[
 			0.0,
-			0.325520833333,
+			0.503645833333,
 			1.0
 		],
 		"rows":
