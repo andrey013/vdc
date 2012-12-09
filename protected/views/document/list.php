@@ -22,7 +22,11 @@
 	        'autoUpload',
 	        true
 	    );
-
+	 	$('#fileupload').fileupload(
+	        'option',
+	        'maxChunkSize',
+	        8000000
+	    );
     	// Load existing files:
         $('#fileupload').each(function () {
             var that = this;

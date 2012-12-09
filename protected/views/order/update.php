@@ -109,6 +109,11 @@ tinyMCE.init({
             downloadTemplateId: 'template-download-readonly'
             <?php } ?>
         });
+        $('#fileupload1').fileupload(
+            'option',
+            'maxChunkSize',
+            8000000
+        );
     	// Load existing files:
         $('#fileupload1').each(function () {
             var that = this;
@@ -126,6 +131,11 @@ tinyMCE.init({
             downloadTemplateId: 'template-download-readonly'
             <?php } ?>
         });
+        $('#fileupload2').fileupload(
+            'option',
+            'maxChunkSize',
+            8000000
+        );
         // Load existing files:
         $('#fileupload2').each(function () {
             var that = this;
@@ -142,6 +152,11 @@ tinyMCE.init({
             downloadTemplateId: 'template-download-readonly'
             <?php } ?>
         });
+        $('#fileupload3').fileupload(
+            'option',
+            'maxChunkSize',
+            8000000
+        );
         // Load existing files:
         $('#fileupload3').each(function () {
             var that = this;
