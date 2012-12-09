@@ -112,7 +112,7 @@ tinyMCE.init({
         $('#fileupload1').fileupload(
             'option',
             'maxChunkSize',
-            8000000
+            4000000
         );
     	// Load existing files:
         $('#fileupload1').each(function () {
@@ -134,7 +134,7 @@ tinyMCE.init({
         $('#fileupload2').fileupload(
             'option',
             'maxChunkSize',
-            8000000
+            4000000
         );
         // Load existing files:
         $('#fileupload2').each(function () {
@@ -155,7 +155,7 @@ tinyMCE.init({
         $('#fileupload3').fileupload(
             'option',
             'maxChunkSize',
-            8000000
+            4000000
         );
         // Load existing files:
         $('#fileupload3').each(function () {
