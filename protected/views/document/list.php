@@ -25,7 +25,7 @@
 	 	$('#fileupload').fileupload(
 	        'option',
 	        'maxChunkSize',
-	        4000000
+	        8000000
 	    );
     	// Load existing files:
         $('#fileupload').each(function () {
