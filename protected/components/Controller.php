@@ -20,4 +20,14 @@ class Controller extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
+
+	public function beforeAction($action)
+	{
+		$user = User2::model()->with('profile')->findByPk(Yii::app()->user->id);
+	    if ($this->getRoute()!='site/login'&&$this->getRoute()!='site/sendRecoveryMail'&&$user->disabled==1){
+	        $this->redirect(Yii::app()->createUrl('site/login'));
+	    }
+	    //something code right here if user valided
+	    return true;
+	}
 }

@@ -10,15 +10,48 @@ class Order extends BaseOrder
 
 	public $clientPrice;
 	public $designerPrice;
+	public $debtPrice;
 
 	public function relations() {
 		return parent::relations() + array(
-			'orderStatus' => array(self::HAS_ONE, 'OrderStatusHistory', 'order_id', 'order' => 'change_date DESC'),
+			//'maxDate' => array(self::HAS_ONE, 'OrderStatusHistory', 'order_id', 'select'=>'MAX(vdc_order_status_history.change_date) as maxDate'),
+			'orderStatusHist' => array(self::HAS_ONE, 'OrderStatusHistory', 'order_id',
+				'condition'=>'orderStatusHist.change_date in (select MAX(change_date) from vdc_order_status_history group by order_id)'),
 			'client_price' => array(self::STAT, 'Payment', 'order_id', 'select' => 'SUM(client_price)'),
 			'designer_price' => array(self::STAT, 'Payment', 'order_id', 'select' => 'SUM(designer_price)'),
 			'penny' => array(self::STAT, 'Payment', 'order_id', 'select' => 'SUM(client_price) - SUM(designer_price)'),
 
 		);
+	}
+
+	public function getPaid()
+	{
+		$rows = $this->payments;
+		foreach ($rows as $row) {
+			if($row->debt == 1) return 0;
+		}
+		return 1;//print_r($this->getRelated("payments"));
+	}
+
+	public function getPaidSum()
+	{
+		$rows = $this->payments;
+		$sum = 0;
+		foreach ($rows as $row) {
+			if($row->debt == 1) $sum += $row->paid;
+		}
+		return $sum;//print_r($this->getRelated("payments"));
+	}
+
+	public function getDebt()
+	{
+		if($this->paid==1) return 0;
+		return $this->client_price - $this->paidSum;
+	}
+
+	public function setPaid($name)
+	{
+		
 	}
 
 	public function setPayment($client, $designer)
@@ -117,6 +150,23 @@ class Order extends BaseOrder
 		return Yii::app()->dateFormatter->format('d.MM.yyyy', $this->create_date);
 	}
 
+	public function getFilter(){
+		$result = new stdClass();
+		$result->order_type = $this->order_type_id;
+		$result->manager = $this->manager_id;
+		$result->designer = $this->designer_id;
+		$result->order_status = $this->orderStatusHist->orderStatus->key;
+		$result->client = $this->client_id;
+		$result->paid = $this->paid;
+		$result->changed = count($this->payments)<=1?0:1;
+		$result->filter = ''.$this->customer->name.' '
+							.$this->orderType->name.' '
+							.$this->comment.' '
+							.$this->client->name.' '
+							.$this->manager->username.' ';
+		return json_encode($result);
+	}
+
 	protected function beforeSave()
 	{
 		if(parent::beforeSave())
@@ -150,4 +200,5 @@ class Order extends BaseOrder
 		}
 		return true;
 	}
+
 }

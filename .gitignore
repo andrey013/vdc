@@ -2,3 +2,8 @@
 .directory
 /assets
 /protected/runtime
+/files/[0-9]*
+/files/documents
+/files2
+/build
+/protected/config/server.production.php

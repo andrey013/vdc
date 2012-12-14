@@ -48,20 +48,33 @@ class EditableGrid {
 
 	private function _getRowField($row, $field)
 	{
-		$names = explode('.', $field);
-		if(count($names)==1){
-			$value = isset($row->$names[0]) ? $row->$names[0] : '';
-		} elseif(count($names)==2){
-			$value1 = isset($row->$names[0]) ? ($row->$names[0]) : NULL;
-			if(!is_null($value1))
-				$value = isset($value1->$names[1]) ? ($value1->$names[1]) : '';
-		} elseif(count($names)==3){
-			$value1 = isset($row->$names[0]) ? ($row->$names[0]) : NULL;
-			if(!is_null($value1)){
-				$value2 = isset($value1->$names[1]) ? ($value1->$names[1]) : NULL;
-				if(!is_null($value2)){
-					$value3 = isset($value2->$names[2]) ? ($value2->$names[2]) : '';
-				
+		if(substr($field, 0, 1)=='@'){
+			$names = explode('|', substr($field, 1, 10));
+			//error_log(print_r($names, true));
+			$collection = $row->$names[0];
+			$index = intval($names[1]);
+
+			//error_log(print_r($collection, true).' '.$index);
+			if(isset($collection[intval($names[1])])){
+				//error_log('price set');
+				$value = $collection[intval($names[1])];
+			}
+		}else{
+			$names = explode('.', $field);
+			if(count($names)==1){
+				$value = isset($row->$names[0]) ? $row->$names[0] : '';
+			} elseif(count($names)==2){
+				$value1 = isset($row->$names[0]) ? ($row->$names[0]) : NULL;
+				if(!is_null($value1))
+					$value = isset($value1->$names[1]) ? ($value1->$names[1]) : '';
+			} elseif(count($names)==3){
+				$value1 = isset($row->$names[0]) ? ($row->$names[0]) : NULL;
+				if(!is_null($value1)){
+					$value2 = isset($value1->$names[1]) ? ($value1->$names[1]) : NULL;
+					if(!is_null($value2)){
+						$value3 = isset($value2->$names[2]) ? ($value2->$names[2]) : '';
+					
+					}
 				}
 			}
 		}
@@ -322,17 +335,10 @@ class EditableGrid {
 	 * fetch_pairs is a simple method that transforms a mysqli_result object in an array.
 	 * It will be used to generate possible values for some columns.
 	 */
-	function fetch_pairs($mysqli,$query){
-		if (!($res = $mysqli->query($query)))return FALSE;
+	public function fetch_pairs($res, $key, $field){
 		$rows = array();
-		while ($row = $res->fetch_assoc()) {
-			$first = true;
-			$key = $value = null;
-			foreach ($row as $val) {
-				if ($first) { $key = $val; $first = false; }
-				else { $value = $val; break; } 
-			}
-			$rows[$key] = $value;
+		foreach ($res as $row) {
+			$rows[$row->$key] = $this->_getRowField($row, $field);
 		}
 		return $rows;
 	}

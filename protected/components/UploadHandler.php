@@ -1,4 +1,3 @@
-<?php
 /*
  * jQuery File Upload Plugin PHP Class 6.0
  * https://github.com/blueimp/jQuery-File-Upload
@@ -79,7 +78,7 @@ class UploadHandler
             'min_width' => 1,
             'min_height' => 1,
             // Set the following option to false to enable resumable uploads:
-            'discard_aborted_uploads' => true,
+            'discard_aborted_uploads' => false,
             // Set to true to rotate images based on EXIF meta data, if available:
             'orient_image' => false,
             'image_versions' => array(
@@ -100,10 +99,12 @@ class UploadHandler
                     'jpeg_quality' => 80
                 ),
                 */
+				/*
                 'thumbnail' => array(
                     'max_width' => 80,
                     'max_height' => 80
                 )
+                */
             )
         );
         if ($options) {
@@ -180,8 +181,13 @@ class UploadHandler
     }
 
     protected function set_file_delete_properties($file) {
+        if(!isset($file->filename)){
+            $file->filename = $file->name;
+        }
         $file->delete_url = $this->options['script_url']
-            .'?file='.rawurlencode($file->name);
+            .'?file='.rawurlencode($file->filename)
+            .'&id='.$this->options['id']
+            .'&stage='.$this->options['stage'];
         $file->delete_type = $this->options['delete_type'];
         if ($file->delete_type !== 'DELETE') {
             $file->delete_url .= '&_method=DELETE';
@@ -240,10 +246,10 @@ class UploadHandler
         return null;
     }
 
-    protected function get_file_objects($iteration_method = 'get_file_object') {
-        $upload_dir = $this->get_upload_path();
+    public function get_file_objects($iteration_method = 'get_file_object') {
+		$upload_dir = $this->get_upload_path();
         if (!is_dir($upload_dir)) {
-            return array();
+            mkdir($upload_dir, 0777, true);
         }
         return array_values(array_filter(array_map(
             array($this, $iteration_method),

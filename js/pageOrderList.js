@@ -6,6 +6,7 @@ function highlightRow(rowId, bgColor, after)
 {
 	var rowSelector = $("#" + rowId);
 	rowSelector.css("background-color", bgColor);
+
 	rowSelector.fadeTo("normal", 0.5, function() { 
 		rowSelector.fadeTo("fast", 1, function() { 
 			rowSelector.css("background-color", '');
@@ -14,16 +15,16 @@ function highlightRow(rowId, bgColor, after)
 }
 
 function highlight(div_id, style) {
-	highlightRow(div_id, style == "error" ? "#e5afaf" : style == "warning" ? "#ffcc00" : "#8dc70a");
+	highlightRow(div_id, style == "error" ? "#e5afaf" : style == "warning" ? "#ffcc00" : "#ffffff");
 }
         
 /**
    updateCellValue calls the PHP script that will update the database. 
  */
-function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue, row, onResponse)
+function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue, row, updatelink, link)
 {      
 	$.ajax({
-		url: 'update.php',
+		url: updatelink,
 		type: 'POST',
 		dataType: "html",
 		data: {
@@ -36,9 +37,10 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
 		success: function (response) 
 		{ 
 			// reset old value if failed then highlight row
-			var success = onResponse ? onResponse(response) : (response == "ok" || !isNaN(parseInt(response))); // by default, a sucessfull reponse can be "ok" or a database id 
+			var success = (response == "ok" || !isNaN(parseInt(response))); // by default, a sucessfull reponse can be "ok" or a database id 
 			if (!success) editableGrid.setValueAt(rowIndex, columnIndex, oldValue);
-		    highlight(row.id, success ? "ok" : "error"); 
+		    //highlight(row.id, success ? "ok" : "error");
+		    editableGrid.loadJSON(editableGrid.fetchUrl);
 		},
 		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
 		async: true
@@ -46,68 +48,84 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
    
 }
    
+function updateSum(editableGrid){
+	var client_priceIndex = editableGrid.getColumnIndex("client_price");
+	var designer_priceIndex = editableGrid.getColumnIndex("designer_price");
+	var pennyIndex = editableGrid.getColumnIndex("penny");
+	var debtIndex = editableGrid.getColumnIndex("debt");
+	var client_price = 0;
+	var designer_price = 0;
+	var penny = 0;
+	var debt = 0;
+	for(var i = 0; i < editableGrid.getRowCount() ; i++){
+		if(client_priceIndex >= 0) client_price += editableGrid.getValueAt(i, client_priceIndex);
+		if(designer_priceIndex >= 0) designer_price += editableGrid.getValueAt(i, designer_priceIndex);
+		if(pennyIndex >= 0) penny += editableGrid.getValueAt(i, pennyIndex);
+		if(debtIndex >= 0) debt += editableGrid.getValueAt(i, debtIndex);
+	}
+	var fmt = function(val){
+		return number_format(val, 0, ',', ' ');
+	}
+	var sum = ''
+	if(client_priceIndex >= 0) sum += fmt(client_price) + ' &nbsp; ';
+	if(designer_priceIndex >= 0) sum += fmt(designer_price) + ' &nbsp; ';
+	if(pennyIndex >= 0) sum += fmt(penny) + ' &nbsp; ';
+	if(debtIndex >= 0) sum += fmt(debt) + ' &nbsp; ';
+	$("#sum").html('Итого: &nbsp; ' + sum);
+}
 
-
-function DatabaseGrid(link, editlink) 
+function DatabaseGrid(config)
 {
 	var t = this;
+	
 	this.editableGrid = new EditableGrid("order", {
-		enableSort: false,
-		pageSize: 20,
-   	    tableLoaded: function() { t.initializeGrid(this, editlink); },
+		enableSort: config.sort!==undefined?config.sort:true,
+		pageSize: config.pageSize!==undefined?config.pageSize:20,
+   	    tableLoaded: function() {
+   	    	t.initializeGrid(this, config);
+   	    	config.updateSum!==undefined?updateSum(this):0;
+   	    },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
-   	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row);
+   	    	if(confirm("Вы уверены?"))updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, config.updateUrl, config.fetchUrl);
+   	    	else this.setValueAt(rowIndex, columnIndex, oldValue);
+   	    	config.updateSum!==undefined?updateSum(this):0;
        	},
        	tableRendered: function() {
-   	    	updatePaginator(this);
+   	    	if(this.pageSize>0)updatePaginator(this);
+			var grid = this;
+			// set active (stored) filter if any
+			$('#filter').val(
+				this.localisset('listfilter') ? this.localget('listfilter') : '');
+
+				//grid.currentFilter ? grid.currentFilter : '');
+			var filters = $('[id^="filter_"]');
+			filters.each(function(){
+					var field = $(this).attr('id').substr(7);
+					$(this).val(grid.localisset(field) ? grid.localget(field) : '');
+				});	
        	},
  	});
-	this.fetchGrid(link);
+	this.fetchGrid(config.fetchUrl);
 	var grid = this.editableGrid;
-	// set active (stored) filter if any
-	$('#filter').val(grid.currentFilter ? grid.currentFilter : '');
-		
+	
+
 	// filter when something is typed into filter
 	$('#filter').on("keyup", function() { grid.filter($('#filter').val()); });
-
-	
-	
+	$('[id^="filter_"]').on("change", function() { grid.filter($('#filter').val()); });
 }
 
 DatabaseGrid.prototype.fetchGrid = function(link)  {
 	// call a PHP script to get the data
+	this.editableGrid.fetchUrl = link;
 	this.editableGrid.loadJSON(link);
 };
 
-DatabaseGrid.prototype.initializeGrid = function(grid, editlink) {
+DatabaseGrid.prototype.initializeGrid = function(grid, config) {
 	// render for the action column
-	grid.setCellRenderer("orderStatus.key", new CellRenderer({render: function(cell, value) {
-		var rowId = grid.getRowId(cell.rowIndex);
-		$("#order_"+rowId).addClass("row-"+value);
-		cell.innerHTML = "<a href=\"" + editlink + "/id/" + rowId + "\">" +
-		 "<i class='icon-edit'></i></a>";
-	}}));
-	grid.setCellRenderer("comment", new CellRenderer({render: function(cell, value) {
-		var rowId = grid.getRowId(cell.rowIndex);
-		$("<div>").append(value).addClass("two-liner").appendTo(cell);
-	}}));
+	config.init(grid);
 
-	grid.setCellRenderer("orderStatus.statusformatted", new CellRenderer({render: function(cell, value) {
-		var rowId = grid.getRowId(cell.rowIndex);
-		var words = value.split(' ');
-		if(words.length==2){
-			$("<div>").append(words[0]).append("<br>").append(words[1]).appendTo(cell);
-		}else{
-			$("<div>").append(words[0]+'&nbsp;'+words[1]).append("<br>").append(words[2]).appendTo(cell);
-		}
-	}}));
-
-	grid.setCellRenderer("designer_id", new CellRenderer({render: function(cell, value) {
-		var rowId = grid.getRowId(cell.rowIndex);
-		var renderValue = grid.getColumn("designer_id").getOptionValuesForRender()[value];
-		$("<span>").append(renderValue).addClass("dotted").appendTo(cell);
-	}}));
-	grid.renderGrid("tablecontent", "table table-condensed orders");
+	grid.renderGrid("tablecontent", "table " + config.tableClass);
+	grid.filter($('#filter').val());
 };    
 
 // function to render the paginator control

@@ -48,8 +48,10 @@ function updateCellValue(editableGrid, rowIndex, columnIndex, oldValue, newValue
    
 }
 
+
 function pay(editableGrid, id, value, addlink, link)
-{      
+{   
+
 	$.ajax({
 		url: addlink,
 		type: 'POST',
@@ -73,24 +75,15 @@ function pay(editableGrid, id, value, addlink, link)
 function DatabaseGrid(link, addlink, updatelink) 
 {
 	var t = this;
-	this.editableGrid = new EditableGrid("demo", {
+	this.editableGrid = new EditableGrid("payment", {
 		enableSort: false,
-		pageSize: 20,
    	    tableLoaded: function() { t.initializeGrid(this, link, addlink); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
    	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, updatelink, link);
        	},
-       	tableRendered: function() {
-   	    	updatePaginator(this);
-       	},
  	});
 	this.fetchGrid(link);
 	var grid = this.editableGrid;
-	// set active (stored) filter if any
-	$('#filter').val(grid.currentFilter ? grid.currentFilter : '');
-		
-	// filter when something is typed into filter
-	$('#filter').on("keyup", function() { grid.filter($('#filter').val()); });
 }
 
 DatabaseGrid.prototype.fetchGrid = function(link)  {
@@ -126,7 +119,7 @@ DatabaseGrid.prototype.initializeGrid = function(grid, link, addlink) {
 			  number_format(value, column.precision, column.decimal_point, column.thousands_separator) +
 			  ' р.' + '<br>';
 		})
-		$("#paid_"+rowId).tooltip({title:text, placement: 'right'});
+		$("#paid_"+rowId).tooltip({title:text, placement: 'right', html: true});
 	}}));
 
 	grid.setCellRenderer("client_price", new CellRenderer({render: function(cell, value) {
@@ -153,40 +146,127 @@ DatabaseGrid.prototype.initializeGrid = function(grid, link, addlink) {
 	grid.renderGrid("tablecontent", "table table-condensed");
 };    
 
-// function to render the paginator control
-function updatePaginator (editableGrid)
+
+function getParameterByName(str, name)
 {
-	var paginator = $("#paginator").empty();
-	var nbPages = editableGrid.getPageCount();
-	// get interval
-	var interval = editableGrid.getSlidingPageInterval(20);
-	if (interval == null) return;
-	// get pages in interval (with links except for the current page)
-	var pages = editableGrid.getPagesInInterval(interval, function(pageIndex, isCurrent) {
-		if (isCurrent)
-		return $("<li>").append($("<a>").html(pageIndex + 1)).addClass("active");
-		return $("<li>").append($("<a>").html(pageIndex + 1).click(function(event) { editableGrid.setPageIndex(parseInt($(this).html()) - 1); }));
+  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+  var regexS = "[\\?&]" + name + "=([^&#]*)";
+  var regex = new RegExp(regexS);
+  var results = regex.exec(str);
+  if(results == null)
+    return "";
+  else
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+
+function addComment(editableGrid, parent_id, text, addlink, link)
+{
+	var id = getParameterByName(link, "id");
+	$.ajax({
+		url: addlink,
+		type: 'POST',
+		dataType: "html",
+		data: {
+			id: id,
+			parent_id: parent_id, 
+			text: text			
+		},
+		success: function (response) 
+		{ 
+			editableGrid.loadJSON(link);
+		},
+		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
+		async: true
 	});
-	// "first" link
-	var link = $("<li>").append($("<a>").html("<<"));
-	if (!editableGrid.canGoBack()) link.addClass("disabled");
-	else link.click(function(event) { editableGrid.firstPage(); });
-	paginator.append(link);
-	// "prev" link
-	link = $("<li>").append($("<a>").html("<"));
-	if (!editableGrid.canGoBack()) link.addClass("disabled");
-	else link.click(function(event) { editableGrid.prevPage(); });
-	paginator.append(link);
-	// pages
-	for (var p = 0; p < pages.length; p++) paginator.append(pages[p]);
-	// "next" link
-	link = $("<li>").append($("<a>").html(">"));
-	if (!editableGrid.canGoForward()) link.addClass("disabled");
-	else link.click(function(event) { editableGrid.nextPage(); });
-	paginator.append(link);
-	// "last" link
-	link = $("<li>").append($("<a>").html(">>"));
-	if (!editableGrid.canGoForward()) link.addClass("disabled");
-	else link.click(function(event) { editableGrid.lastPage(); });
-	paginator.append(link);
-}; 
+   
+}
+
+function CommentGrid(link, addlink, updatelink) 
+{
+	var t = this;
+	this.editableGrid = new EditableGrid("demo", {
+		enableSort: false,
+   	    tableLoaded: function() { t.initializeGrid(this, link, addlink); },
+		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
+   	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, updatelink, link);
+       	},
+ 	});
+	this.fetchGrid(link);
+	var grid = this.editableGrid;
+}
+
+CommentGrid.prototype.fetchGrid = function(link)  {
+	// call a PHP script to get the data
+	this.editableGrid.loadJSON(link);
+};
+
+CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
+	grid.setHeaderRenderer("comment", new CellRenderer({render: function(cell, value) {
+		var rowId = grid.getRowId(cell.rowIndex);
+		
+		cell.innerHTML ='<label class="lead pull-left down7px">Комментарии: </label>' +
+						'<div class="pull-right">' +
+						'<button type="button" id="commentButton" class="btn"' +
+						' data-content="<textarea id=\'addCommentText\' class=\'span5\'></textarea>' +
+						'               <button id=\'addCommentButton\' type=\'button\' class=\'btn btn-magenta\'>Отправить</button>' +
+						'               <button id=\'cancelCommentButton\' type=\'button\' class=\'btn\'>Отмена</button>"' +
+						' data-placement="bottom"' +
+						' rel="popover"' +
+						' data-original-title="Комментарий">' +
+						' 	Написать' +
+						'</button>' +
+						//'<button id="addCommentButton" class="btn span3" type="button"><i class="icon-plus"></i> Оставить комментарий</button>' +
+						'</div>';
+
+		$("body").off("click", "#cancelCommentButton");
+		$("body").on("click", "#cancelCommentButton", function(){
+			$("#commentButton").popover('hide');
+		});
+		$("body").off("click", "#addCommentButton");
+		$("body").on("click", "#addCommentButton", function(){
+			$("[rel='popover']").popover('destroy');
+			addComment(grid, null, $('#addCommentText').val(), addlink, link);
+		});
+		$("#commentButton").popover({html:true});
+	}}));
+	grid.setCellRenderer("comment", new CellRenderer({render: function(cell, value) {
+		var rowId = grid.getRowId(cell.rowIndex);
+		//alert(value.replace(/\r\n/g, "<br/>").replace(/\r/g, "<br/>").replace(/\n/g, "<br/>"));
+		var comment = $.parseJSON(value.replace(/\r\n/g, "<br/>").replace(/\r/g, "<br/>").replace(/\n/g, "<br/>"));
+		cell.innerHTML = 
+						'<div class="pull-left muted offset0'+comment.depth+'">' + 
+							comment.role + '&nbsp;<strong>' + comment.user + '</strong>&nbsp;' + comment.date +
+						'</div>' +
+						'<br />' +
+						'<div class="pull-left offset0'+(comment.depth)+'">' + 
+							comment.text +
+						'</div>' +
+						'<div class="pull-right">' +
+						((comment.depth<9)?
+						'<button type="button" id="comment'+rowId+'Button" class="btn btn-mini"' +
+						' data-content="<textarea id=\'addComment'+rowId+'Text\' class=\'span5\'></textarea>' +
+						'               <button id=\'addComment'+rowId+'Button\' type=\'button\' class=\'btn btn-magenta\'>Отправить</button>' +
+						'               <button id=\'cancelComment'+rowId+'Button\' type=\'button\' class=\'btn\'>Отмена</button>"' +
+						' data-placement="bottom"' +
+						' rel="popover"' +
+						' data-original-title="Комментарий">' +
+						' 	Ответить' +
+						'</button>':'') +
+						//'<button id="addPayment'+rowId+'Button" class="btn" type="button">&nbsp;<i class="icon-arrow-down"></i></button>' +
+						'</div>';
+
+		$("body").off("click", "#cancelComment"+rowId+"Button");
+		$("body").on("click", "#cancelComment"+rowId+"Button", function(){
+			$("#comment"+rowId+"Button").popover('hide');
+		});
+		$("body").off("click", "#addComment"+rowId+"Button");
+		$("body").on("click", "#addComment"+rowId+"Button", function(){
+			$("[rel='popover']").popover('destroy');
+			addComment(grid, rowId, $("#addComment"+rowId+"Text").val(), addlink, link);
+		});
+		$("#comment"+rowId+"Button").popover({html:true});
+	}}));
+	grid.renderGrid("commentcontent", "table table-condensed lefted comment-table");
+};    
+

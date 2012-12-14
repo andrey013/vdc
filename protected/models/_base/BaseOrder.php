@@ -12,7 +12,7 @@
  * @property integer $id
  * @property string $create_date
  * @property integer $global_number
- * @property integer $client_number
+ * @property string $client_number
  * @property integer $client_id
  * @property integer $manager_id
  * @property integer $designer_id
@@ -26,7 +26,11 @@
  * @property integer $size_x
  * @property integer $size_y
  * @property integer $measure_unit_id
+ * @property string $text
+ * @property integer $designer_paid
+ * @property integer $disabled
  *
+ * @property Comment[] $comments
  * @property MeasureUnit $measureUnit
  * @property Client $client
  * @property User $manager
@@ -60,16 +64,19 @@ abstract class BaseOrder extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('create_date, global_number, client_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, comment', 'required'),
-			array('global_number, client_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, chromaticity_id, density_id, size_x, size_y, measure_unit_id', 'numerical', 'integerOnly'=>true),
+			array('create_date, global_number, client_number, client_id, manager_id, customer_id, order_type_id, difficulty_id, priority_id', 'required'),
+			array('global_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, chromaticity_id, density_id, size_x, size_y, measure_unit_id, designer_paid, disabled', 'numerical', 'integerOnly'=>true),
+			array('client_number', 'length', 'max'=>20),
 			array('comment', 'length', 'max'=>200),
-			array('chromaticity_id, density_id, size_x, size_y, measure_unit_id', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, create_date, global_number, client_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, comment, chromaticity_id, density_id, size_x, size_y, measure_unit_id', 'safe', 'on'=>'search'),
+			array('text', 'safe'),
+			array('designer_id, comment, chromaticity_id, density_id, size_x, size_y, measure_unit_id, text, designer_paid, disabled', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, create_date, global_number, client_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, comment, chromaticity_id, density_id, size_x, size_y, measure_unit_id, text, designer_paid, disabled', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
+			'comments' => array(self::HAS_MANY, 'Comment', 'order_id'),
 			'measureUnit' => array(self::BELONGS_TO, 'MeasureUnit', 'measure_unit_id'),
 			'client' => array(self::BELONGS_TO, 'Client', 'client_id'),
 			'manager' => array(self::BELONGS_TO, 'User', 'manager_id'),
@@ -109,6 +116,10 @@ abstract class BaseOrder extends GxActiveRecord {
 			'size_x' => Yii::t('app', 'Size X'),
 			'size_y' => Yii::t('app', 'Size Y'),
 			'measure_unit_id' => null,
+			'text' => Yii::t('app', 'Text'),
+			'designer_paid' => Yii::t('app', 'Designer Paid'),
+			'disabled' => Yii::t('app', 'Disabled'),
+			'comments' => null,
 			'measureUnit' => null,
 			'client' => null,
 			'manager' => null,
@@ -130,7 +141,7 @@ abstract class BaseOrder extends GxActiveRecord {
 		$criteria->compare('id', $this->id);
 		$criteria->compare('create_date', $this->create_date, true);
 		$criteria->compare('global_number', $this->global_number);
-		$criteria->compare('client_number', $this->client_number);
+		$criteria->compare('client_number', $this->client_number, true);
 		$criteria->compare('client_id', $this->client_id);
 		$criteria->compare('manager_id', $this->manager_id);
 		$criteria->compare('designer_id', $this->designer_id);
@@ -144,6 +155,9 @@ abstract class BaseOrder extends GxActiveRecord {
 		$criteria->compare('size_x', $this->size_x);
 		$criteria->compare('size_y', $this->size_y);
 		$criteria->compare('measure_unit_id', $this->measure_unit_id);
+		$criteria->compare('text', $this->text, true);
+		$criteria->compare('designer_paid', $this->designer_paid);
+		$criteria->compare('disabled', $this->disabled);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

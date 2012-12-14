@@ -37,9 +37,10 @@ abstract class BaseOrderStatus extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('name, key, color, sort_order', 'required'),
+			array('name, key, sort_order', 'required'),
 			array('sort_order', 'numerical', 'integerOnly'=>true),
 			array('name, key, color', 'length', 'max'=>30),
+			array('color', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('id, name, key, color, sort_order', 'safe', 'on'=>'search'),
 		);
 	}

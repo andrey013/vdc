@@ -34,6 +34,21 @@ body > .navbar .brand:hover {
     border-top-color: #000;
 }
 
+.lead {
+  margin-bottom: 8px;
+}
+
+span.lead {
+  background-color: white;
+  text-align: center;
+  font-style: oblique;
+  font-size: 18px;
+  outline: 1px solid #cccccc;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
 #logout {
   margin-right: -50px;
 }
@@ -59,6 +74,14 @@ textarea {
   background-color: #F6F6F6 !important;
 }
 
+#loginForm {
+  padding: 0px;
+  margin: 100px auto;
+  width: 420px;
+  height: 302px;
+  background-image: url("../img/login.png");
+}
+
 #content
 {
     padding: 0px !important;
@@ -67,7 +90,7 @@ textarea {
 hr {
   border-top: 1px solid #ddd !important;
   border-bottom: 1px solid #fff !important;
-  margin: 10px 0 !important;
+  margin: 5px 0 !important;
 }
 
 #footer
@@ -79,7 +102,7 @@ hr {
 	border-top: 1px solid #C9E0ED;
 }
 
-.shadow_select {
+select {
   background-color: #ffffff;
   border: 1px solid #cccccc;
   -webkit-border-radius: 3px;
@@ -94,7 +117,7 @@ hr {
        -o-transition: border linear 0.2s, box-shadow linear 0.2s;
           transition: border linear 0.2s, box-shadow linear 0.2s;
 }
-.shadow_select:focus {
+select:focus {
   border-color: rgba(236, 0, 140, 0.8);
   outline: 0;
   /*outline: thin dotted \9;*/
@@ -108,58 +131,62 @@ hr {
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(236, 0, 140, 0.6);
 }
 
+.tooltip-inner{
+  max-width: 400px;
+}
+
 .row-work {
-  -webkit-text-shadow: 0 0 3px rgba(174, 255, 174, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(174, 255, 174, 1);
      -moz-text-shadow: 0 0 3px rgba(174, 255, 174, 1);
-          text-shadow: 0 0 3px rgba(174, 255, 174, 1);
+          text-shadow: 0 0 3px rgba(174, 255, 174, 1);*/
   
   background-color: rgba(174, 255, 174, 0.9);
 }
 
 .row-confirm {
-  -webkit-text-shadow: 0 0 3px rgba(255, 253, 153, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(255, 253, 153, 1);
      -moz-text-shadow: 0 0 3px rgba(255, 253, 153, 1);
-          text-shadow: 0 0 3px rgba(255, 253, 153, 1);
+          text-shadow: 0 0 3px rgba(255, 253, 153, 1);*/
   
   background-color: rgba(255, 253, 153, 0.9);
 }
 
 .row-agreed {
-  -webkit-text-shadow: 0 0 3px rgba(238, 191, 209, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(238, 191, 209, 1);
      -moz-text-shadow: 0 0 3px rgba(238, 191, 209, 1);
-          text-shadow: 0 0 3px rgba(238, 191, 209, 1);
+          text-shadow: 0 0 3px rgba(238, 191, 209, 1);*/
   
   background-color: rgba(238, 191, 209, 0.9);
 }
 
 .row-changed {
-  -webkit-text-shadow: 0 0 3px rgba(253, 107, 107, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(253, 107, 107, 1);
      -moz-text-shadow: 0 0 3px rgba(253, 107, 107, 1);
-          text-shadow: 0 0 3px rgba(253, 107, 107, 1);
+          text-shadow: 0 0 3px rgba(253, 107, 107, 1);*/
   
   background-color: rgba(253, 107, 107, 0.9);
 }
 
 .row-done {
-  -webkit-text-shadow: 0 0 3px rgba(225, 225, 225, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(225, 225, 225, 1);
      -moz-text-shadow: 0 0 3px rgba(225, 225, 225, 1);
-          text-shadow: 0 0 3px rgba(225, 225, 225, 1);
+          text-shadow: 0 0 3px rgba(225, 225, 225, 1);*/
   
   background-color: rgba(225, 225, 225, 0.9);
 }
 
 .row-paused {
-  -webkit-text-shadow: 0 0 3px rgba(152, 143, 190, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(152, 143, 190, 1);
      -moz-text-shadow: 0 0 3px rgba(152, 143, 190, 1);
-          text-shadow: 0 0 3px rgba(152, 143, 190, 1);
+          text-shadow: 0 0 3px rgba(152, 143, 190, 1);*/
   
   background-color: rgba(152, 143, 190, 0.9);
 }
 
 .row-cancelled {
-  -webkit-text-shadow: 0 0 3px rgba(241, 168, 92, 1);
+  /*-webkit-text-shadow: 0 0 3px rgba(241, 168, 92, 1);
      -moz-text-shadow: 0 0 3px rgba(241, 168, 92, 1);
-          text-shadow: 0 0 3px rgba(241, 168, 92, 1);
+          text-shadow: 0 0 3px rgba(241, 168, 92, 1);*/
   
   background-color: rgba(241, 168, 92, 0.9);
 }
@@ -196,6 +223,7 @@ hr {
   color: #333 !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.33) !important;
   -webkit-font-smoothing: antialiased !important;
+  letter-spacing: -1px
 }
 
 .btn-agreed {
@@ -264,6 +292,7 @@ hr {
   color: #333 !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.33) !important;
   -webkit-font-smoothing: antialiased !important;
+  letter-spacing: -1px
 }
 
 .btn-cancelled {
@@ -329,6 +358,10 @@ button.active i.icon-active-ok {
   width: 124px !important;
 }
 
+.table {
+    margin-bottom: 0px;
+}
+
 .table-condensed th,
 .table-condensed td {
   padding: 1px 5px !important;
@@ -340,14 +373,54 @@ button.active i.icon-active-ok {
 
 .table th,
 .table td {
-  text-align: center !important;
-  vertical-align: middle !important;
-  border-top: 1px solid #aaa;
+  text-align: center;
+  vertical-align: middle;
+  border-top: 1px solid #ddd;
   -moz-box-shadow: 0 1px 0px 0px #fff;
   -webkit-box-shadow: 0 1px 0px 0px #fff;
   box-shadow: 0 1px 0px 0px #fff;
-  height: 3em;
+  /*height: 3em;*/
   line-height: 1.5em;
+}
+
+.table.lefted th,
+.table.lefted td {
+  text-align: left;
+}
+
+.table-price tbody tr:nth-child(even) td,
+.table-price tbody tr:nth-child(even) th {
+  -webkit-text-shadow: 0 0 3px rgba(236, 0, 140, 0.6);
+     -moz-text-shadow: 0 0 3px rgba(236, 0, 140, 0.6);
+          text-shadow: 0 0 3px rgba(236, 0, 140, 0.6);
+  color: #EC008C;
+  font-style: italic;
+  line-height: 0.9em;
+}
+
+.table-price tbody tr:nth-child(odd) td,
+.table-price tbody tr:nth-child(odd) th {
+  font-weight: bold;
+  background-color: #f6f6f6;
+}
+
+.table-price tbody tr:nth-child(4n+2) td,
+.table-price tbody tr:nth-child(4n+2) th {
+  background-color: #f0f0f0;
+}
+
+.table-price tbody tr:nth-child(4n-3) td,
+.table-price tbody tr:nth-child(4n-3) th {
+  background-color: #f0f0f0;
+}
+
+
+.table.table-print td {
+  background-color: #fff;
+  border: 1px solid #000;
+}
+.comment-table {
+  margin-top: -40px;
 }
 
 .two-liner{
@@ -400,6 +473,22 @@ input[type="color"]:focus,
 
 #order-form label {
   text-align: right;
+  line-height: 1em;
+}
+
+.down7px {
+  margin-top: 7px;
+  margin-bottom: 12px;
+}
+
+.down10px {
+  margin-top: 10px;
+  margin-bottom: 9px;
+}
+
+.down14px {
+  margin-top: 14px;
+  margin-bottom: 5px;
 }
 
 .controls-row [class*="span"] + [class*="span"] {
@@ -411,6 +500,63 @@ input[type="color"]:focus,
   margin-right: -13px !important;
 }
 
+input.error{
+  color: red;
+  border-color: rgba(236, 0, 0, 0.8) !important;
+  background-color: rgba(236, 0, 0, 0.1) !important;
+}
+
+.popover {
+  width: 410px;
+}
+
+.offset00 {
+  margin-left: 0px;
+}
+
+.offset01 {
+  margin-left: 20px;
+}
+
+.offset02 {
+  margin-left: 40px;
+}
+
+.offset03 {
+  margin-left: 60px;
+}
+
+.offset04 {
+  margin-left: 80px;
+}
+
+.offset05 {
+  margin-left: 100px;
+}
+
+.offset06 {
+  margin-left: 120px;
+}
+
+.offset07 {
+  margin-left: 140px;
+}
+
+.offset08 {
+  margin-left: 160px;
+}
+
+.offset09 {
+  margin-left: 180px;
+}
+
+.offset010 {
+  margin-left: 200px;
+}
+
+.offset011 {
+  margin-left: 220px;
+}
 
 /*
  * jQuery File Upload UI Plugin CSS 6.10

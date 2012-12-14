@@ -12,6 +12,7 @@
  * @property integer $id
  * @property string $name
  * @property string $code
+ * @property integer $disabled
  *
  * @property Order[] $orders
  * @property Profile[] $profiles
@@ -37,9 +38,11 @@ abstract class BaseClient extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('name, code', 'required'),
+			array('disabled', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
 			array('code', 'length', 'max'=>30),
-			array('id, name, code', 'safe', 'on'=>'search'),
+			array('disabled', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, name, code, disabled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,6 +63,7 @@ abstract class BaseClient extends GxActiveRecord {
 			'id' => Yii::t('app', 'ID'),
 			'name' => Yii::t('app', 'Name'),
 			'code' => Yii::t('app', 'Code'),
+			'disabled' => Yii::t('app', 'Disabled'),
 			'orders' => null,
 			'profiles' => null,
 		);
@@ -71,6 +75,7 @@ abstract class BaseClient extends GxActiveRecord {
 		$criteria->compare('id', $this->id);
 		$criteria->compare('name', $this->name, true);
 		$criteria->compare('code', $this->code, true);
+		$criteria->compare('disabled', $this->disabled);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

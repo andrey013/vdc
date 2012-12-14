@@ -11,6 +11,7 @@
  *
  * @property integer $id
  * @property string $name
+ * @property integer $disabled
  *
  * @property Order[] $orders
  * @property Price[] $prices
@@ -36,8 +37,10 @@ abstract class BaseOrderType extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('name', 'required'),
+			array('disabled', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
-			array('id, name', 'safe', 'on'=>'search'),
+			array('disabled', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, name, disabled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,6 +60,7 @@ abstract class BaseOrderType extends GxActiveRecord {
 		return array(
 			'id' => Yii::t('app', 'ID'),
 			'name' => Yii::t('app', 'Name'),
+			'disabled' => Yii::t('app', 'Disabled'),
 			'orders' => null,
 			'prices' => null,
 		);
@@ -67,6 +71,7 @@ abstract class BaseOrderType extends GxActiveRecord {
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('name', $this->name, true);
+		$criteria->compare('disabled', $this->disabled);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

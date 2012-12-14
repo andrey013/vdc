@@ -1,2 +1,12 @@
-php_value auto_append_file "livejs.php"
-php_flag output_buffering on
+AddDefaultCharset UTF-8
+
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)\?*$ index.php/$1 [L,QSA]
+
+php_value post_max_size 900M
+php_value upload_max_filesize 900M
+php_value max_input_time 360
+php_value max_execution_time 360

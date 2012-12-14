@@ -12,6 +12,8 @@
  * @property integer $id
  * @property integer $max_global_number
  * @property integer $prev_designer_id
+ * @property integer $order_busy_designers
+ * @property string $vdc_info
  *
  */
 abstract class BaseVariables extends GxActiveRecord {
@@ -29,14 +31,15 @@ abstract class BaseVariables extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'id';
+		return 'vdc_info';
 	}
 
 	public function rules() {
 		return array(
-			array('max_global_number, prev_designer_id', 'required'),
-			array('max_global_number, prev_designer_id', 'numerical', 'integerOnly'=>true),
-			array('id, max_global_number, prev_designer_id', 'safe', 'on'=>'search'),
+			array('max_global_number, prev_designer_id, vdc_info', 'required'),
+			array('max_global_number, prev_designer_id, order_busy_designers', 'numerical', 'integerOnly'=>true),
+			array('order_busy_designers', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, max_global_number, prev_designer_id, order_busy_designers, vdc_info', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +58,8 @@ abstract class BaseVariables extends GxActiveRecord {
 			'id' => Yii::t('app', 'ID'),
 			'max_global_number' => Yii::t('app', 'Max Global Number'),
 			'prev_designer_id' => Yii::t('app', 'Prev Designer'),
+			'order_busy_designers' => Yii::t('app', 'Order Busy Designers'),
+			'vdc_info' => Yii::t('app', 'Vdc Info'),
 		);
 	}
 
@@ -64,6 +69,8 @@ abstract class BaseVariables extends GxActiveRecord {
 		$criteria->compare('id', $this->id);
 		$criteria->compare('max_global_number', $this->max_global_number);
 		$criteria->compare('prev_designer_id', $this->prev_designer_id);
+		$criteria->compare('order_busy_designers', $this->order_busy_designers);
+		$criteria->compare('vdc_info', $this->vdc_info, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

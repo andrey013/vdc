@@ -12,11 +12,39 @@
 
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script >
 <script type="text/javascript" >
+function myCustomOnChangeHandler(inst) {
+        var status = $("#Order_orderStatusHist");
+        status.change();
+}
 tinyMCE.init({
         mode : "textareas",
-        body_class : "span5",
-        theme : "simple"   //(n.b. no trailing comma, this will be critical as you experiment later)
+        language : "ru",
+        //body_class : "span5",
+        theme : "advanced",
+        theme_advanced_resizing : true,
+        theme_advanced_resizing_max_width : 460,
+        theme_advanced_resizing_min_width : 460,
+        theme_advanced_resizing_max_height : 400,
+        onchange_callback : "myCustomOnChangeHandler",
+        <?php
+            $role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id;
+            if($role_id=='Designer') { ?>
+        readonly : true,
+        <?php } ?>
+        theme_advanced_buttons1 : "bold,italic,underline,strikethrough,sub,sup,fontsizeselect,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull",
+        theme_advanced_toolbar_location : "bottom",
+        setup : function(ed)
+        {
+            ed.onInit.add(function(ed)
+            {
+                ed.getDoc().body.style.fontSize = 14;
+            });
+        }
 });
+
+    $(function(){
+        $('#paidSum').tooltip({placement:'right', html:true});
+    });
 </script >
 
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/pageOrderUpdate.js"></script>
@@ -24,18 +52,22 @@ tinyMCE.init({
 <script>
 	$(function(){
 		'use strict';
-
-		var status = $("#Order_orderStatus")
+        var status = $("#Order_orderStatusHist");
 		$(".statusRadio").removeClass("active");
 		$(".statusRadio[value="+status.val()+"]").addClass("active");
-		var status = $("#Order_orderStatus")
 		$(".statusRadio").bind('click', function(){
 				status.val(this.value);
+                status.change();
 			});
+        <?php
+            $role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id;
+            if($role_id=='Admin') { ?>
 		var link = "<?php echo $this->createUrl('/payment/jsonlist').'?id='.$model->id; ?>";
 		var addlink = "<?php echo $this->createUrl('/payment/add'); ?>";
 		var updatelink = "<?php echo $this->createUrl('/payment/jsonupdate'); ?>";
 		var datagrid = new DatabaseGrid(link, addlink, updatelink);
+
+        
 		$("#addpayment").on("click", function(){
 				$.ajax({
 					url: '<?php echo $this->createUrl('/payment/create'); ?>',
@@ -52,18 +84,106 @@ tinyMCE.init({
 					async: true
 				});
 			});
+        <?php } ?>
+        var link2 = "<?php echo $this->createUrl('/comment/jsonlist').'?id='.$model->id; ?>";
+        var addlink2 = "<?php echo $this->createUrl('/comment/add'); ?>";
+        var updatelink2 = "<?php echo $this->createUrl('/comment/jsonupdate'); ?>";
+        var commentgrid = new CommentGrid(link2, addlink2, updatelink2);
+        $(".cancel-button").on("click", function(){
+            if(confirm("Вы уверены? Несохраненные данные будут потеряны")){
+                window.location = "<?php echo $this->createUrl('/order/list'); ?>";
+            }
+        });
+        $(".copy-button").on("click", function(){
+            var form = $("#order-form");
+            form.attr("action","<?php echo $this->createUrl('/order/create'); ?>");
+            form.submit();
+        });
+        $(".submit-button").on("click", function(){
+            var form = $("#order-form");
+            form.submit();
+        });
 		// Initialize the jQuery File Upload widget:
-    	$('#fileupload').fileupload();
+    	$('#fileupload1').fileupload({
+            <?php if($role_id=='Designer'){ ?>
+            downloadTemplateId: 'template-download-readonly'
+            <?php } ?>
+        });
     	// Load existing files:
-        $('#fileupload').each(function () {
+        $('#fileupload1').each(function () {
             var that = this;
-            $.getJSON(this.action, function (result) {
+            $.getJSON(this.action+'?id=<?php echo $model->id; ?>&stage=1', function (result) {
                 if (result && result.length) {
                     $(that).fileupload('option', 'done')
                         .call(that, null, {result: result});
                 }
             });
         });
+
+        // Initialize the jQuery File Upload widget:
+        $('#fileupload2').fileupload({
+            <?php if($role_id=='Manager'){ ?>
+            downloadTemplateId: 'template-download-readonly'
+            <?php } ?>
+        });
+        // Load existing files:
+        $('#fileupload2').each(function () {
+            var that = this;
+            $.getJSON(this.action+'?id=<?php echo $model->id; ?>&stage=2', function (result) {
+                if (result && result.length) {
+                    $(that).fileupload('option', 'done')
+                        .call(that, null, {result: result});
+                }
+            });
+        });
+        // Initialize the jQuery File Upload widget:
+        $('#fileupload3').fileupload({
+            <?php if($role_id=='Manager'){ ?>
+            downloadTemplateId: 'template-download-readonly'
+            <?php } ?>
+        });
+        // Load existing files:
+        $('#fileupload3').each(function () {
+            var that = this;
+            $.getJSON(this.action+'?id=<?php echo $model->id; ?>&stage=3', function (result) {
+                if (result && result.length) {
+                    $(that).fileupload('option', 'done')
+                        .call(that, null, {result: result});
+                }
+            });
+        });
+        $('#fileupload1').bind('fileuploaddone', function (e, data) {
+            status.change();
+        })
+        $('#fileupload2').bind('fileuploaddone', function (e, data) {
+            status.change();
+        })
+        $('#fileupload3').bind('fileuploaddone', function (e, data) {
+            status.change();
+        })
+
+        $("#order-form :input")
+            .on("change", function() {
+                // do whatever you need to do when something's changed.
+                // perhaps set up an onExit function on the window
+                $('.new-button').fadeTo("fast", 0, function() { 
+                    $('.new-button').addClass('hidden');
+                    $('.edit-button').fadeTo(1, 0, function() {
+                        $('.edit-button').removeClass('hidden');
+                        $('.edit-button').fadeTo("fast", 1, function() { 
+                            
+                        });
+                    });
+                });
+                //window.onbeforeunload = function() {
+                //    return confirm("You are about to lose your form data.")
+                //}
+
+                // now remove the event handler from all the elements
+                // since you don't need it any more.
+                $("#order-form :input").unbind("change");
+            });
+
 	});
 </script>
 
@@ -76,30 +196,22 @@ $this->renderPartial('_form', array(
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
-        <td class="preview"><span class="fade"></span></td>
         <td class="name"><span>{%=file.name%}</span></td>
         <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
         {% if (file.error) { %}
             <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
         {% } else if (o.files.valid && !i) { %}
-            <td>
+            <!--<td>
                 <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
-            </td>
+            </td>-->
             <td class="start">{% if (!o.options.autoUpload) { %}
-                <button class="btn btn-primary">
-                    <i class="icon-upload icon-white"></i>
-                    <span>Start</span>
+                <button class="btn btn-mini pull-right">
+                    <i class="icon-upload"></i> Загрузить
                 </button>
             {% } %}</td>
         {% } else { %}
-            <td colspan="2"></td>
+            <td colspan="1"></td>
         {% } %}
-        <td class="cancel">{% if (!i) { %}
-            <button class="btn btn-warning">
-                <i class="icon-ban-circle icon-white"></i>
-                <span>Cancel</span>
-            </button>
-        {% } %}</td>
     </tr>
 {% } %}
 </script>
@@ -108,22 +220,44 @@ $this->renderPartial('_form', array(
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-download fade">
         {% if (file.error) { %}
-            <td></td>
-            <td class="name"><span>{%=file.name%}</span></td>
+            <td class="name"><span class="two-liner span3">{%=file.filename%}</span></td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
             <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
         {% } else { %}
-            <td class="preview">{% if (file.thumbnail_url) { %}
-                <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
-            {% } %}</td>
             <td class="name">
-                <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+                <div class="two-liner">
+                    <a target="_blank" href="{%=file.url%}" title="{%=file.filename%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.filename%}">{%=file.filename?file.filename:file.name%}</a>
+                </div>
             </td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-            <td colspan="2"></td>
         {% } %}
         <td class="delete">
-            <button class="btn btn-mini" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+            <button class="btn btn-mini pull-right" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+                <i class="icon-remove">&nbsp;</i>
+            </button>
+            <input class="hidden" type="checkbox" name="delete" value="1">
+        </td>
+    </tr>
+{% } %}
+</script>
+
+<script id="template-download-readonly" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        {% if (file.error) { %}
+            <td class="name"><span class="two-liner span3">{%=file.filename%}</span></td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
+        {% } else { %}
+            <td class="name">
+                <div class="two-liner">
+                    <a target="_blank" href="{%=file.url%}" title="{%=file.filename%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.filename%}">{%=file.filename?file.filename:file.name%}</a>
+                </div>
+            </td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% } %}
+        <td class="delete hidden">
+            <button class="btn btn-mini pull-right" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
                 <i class="icon-remove">&nbsp;</i>
             </button>
             <input class="hidden" type="checkbox" name="delete" value="1">

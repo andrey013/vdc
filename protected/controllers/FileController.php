@@ -29,7 +29,21 @@ public function accessRules() {
 }
 
 	public function actionJson() {
-		$upload_handler = new UploadHandler();
+		if (Yii::app()->getRequest()->getIsPostRequest()) {
+			$id = $_POST['id'];
+			$stage = $_POST['stage'];
+		}else{
+			$id = $_GET['id'];
+			$stage = $_GET['stage'];
+		}
+
+		$upload_handler = new UploadHandler(array(
+				'script_url' => $this->createUrl('/file/json').'/',
+           		'upload_dir' => dirname($_SERVER['SCRIPT_FILENAME']).'/files/'.$id.'/'.$stage.'/',
+            	'upload_url' => Yii::app()->request->baseUrl.'/files/'.$id.'/'.$stage.'/',
+            	'id' => $id,
+            	'stage' => $stage
+			));
 
 		header('Pragma: no-cache');
 		header('Cache-Control: no-store, no-cache, must-revalidate');
