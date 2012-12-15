@@ -7,11 +7,11 @@ header("Last-Modified: $last_modified GMT time");*/
 
 $upload_handler = new UploadHandler(array(
 				'script_url' => $this->createUrl('/document/json').'/',
-           		'upload_dir' => dirname($_SERVER['SCRIPT_FILENAME']).'/files/documents/',
-            	'upload_url' => Yii::app()->request->baseUrl.'/files/documents/',
-            	'id' => 't',
-            	'stage' => 't'
-			));
+           		        'upload_dir' => dirname($_SERVER['SCRIPT_FILENAME']).'/files/documents/',
+            	                'upload_url' => Yii::app()->request->baseUrl.'/files/documents/',
+            	                'id' => 't',
+            	                'stage' => 't'
+			), false);
 $res = $upload_handler->get_file_objects();
 
 $files = array();
