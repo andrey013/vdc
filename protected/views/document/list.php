@@ -15,23 +15,23 @@
 <script>
 	$(function(){
 
-		// Initialize the jQuery File Upload widget:
-    	$('#fileupload').fileupload();
-	 	$('#fileupload').fileupload(
+        // Initialize the jQuery File Upload widget:
+    	$('#fileupload').fileupload({
+            url: '<?php echo $this->createUrl("/document/json"); ?>'
+        });
+        $('#fileupload').fileupload(
 	        'option',
 	        'autoUpload',
 	        true
 	    );
-
-    	// Load existing files:
-        $('#fileupload').each(function () {
-            var that = this;
-            $.getJSON(this.action, function (result) {
-                if (result && result.length) {
-                    $(that).fileupload('option', 'done')
-                        .call(that, null, {result: result});
-                }
-            });
+        // Load existing files:
+        $.ajax({
+            url: $('#fileupload').fileupload('option', 'url'),
+            dataType: 'json',
+            context: $('#fileupload')[0]
+        }).done(function (result) {
+            $(this).fileupload('option', 'done')
+                .call(this, null, {result: result});
         });
 
         datagrid = new DatabaseGrid({
@@ -65,6 +65,7 @@
 				}
 		});
 		$('#fileupload').bind('fileuploaddone', function (e, data) {
+                        alert("sss");
 			datagrid.fetchGrid("<?php echo $this->createUrl('/document/jsonlist'); ?>")
 		})
 	});

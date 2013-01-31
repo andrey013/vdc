@@ -84,7 +84,7 @@ public function accessRules() {
             	'upload_url' => Yii::app()->request->baseUrl.'/files/documents/',
             	'id' => 't',
             	'stage' => 't'
-			));
+			), false);
 		// create a new EditableGrid object
 		$grid = new EditableGrid();
 
@@ -100,13 +100,13 @@ public function accessRules() {
 
 		$result = array();
 		foreach ($res as $key => $value) {
-			$upload_handler->set_file_delete_url($value);
-			$ts = Document::model()->findAll('filename = :filename', array(':filename' => $value->filename));
+			$upload_handler->set_file_delete_properties($value);
+			$ts = Document::model()->findAll('filename = :filename', array(':filename' => $value->name));
 			
 			if(!isset($ts[0])){
 				$t = new Document;
 				$t->name = ' ';
-				$t->filename = $value->filename;
+				$t->filename = $value->name;
 				$t->delete_url = $value->delete_url;
 				$t->admin = 0;
 				$t->designer = 0;

@@ -103,54 +103,69 @@ tinyMCE.init({
             var form = $("#order-form");
             form.submit();
         });
-		// Initialize the jQuery File Upload widget:
+	// Initialize the jQuery File Upload widget:
     	$('#fileupload1').fileupload({
+            url: '<?php echo $this->createUrl("/file/json"); ?>?id=<?php echo $model->id; ?>&stage=1',
             <?php if($role_id=='Designer'){ ?>
             downloadTemplateId: 'template-download-readonly'
             <?php } ?>
         });
-    	// Load existing files:
-        $('#fileupload1').each(function () {
-            var that = this;
-            $.getJSON(this.action+'?id=<?php echo $model->id; ?>&stage=1', function (result) {
-                if (result && result.length) {
-                    $(that).fileupload('option', 'done')
-                        .call(that, null, {result: result});
-                }
-            });
+        $('#fileupload1').fileupload(
+                'option',
+                'maxChunkSize',
+                4000000
+        );
+        // Load existing files:
+        $.ajax({
+            url: $('#fileupload1').fileupload('option', 'url'),
+            dataType: 'json',
+            context: $('#fileupload1')[0]
+        }).done(function (result) {
+            $(this).fileupload('option', 'done')
+                .call(this, null, {result: result});
         });
 
         // Initialize the jQuery File Upload widget:
         $('#fileupload2').fileupload({
+            url: '<?php echo $this->createUrl("/file/json"); ?>?id=<?php echo $model->id; ?>&stage=2',
             <?php if($role_id=='Manager'){ ?>
             downloadTemplateId: 'template-download-readonly'
             <?php } ?>
         });
+        $('#fileupload2').fileupload(
+                'option',
+                'maxChunkSize',
+                4000000
+        );
         // Load existing files:
-        $('#fileupload2').each(function () {
-            var that = this;
-            $.getJSON(this.action+'?id=<?php echo $model->id; ?>&stage=2', function (result) {
-                if (result && result.length) {
-                    $(that).fileupload('option', 'done')
-                        .call(that, null, {result: result});
-                }
-            });
+        $.ajax({
+            url: $('#fileupload2').fileupload('option', 'url'),
+            dataType: 'json',
+            context: $('#fileupload2')[0]
+        }).done(function (result) {
+            $(this).fileupload('option', 'done')
+                .call(this, null, {result: result});
         });
         // Initialize the jQuery File Upload widget:
         $('#fileupload3').fileupload({
+            url: '<?php echo $this->createUrl("/file/json"); ?>?id=<?php echo $model->id; ?>&stage=3',
             <?php if($role_id=='Manager'){ ?>
             downloadTemplateId: 'template-download-readonly'
             <?php } ?>
         });
+        $('#fileupload3').fileupload(
+                'option',
+                'maxChunkSize',
+                4000000
+        );
         // Load existing files:
-        $('#fileupload3').each(function () {
-            var that = this;
-            $.getJSON(this.action+'?id=<?php echo $model->id; ?>&stage=3', function (result) {
-                if (result && result.length) {
-                    $(that).fileupload('option', 'done')
-                        .call(that, null, {result: result});
-                }
-            });
+        $.ajax({
+            url: $('#fileupload3').fileupload('option', 'url'),
+            dataType: 'json',
+            context: $('#fileupload3')[0]
+        }).done(function (result) {
+            $(this).fileupload('option', 'done')
+                .call(this, null, {result: result});
         });
         $('#fileupload1').bind('fileuploaddone', function (e, data) {
             status.change();
@@ -220,13 +235,13 @@ $this->renderPartial('_form', array(
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-download fade">
         {% if (file.error) { %}
-            <td class="name"><span class="two-liner span3">{%=file.filename%}</span></td>
+            <td class="name"><span class="two-liner span3">{%=file.name%}</span></td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
             <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
         {% } else { %}
             <td class="name">
                 <div class="two-liner">
-                    <a target="_blank" href="{%=file.url%}" title="{%=file.filename%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.filename%}">{%=file.filename?file.filename:file.name%}</a>
+                    <a target="_blank" href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name?file.name:file.name%}</a>
                 </div>
             </td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
@@ -245,13 +260,13 @@ $this->renderPartial('_form', array(
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-download fade">
         {% if (file.error) { %}
-            <td class="name"><span class="two-liner span3">{%=file.filename%}</span></td>
+            <td class="name"><span class="two-liner span3">{%=file.name%}</span></td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
             <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
         {% } else { %}
             <td class="name">
                 <div class="two-liner">
-                    <a target="_blank" href="{%=file.url%}" title="{%=file.filename%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.filename%}">{%=file.filename?file.filename:file.name%}</a>
+                    <a target="_blank" href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name?file.name:file.name%}</a>
                 </div>
             </td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>

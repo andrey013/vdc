@@ -16,12 +16,12 @@ $res = $upload_handler->get_file_objects();
 
 $files = array();
 foreach ($res as $key => $value) {
-	$ts = Document::model()->findAll('filename = :filename and disabled = 0', array(':filename' => $value->filename));
+	$ts = Document::model()->findAll('filename = :filename and disabled = 0', array(':filename' => $value->name));
 	
 	if(!isset($ts[0])){
 		$t = new Document;
 		$t->name = ' ';
-		$t->filename = $value->filename;
+		$t->filename = $value->name;
 		$t->url = $value->url;
 		$t->admin = 0;
 		$t->designer = 0;
