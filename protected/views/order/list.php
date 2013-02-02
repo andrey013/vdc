@@ -70,9 +70,9 @@ $designers=User2::model()->with(array(
 	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_paid', '',
 			array('1' => 'Оплаченные', '0' => 'Не оплаченные'),
 			array('class' => 'span2', 'empty' => '* Оплата')); ?>
-	<?php echo GxHtml::dropDownList('filter_changed', '',
+	<?php /*echo GxHtml::dropDownList('filter_changed', '',
 			array('1' => 'Измененные', '0' => 'Не измененные'),
-			array('class' => 'span2', 'empty' => '* Измененность')); ?>
+			array('class' => 'span2', 'empty' => '* Измененность')); */?>
 
 </div>
 <div class="clearfix"></div>

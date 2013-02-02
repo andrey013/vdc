@@ -21,6 +21,26 @@
 						})
 						$(cell).find("span").tooltip({title:text, placement: 'right', html: true});
 					}});
+                                        grid.setCellRenderer("profile.user_status_id", new CellRenderer({render: function(cell, value) {
+				                var rowId = grid.getRowId(cell.rowIndex);
+				                var renderValue = grid.getColumn("profile.user_status_id").getOptionValuesForRender()[value];
+				                $("<span>").append(renderValue?renderValue:"--").addClass("dotted").appendTo(cell);
+			                }}));
+                                        grid.setCellRenderer("profile.client_id", new CellRenderer({render: function(cell, value) {
+				                var rowId = grid.getRowId(cell.rowIndex);
+				                var renderValue = grid.getColumn("profile.client_id").getOptionValuesForRender()[value];
+				                $("<span>").append(renderValue?renderValue:"--").addClass("dotted").appendTo(cell);
+			                }}));
+                                        grid.setCellEditor("profile.user_status_id", new SelectCellEditor({
+					        adaptHeight: false,
+					        adaptWidth: true,
+					        minWidth: 25 
+				        }));
+                                        grid.setCellEditor("profile.client_id", new SelectCellEditor({
+					        adaptHeight: false,
+					        adaptWidth: true,
+					        minWidth: 25 
+				        }));
 					grid.setCellRenderer("jsonprojects", renderer);
 					grid.setCellRenderer("highpriorityjsonprojects", renderer);
 				}

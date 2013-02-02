@@ -27,6 +27,24 @@
 		'profile'
 	)->findAll('disabled=0');
 
+        $ownDesigners=User2::model()->with(array(
+			'authAssignments'=>array(
+				// we don't want to select posts
+				'select'=>false,
+				// but want to get only users with published posts
+				'joinType'=>'INNER JOIN',
+				'condition'=>'authAssignments.itemname=\'Designer\'',
+			),
+                        'profile'=>array(
+				// we don't want to select posts
+				'select'=>false,
+				// but want to get only users with published posts
+				'joinType'=>'INNER JOIN',
+				'condition'=>'profile.client_id='.$model->client_id,
+			),
+		)
+	)->findAll('disabled=0');
+
 	$role_id = User2::model()->with('profile')->findByPk(Yii::app()->user->id)->role_id;
 ?>
 
@@ -96,7 +114,11 @@
 			<label class="span1 down14px" for="Order_designer_id">дизайнер</label>
 			<?php echo $form->dropDownList($model, 'designer_id',
 				GxHtml::listDataEx($designers, null, 'profile.lastname'), array('class' => 'span2 down7px', 'empty' => '--')); ?>
-			<?php } ?>
+			<?php } else if($role_id=='Manager'){ ?>
+				<label class="span1 down14px" for="Order_designer_id">дизайнер</label>
+			        <?php echo $form->dropDownList($model, 'designer_id',
+				        GxHtml::listDataEx($ownDesigners, null, 'profile.lastname'), array('class' => 'span2 down7px', 'empty' => 'Дизайнер ЕДЦ')); ?>
+			<?php }?>
 		</div>
 		<hr>
 		<div class="controls controls-row row">
@@ -225,8 +247,8 @@
 		<?php } else { ?>
 		<div class="controls controls-row row">
 			<label class="lead span1 down7px">Оплата: </label>
-			<button id="addpayment" class="btn span1" type="button">&nbsp;<i class="icon-plus"></i></button>
-			<div class="span10" id="tablecontent"></div>
+			<!-- <button id="addpayment" class="btn span1" type="button">&nbsp;<i class="icon-plus"></i></button> -->
+			<div class="span11" id="tablecontent"></div>
 		</div>
 		<?php } ?>
 		<hr>

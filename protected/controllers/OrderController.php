@@ -65,9 +65,9 @@ public function accessRules() {
 						$variables->prev_designer_id = $model->designer_id;
 						$variables->save();
 
-						$profile = User2::model()->with('profile')->findByPk($model->designer_id)->profile;
-						$profile->user_status_id = 0;
-						$profile->save();
+						//$profile = User2::model()->with('profile')->findByPk($model->designer_id)->profile;
+						//$profile->user_status_id = 0;
+						//$profile->save();
 					}
 				}
 
@@ -301,6 +301,7 @@ public function accessRules() {
 			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
+                        $grid->addColumn('debt', 'Долг', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('paid', 'О', 'boolean', null, true);
 			$grid->addColumn('designer_paid', 'Д', 'boolean', null, true);
 			$grid->addColumn('disabled', 'X', 'boolean', null, true);
