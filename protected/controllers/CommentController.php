@@ -15,7 +15,7 @@ public function accessRules() {
 				'users'=>array('*'),
 				),
 			array('allow', 
-				'actions'=>array('minicreate', 'create','add','update','index','view','list','jsonlist','jsonupdate'),
+				'actions'=>array('minicreate', 'add','remove','update','index','view','list','jsonlist','jsonupdate'),
 				'users'=>array('@'),
 				),
 			array('allow', 
@@ -27,20 +27,6 @@ public function accessRules() {
 				),
 			);
 }
-
-	public function actionCreate()
-	{
-		$id = $_POST['id'];
-		$payment = new Payment;
-		$payment->order_id = $id;
-		$payment->create_date = time();
-		$payment->client_price = 0;
-		$payment->designer_price = 0;
-		$payment->debt = true;
-		$payment->save();
-		echo('ok');
-		Yii::app()->end();
-	}
 
 	public function actionAdd()
 	{
@@ -93,6 +79,19 @@ public function accessRules() {
 		//Yii::app()->end();
 	}
 
+        public function actionRemove()
+	{
+		$id = $_POST['id'];
+		$parent_id = $_POST['parent_id'];
+                
+                $comment = $this->loadModel($parent_id, 'Comment');
+                $comment->disabled = 1;
+                $comment->save();
+		
+		echo('ok');
+		//Yii::app()->end();
+	}
+
 	public function actionJsonlist() {
 		$id = $_GET['id'];
 		// create a new EditableGrid object
@@ -103,7 +102,7 @@ public function accessRules() {
 
 		$criteria=new CDbCriteria();
 		$criteria->order = 'thread asc';
-		$criteria->condition = 'order_id=:id';
+		$criteria->condition = 'order_id=:id and disabled=0';
 		$criteria->params=array(':id'=>$id);
 		$result = Comment::model()->findAll($criteria);
 
@@ -113,15 +112,4 @@ public function accessRules() {
 		Yii::app()->end();
 	}
 
-	public function actionJsonupdate() {
-		$id = $_POST['id'];
-		$colname = $_POST['colname'];
-		$newvalue = $_POST['newvalue'];
-
-		$model = $this->loadModel($id, 'Payment');
-		$model->$colname=$newvalue;
-		$model->save();
-		echo('ok');
-		Yii::app()->end();
-	}
 }

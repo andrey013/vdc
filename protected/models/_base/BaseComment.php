@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /**
  * This is the model base class for the table "vdc_comment".
@@ -16,6 +16,7 @@
  * @property integer $user_id
  * @property integer $order_id
  * @property string $create_date
+ * @property integer $disabled
  *
  * @property User $user
  * @property Order $order
@@ -24,76 +25,78 @@
  */
 abstract class BaseComment extends GxActiveRecord {
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public static function model($className=__CLASS__) {
+        return parent::model($className);
+    }
 
-	public function tableName() {
-		return 'vdc_comment';
-	}
+    public function tableName() {
+        return 'vdc_comment';
+    }
 
-	public static function label($n = 1) {
-		return Yii::t('app', 'Comment|Comments', $n);
-	}
+    public static function label($n = 1) {
+        return Yii::t('app', 'Comment|Comments', $n);
+    }
 
-	public static function representingColumn() {
-		return 'thread';
-	}
+    public static function representingColumn() {
+        return 'thread';
+    }
 
-	public function rules() {
-		return array(
-			array('thread, user_id, order_id, create_date', 'required'),
-			array('parent_id, user_id, order_id', 'numerical', 'integerOnly'=>true),
-			array('text', 'length', 'max'=>1024),
-			array('thread', 'length', 'max'=>30),
-			array('text, parent_id', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, text, parent_id, thread, user_id, order_id, create_date', 'safe', 'on'=>'search'),
-		);
-	}
+    public function rules() {
+        return array(
+            array('thread, user_id, order_id, create_date', 'required'),
+            array('parent_id, user_id, order_id, disabled', 'numerical', 'integerOnly'=>true),
+            array('text', 'length', 'max'=>1024),
+            array('thread', 'length', 'max'=>30),
+            array('text, parent_id, disabled', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('id, text, parent_id, thread, user_id, order_id, create_date, disabled', 'safe', 'on'=>'search'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'user' => array(self::BELONGS_TO, 'User2', 'user_id'),
-			'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
-			'parent' => array(self::BELONGS_TO, 'Comment', 'parent_id'),
-			'comments' => array(self::HAS_MANY, 'Comment', 'parent_id'),
-		);
-	}
+    public function relations() {
+        return array(
+            'user' => array(self::BELONGS_TO, 'User2', 'user_id'),
+            'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
+            'parent' => array(self::BELONGS_TO, 'Comment', 'parent_id'),
+            'comments' => array(self::HAS_MANY, 'Comment', 'parent_id'),
+        );
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function pivotModels() {
+        return array(
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id' => Yii::t('app', 'ID'),
-			'text' => Yii::t('app', 'Text'),
-			'parent_id' => null,
-			'thread' => Yii::t('app', 'Thread'),
-			'user_id' => null,
-			'order_id' => null,
-			'create_date' => Yii::t('app', 'Create Date'),
-			'user' => null,
-			'order' => null,
-			'parent' => null,
-			'comments' => null,
-		);
-	}
+    public function attributeLabels() {
+        return array(
+            'id' => Yii::t('app', 'ID'),
+            'text' => Yii::t('app', 'Text'),
+            'parent_id' => null,
+            'thread' => Yii::t('app', 'Thread'),
+            'user_id' => null,
+            'order_id' => null,
+            'create_date' => Yii::t('app', 'Create Date'),
+            'disabled' => Yii::t('app', 'Disabled'),
+            'user' => null,
+            'order' => null,
+            'parent' => null,
+            'comments' => null,
+        );
+    }
 
-	public function search() {
-		$criteria = new CDbCriteria;
+    public function search() {
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id', $this->id);
-		$criteria->compare('text', $this->text, true);
-		$criteria->compare('parent_id', $this->parent_id);
-		$criteria->compare('thread', $this->thread, true);
-		$criteria->compare('user_id', $this->user_id);
-		$criteria->compare('order_id', $this->order_id);
-		$criteria->compare('create_date', $this->create_date, true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('text', $this->text, true);
+        $criteria->compare('parent_id', $this->parent_id);
+        $criteria->compare('thread', $this->thread, true);
+        $criteria->compare('user_id', $this->user_id);
+        $criteria->compare('order_id', $this->order_id);
+        $criteria->compare('create_date', $this->create_date, true);
+        $criteria->compare('disabled', $this->disabled);
 
-		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
-		));
-	}
-}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+} 

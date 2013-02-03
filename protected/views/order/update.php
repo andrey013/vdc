@@ -87,7 +87,7 @@ tinyMCE.init({
         <?php } ?>
         var link2 = "<?php echo $this->createUrl('/comment/jsonlist').'?id='.$model->id; ?>";
         var addlink2 = "<?php echo $this->createUrl('/comment/add'); ?>";
-        var updatelink2 = "<?php echo $this->createUrl('/comment/jsonupdate'); ?>";
+        var updatelink2 = "<?php echo $this->createUrl('/comment/remove'); ?>";
         var commentgrid = new CommentGrid(link2, addlink2, updatelink2);
         $(".cancel-button").on("click", function(){
             if(confirm("Вы уверены? Несохраненные данные будут потеряны")){

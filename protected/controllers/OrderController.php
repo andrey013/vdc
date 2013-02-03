@@ -49,7 +49,7 @@ public function accessRules() {
 			$model->clientPrice = $_POST['Order']['clientPrice'];
 			$model->designerPrice = $_POST['Order']['designerPrice'];
 			$next = User2::getNext();
-			if(is_null($model->designer_id)){
+			if($model->designer_id==''){
 				if(!is_null($next)){
 					$model->designer_id = $next->id;
 				}

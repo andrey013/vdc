@@ -182,12 +182,32 @@ function addComment(editableGrid, parent_id, text, addlink, link)
    
 }
 
+function removeComment(editableGrid, parent_id, removelink, link)
+{
+	var id = getParameterByName(link, "id");
+	$.ajax({
+		url: removelink,
+		type: 'POST',
+		dataType: "html",
+		data: {
+			id: id,
+			parent_id: parent_id
+		},
+		success: function (response) 
+		{ 
+			editableGrid.loadJSON(link);
+		},
+		error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
+		async: true
+	});
+}
+
 function CommentGrid(link, addlink, updatelink) 
 {
 	var t = this;
 	this.editableGrid = new EditableGrid("demo", {
 		enableSort: false,
-   	    tableLoaded: function() { t.initializeGrid(this, link, addlink); },
+   	    tableLoaded: function() { t.initializeGrid(this, link, addlink, updatelink); },
 		modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
    	    	updateCellValue(this, rowIndex, columnIndex, oldValue, newValue, row, updatelink, link);
        	},
@@ -201,7 +221,7 @@ CommentGrid.prototype.fetchGrid = function(link)  {
 	this.editableGrid.loadJSON(link);
 };
 
-CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
+CommentGrid.prototype.initializeGrid = function(grid, link, addlink, removelink) {
 	grid.setHeaderRenderer("comment", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		
@@ -243,6 +263,7 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 							comment.text +
 						'</div>' +
 						'<div class="pull-right">' +
+                                                
 						((comment.depth<9)?
 						'<button type="button" id="comment'+rowId+'Button" class="btn btn-mini"' +
 						' data-content="<textarea id=\'addComment'+rowId+'Text\' class=\'span5\'></textarea>' +
@@ -253,6 +274,7 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 						' data-original-title="Комментарий">' +
 						' 	Ответить' +
 						'</button>':'') +
+                                                '<button id=\'removeComment'+rowId+'Button\' type=\'button\' class=\'btn btn-mini\'>X</button>' +
 						//'<button id="addPayment'+rowId+'Button" class="btn" type="button">&nbsp;<i class="icon-arrow-down"></i></button>' +
 						'</div>';
 
@@ -264,6 +286,11 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink) {
 		$("body").on("click", "#addComment"+rowId+"Button", function(){
 			$("[rel='popover']").popover('destroy');
 			addComment(grid, rowId, $("#addComment"+rowId+"Text").val(), addlink, link);
+		});
+                $("body").off("click", "#removeComment"+rowId+"Button");
+		$("body").on("click", "#removeComment"+rowId+"Button", function(){
+			$("[rel='popover']").popover('destroy');
+			removeComment(grid, rowId, removelink, link);
 		});
 		$("#comment"+rowId+"Button").popover({html:true});
 	}}));

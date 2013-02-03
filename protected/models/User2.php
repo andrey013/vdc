@@ -27,8 +27,14 @@ class User2 extends BaseUser
 					'joinType'=>'INNER JOIN',
 					'condition'=>'authAssignments.itemname=\'Designer\'',
 				),
-			),
-			'profile'
+                                'profile'=>array(
+				        // we don't want to select posts
+				        'select'=>false,
+				        // but want to get only users with published posts
+				        'joinType'=>'INNER JOIN',
+				        'condition'=>'profile.client_id=\'3\'',
+			        ),
+			)
 		)->findAll(array('order'=>'username', 'condition'=>'disabled=0'));
 		$variables = Variables::model()->find();
 		$prev_designer_id = $variables->prev_designer_id;
