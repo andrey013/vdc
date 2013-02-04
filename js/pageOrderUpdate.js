@@ -274,7 +274,7 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink, removelink)
 						' data-original-title="Комментарий">' +
 						' 	Ответить' +
 						'</button>':'') +
-                                                '<button id=\'removeComment'+rowId+'Button\' type=\'button\' class=\'btn btn-mini\'>X</button>' +
+                                                (removelink!=''?'<button id=\'removeComment'+rowId+'Button\' type=\'button\' class=\'btn btn-mini\'>X</button>':'') +
 						//'<button id="addPayment'+rowId+'Button" class="btn" type="button">&nbsp;<i class="icon-arrow-down"></i></button>' +
 						'</div>';
 

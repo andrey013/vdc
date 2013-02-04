@@ -246,6 +246,11 @@ class UploadHandler
                 }
             }
             $this->set_file_delete_properties($file);
+            if ($file_name[0] == '@') {
+                $file->name = substr($file_name, 1);
+                $file->size = '';
+                $file->url = file_get_contents($this->options['upload_dir'].'/'.$file_name);
+            }
             return $file;
         }
         return null;

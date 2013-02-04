@@ -310,13 +310,23 @@ $this->endWidget();
 									<th colspan="5">Для разработки
 										<!-- The fileinput-button span is used to style the file input field as button -->
 										<span class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Designer') echo 'hidden'; ?>">
-											<i class="icon-plus icon-white"></i>
+											<i class="icon-plus icon-white"></i><i class="icon-file icon-white"></i>
 											<input type="file" name="files[]" multiple>
+										</span>
+                    <span
+                      id="addLink1"
+                      class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Designer') echo 'hidden'; ?>"
+                      data-content="<input type='text' id='addLink1Name' class='span5' placeholder='Имя файла'></input><br/><textarea id='addLink1Link' class='span5' placeholder='Ссылка'></textarea><button id='addLink1Button' type='button' class='btn btn-magenta'>Создать</button><button id='cancelLink1Button' type='button' class='btn'>Отмена</button>"
+                      rel="popover1"
+                      data-placement="right"
+                      data-original-title="Добавить ссылку"
+                    >
+                      <i class="icon-plus icon-white"></i><i class="icon-share icon-white"></i>
 										</span>
 									</th>
 								</tr>
 							</thead>
-							<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
+							<tbody class="files files1" data-toggle="modal-gallery" data-target="#modal-gallery">
 							</tbody>
 						</table>
 					</div>
@@ -352,8 +362,11 @@ $this->endWidget();
 									<th colspan="5">На утверждение
 										<!-- The fileinput-button span is used to style the file input field as button -->
 										<span class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Manager') echo 'hidden'; ?>">
-											<i class="icon-plus icon-white"></i>
+											<i class="icon-plus icon-white"></i><i class="icon-file icon-white"></i>
 											<input type="file" name="files[]" multiple>
+										</span>
+                                                                                <span class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Manager') echo 'hidden'; ?>">
+                                                                                        <i class="icon-plus icon-white"></i><i class="icon-share icon-white"></i>
 										</span>
 									</th>
 								</tr>
@@ -396,8 +409,11 @@ $this->endWidget();
 									<th colspan="5">Готовые
 										<!-- The fileinput-button span is used to style the file input field as button -->
 										<span class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Manager') echo 'hidden'; ?>">
-											<i class="icon-plus icon-white"></i>
+											<i class="icon-plus icon-white"></i><i class="icon-file icon-white"></i>
 											<input type="file" name="files[]" multiple>
+										</span>
+                                                                                <span class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Manager') echo 'hidden'; ?>">
+                                                                                        <i class="icon-plus icon-white"></i><i class="icon-share icon-white"></i>
 										</span>
 									</th>
 								</tr>

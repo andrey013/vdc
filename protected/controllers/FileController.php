@@ -15,7 +15,7 @@ public function accessRules() {
 				'users'=>array('*'),
 				),
 			array('allow', 
-				'actions'=>array('json'),
+				'actions'=>array('json','addLink'),
 				'users'=>array('@'),
 				),
 			array('allow', 
@@ -44,6 +44,23 @@ public function accessRules() {
             	                'id' => $id,
                             	'stage' => $stage
 			));
+		Yii::app()->end();
+	}
+
+        public function actionAddLink() {
+		if (Yii::app()->getRequest()->getIsPostRequest()) {
+			$id = $_POST['id'];
+			$stage = $_POST['stage'];
+                        $name = $_POST['name'];
+			$link = $_POST['link'];
+		}else{
+			$id = $_GET['id'];
+			$stage = $_GET['stage'];
+                        $name = $_GET['name'];
+			$link = $_GET['link'];
+		}
+                $fileName = dirname($_SERVER['SCRIPT_FILENAME']).'/files/'.$id.'/'.$stage.'/@'.$name;
+                file_put_contents($fileName, $link);
 		Yii::app()->end();
 	}
 

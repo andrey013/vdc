@@ -87,7 +87,10 @@ tinyMCE.init({
         <?php } ?>
         var link2 = "<?php echo $this->createUrl('/comment/jsonlist').'?id='.$model->id; ?>";
         var addlink2 = "<?php echo $this->createUrl('/comment/add'); ?>";
-        var updatelink2 = "<?php echo $this->createUrl('/comment/remove'); ?>";
+        var updatelink2 = '';
+        <?php if($role_id=='Admin') { ?>
+                updatelink2 = "<?php echo $this->createUrl('/comment/remove'); ?>";
+        <?php } ?>
         var commentgrid = new CommentGrid(link2, addlink2, updatelink2);
         $(".cancel-button").on("click", function(){
             if(confirm("Вы уверены? Несохраненные данные будут потеряны")){
@@ -199,7 +202,46 @@ tinyMCE.init({
                 $("#order-form :input").unbind("change");
             });
 
+            $("body").off("click", "#cancelLink1Button");
+	          $("body").on("click", "#cancelLink1Button", function(){
+        			$("#addLink1").popover('hide');
+            });
+          	$("body").off("click", "#addLink1Button");
+        		$("body").on("click", "#addLink1Button", function(){
+              $("#addLink1").popover('hide');
+        			addLink(1,$("#addLink1Name").val(),$("#addLink1Link").val());
+        		});
+            $("#addLink1").popover({html:true});
 	});
+      function addLink(stage, name, link)
+      {
+	      $.ajax({
+		      url: '<?php echo $this->createUrl("/file/addLink"); ?>',
+		      type: 'POST',
+		      dataType: "html",
+		      data: {
+			      id: <?php echo $model->id; ?>,
+			      stage: stage, 
+			      name: name,
+            link: link
+		      },
+		      success: function (response) 
+		      { 
+            $(".files"+stage).empty()
+			      $.ajax({
+                url: $('#fileupload'+stage).fileupload('option', 'url'),
+                dataType: 'json',
+                context: $('#fileupload'+stage)[0]
+            }).done(function (result) {
+                $(this).fileupload('option', 'done')
+                    .call(this, null, {result: result});
+            });
+		      },
+		      error: function(XMLHttpRequest, textStatus, exception) { alert("Ajax failure\n" + errortext); },
+		      async: true
+	      });
+         
+      }
 </script>
 
 <?php
@@ -241,6 +283,7 @@ $this->renderPartial('_form', array(
         {% } else { %}
             <td class="name">
                 <div class="two-liner">
+                    <i class="icon-{% if (file.size == '') { %}share{% } else { %}file{% } %}">&nbsp;</i>
                     <a target="_blank" href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name?file.name:file.name%}</a>
                 </div>
             </td>
@@ -266,6 +309,7 @@ $this->renderPartial('_form', array(
         {% } else { %}
             <td class="name">
                 <div class="two-liner">
+                    <i class="icon-{% if (file.size == '') { %}share{% } else { %}file{% } %}">&nbsp;</i>
                     <a target="_blank" href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name?file.name:file.name%}</a>
                 </div>
             </td>
