@@ -1,4 +1,4 @@
- <?php
+<?php
 
 /**
  * This is the model base class for the table "vdc_comment".
