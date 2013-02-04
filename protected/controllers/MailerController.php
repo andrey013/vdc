@@ -41,11 +41,18 @@ public function accessRules() {
 						'select'=>false,
 						// but want to get only users with published posts
 						'joinType'=>'INNER JOIN',
-						'condition'=>'authAssignments.itemname=:role_id',
-						'params'=>array(':role_id'=>$_POST['Mailer']['role_id'])
+						'condition'=> $_POST['Mailer']['role_id'] != '' ? 'authAssignments.itemname=:role_id':'',
+						'params'=>$_POST['Mailer']['role_id'] != '' ? array(':role_id'=>$_POST['Mailer']['role_id']):array()
 					),
-				),
-				'profile'
+                                        'profile'=>array(
+				                // we don't want to select posts
+				                'select'=>false,
+				                // but want to get only users with published posts
+				                'joinType'=>'INNER JOIN',
+				                'condition'=> $_POST['Mailer']['client_id'] != '' ? 'profile.client_id=:client_id':'',
+                                                'params'=> $_POST['Mailer']['client_id'] != '' ? array(':client_id'=>$_POST['Mailer']['client_id']):array()
+			                ),
+				)
 			)->findAll('disabled=0');
 			foreach ($users as $key => $value) {
 				$message = new YiiMailMessage;
