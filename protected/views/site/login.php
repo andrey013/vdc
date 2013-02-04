@@ -7,6 +7,10 @@
 				$("#forgetDiv").fadeOut();
 			}
 		});
+                $("#LoginForm_client_id").on('change', function(){
+                        $("#LoginForm_password").val("");
+			$("#login-form").submit();
+		});
 		<?php if(!isset($user)){ ?>
 			$("#LoginForm_username").change();
 		<?php } ?>
@@ -34,15 +38,26 @@
 		),
 		'htmlOptions'=>array(
 			'class'=>'form-horizontal',
-			'style'=>'padding: 130px 0px 0 0; margin-left: -14px',
+			'style'=>'padding: 120px 0px 0 0; margin-left: -14px',
 		),
 	));
 	if(isset($user)){
 		$users=array($user);
 	}else{
-		$users=User2::model()->with('profile')->findAll('disabled = 0');
+		$users=User2::model()->with('profile')->findAll('disabled = 0 and profile.client_id='.$model->client_id);
 	}
 ?>
+        <?php if(!isset($user)&&isset($model->client_id)){ ?>
+        <div class="control-group">
+		<label class="control-label" for="LoginForm_client_id">Редакция: </label>
+		<div class="controls">
+                        <?php
+                                echo $form->dropDownList($model, 'client_id',
+					GxHtml::listDataEx(Client::model()->findAll('disabled = 0'), 'id', 'name'));
+                        ?>
+                </div>
+	</div>
+        <?php } ?>
 	<div class="control-group">
 		<label class="control-label" for="LoginForm_username">Пользователь: </label>
 		<div class="controls">
@@ -80,6 +95,7 @@
 		<label class="checkbox" for="LoginForm_rememberMe">
 			<?php echo $form->checkBox($model,'rememberMe'); ?> Запомнить меня
 		</label>
+                <br/>
 		<button type="submit" class="btn btn-magenta"> Войти </button>
 	</div>
 	</div>

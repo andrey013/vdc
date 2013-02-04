@@ -91,7 +91,7 @@ class SiteController extends Controller
 		if(isset($_POST['LoginForm']))
 		{
 			if(isset($_POST['LoginForm']['activkey'])){
-				$user = User2::model()->find('activkey=:activkey and disables=0', array(':activkey'=>$_POST['LoginForm']['activkey']));
+				$user = User2::model()->find('activkey=:activkey and disabled=0', array(':activkey'=>$_POST['LoginForm']['activkey']));
 				if(isset($user)&&$user->activkey!=0){
 					$user->password = UserModule::encrypting($_POST['LoginForm']['password']);
 					$user->activkey = 0;
@@ -100,14 +100,20 @@ class SiteController extends Controller
 			}
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
+			if($model->password != '' && $model->validate() && $model->login())
 				$this->redirect(Yii::app()->user->returnUrl);
 		}
 		// display the login form
 		$user = null;
 		if(isset($_GET['activkey'])){
 			$user = User2::model()->find('activkey=:activkey and disabled=0', array(':activkey'=>$_GET['activkey']));
-		}
+		}else {
+                        if(!isset($_POST['LoginForm']['client_id'])){
+                                $model->client_id = 7;
+                        } else {
+                                $model->client_id = $_POST['LoginForm']['client_id'];
+                        }
+                }
 		$this->render('login', array('model'=>$model, 'user'=>$user));
 	}
 
