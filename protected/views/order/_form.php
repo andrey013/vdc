@@ -114,7 +114,7 @@
 			<label class="span1 down14px" for="Order_designer_id">дизайнер</label>
 			<?php echo $form->dropDownList($model, 'designer_id',
 				GxHtml::listDataEx($designers, null, 'profile.lastname'), array('class' => 'span2 down7px', 'empty' => '--')); ?>
-			<?php } else if($role_id=='Manager'){ ?>
+			<?php } else if($role_id=='Manager'&&isset($buttons)){ ?>
 				<label class="span1 down14px" for="Order_designer_id">дизайнер</label>
 			        <?php echo $form->dropDownList($model, 'designer_id',
 				        GxHtml::listDataEx($ownDesigners, null, 'profile.lastname'), array('class' => 'span2 down7px', 'empty' => 'Дизайнер ЕДЦ')); ?>
