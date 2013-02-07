@@ -59,7 +59,7 @@ public function accessRules() {
 				$model->setOrderStatus($_POST['Order']['orderStatusHist']);
 				$model->setPayment($_POST['Order']['clientPrice'], $_POST['Order']['designerPrice']);
 
-				if(isset($model->designer_id)){
+				if(isset($model->designer_id)&&!is_null($next)){
 					if($model->designer_id==$next->id){
 						$variables = Variables::model()->find();
 						$variables->prev_designer_id = $model->designer_id;
