@@ -153,14 +153,17 @@ public function accessRules() {
 		if($user->role_id=='Designer'&&($user_id!=$model->designer_id||$model->disabled==1))
 			throw new CHttpException(401, 'У вас недостаточно прав для просмотра этой информации');
 		if (isset($_POST['Order'])) {
+                        $olddesigner = $model->designer;
 			$model->setAttributes($_POST['Order']);
 			$model->setCustomerName($_POST['Order']['customername']);
 			$model->setChromaticityName($_POST['Order']['chromaticityname']);
 			$model->setDensityName($_POST['Order']['densityname']);
+                        
 			if ($model->save()) {
 				if($_POST['Order']['orderStatusHist'] != $model->orderStatusHist->orderStatus->key){
 					$model->setOrderStatus($_POST['Order']['orderStatusHist']);
 					$model->refresh();
+
 					$users = array();/*User2::model()->with(array(
 							'authAssignments'=>array(
 								// we don't want to select posts
@@ -191,6 +194,11 @@ public function accessRules() {
 						Yii::app()->mail->send($message);
 					}
 				}
+                                $model->refresh();
+                                if((is_null($olddesigner)?-1:$olddesigner->id) != (is_null($model->designer)?-1:$model->designer->id)){
+				        
+                                        $this->designerChange($model, $olddesigner, $model->designer);
+                                }
 				$this->redirect(array('list'));
 			}
 		}
@@ -551,37 +559,7 @@ public function accessRules() {
 				$model->save();
 
 				$model->refresh();
-				//новому
-				$users = array($model->designer);
-				foreach ($users as $key => $value) {
-					if(is_null($value)) continue;
-					$message = new YiiMailMessage;
-					$message->setBody('Уважаемый(ая) '.$value->username
-						.'. Вам поступил в разработку новый заказ: '
-						.$model->customername.' '
-						.$model->client_number.' '
-						.' '.$model->orderType->name);
-					$message->subject = 'Новый заказ';
-					$message->addTo($value->email);
-					$message->from = Yii::app()->params['adminEmail'];
-					Yii::app()->mail->send($message);
-				}
-				//старому
-				$users = array($olddesigner);
-				foreach ($users as $key => $value) {
-					if(is_null($value)) continue;
-					$message = new YiiMailMessage;
-					$message->setBody('Внимание! Заказ '
-						.$model->customername.' '
-						.$model->client_number.' '
-						.' '.$model->orderType->name
-						.' передан другому дизайнеру');
-					$message->subject = 'Заказ передан другому дизайнеру';
-					$message->addTo($value->email);
-					$message->from = Yii::app()->params['adminEmail'];
-					Yii::app()->mail->send($message);
-				}
-
+                                $this->designerChange($model, $olddesigner, $model->designer);
 			}else{
 				$model = $this->loadModel($id, 'Order');
 				$model->$colname=$newvalue;
@@ -591,4 +569,38 @@ public function accessRules() {
 		echo('ok');
 		Yii::app()->end();
 	}
+
+        public function designerChange($model, $old, $new) {
+                //новому
+		$users = array($new);
+		foreach ($users as $key => $value) {
+			if(is_null($value)) continue;
+			$message = new YiiMailMessage;
+			$message->setBody('Уважаемый(ая) '.$value->username
+				.'. Вам поступил в разработку новый заказ: '
+				.$model->customername.' '
+				.$model->client_number.' '
+				.' '.$model->orderType->name);
+			$message->subject = 'Новый заказ';
+			$message->addTo($value->email);
+			$message->from = Yii::app()->params['adminEmail'];
+			Yii::app()->mail->send($message);
+		}
+		//старому
+		$users = array($old);
+		foreach ($users as $key => $value) {
+			if(is_null($value)) continue;
+			$message = new YiiMailMessage;
+			$message->setBody('Внимание! Заказ '
+				.$model->customername.' '
+				.$model->client_number.' '
+				.' '.$model->orderType->name
+				.' передан другому дизайнеру');
+			$message->subject = 'Заказ передан другому дизайнеру';
+			$message->addTo($value->email);
+			$message->from = Yii::app()->params['adminEmail'];
+			Yii::app()->mail->send($message);
+		}
+        }
+
 }
