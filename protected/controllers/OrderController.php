@@ -160,6 +160,13 @@ public function accessRules() {
 			$model->setDensityName($_POST['Order']['densityname']);
                         
 			if ($model->save()) {
+                                $payments = $model->payments;
+                                if(count($payments)==1){
+                                        //Yii::log($_POST['Order']['clientPrice'] . ' - ' . $_POST['Order']['designerPrice'], 'info');
+                                        $payments[0]->client_price = $_POST['Order']['clientPrice'];
+                                        $payments[0]->designer_price = $_POST['Order']['designerPrice'];
+                                        $payments[0]->save();
+                                }
 				if($_POST['Order']['orderStatusHist'] != $model->orderStatusHist->orderStatus->key){
 					$model->setOrderStatus($_POST['Order']['orderStatusHist']);
 					$model->refresh();

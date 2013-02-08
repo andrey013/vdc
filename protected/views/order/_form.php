@@ -227,6 +227,10 @@
 							?>"><?php echo $model->paidSum; ?></label>
 						<label class="lead span2"><?php echo $model->debtPrice; ?></label>
 					</div>
+                                        <div class="controls controls-row hidden">
+                                		<?php echo $form->textField($model, 'clientPrice', array('class' => 'span2', 'readonly' => 'readonly')); ?>
+			                        <?php echo $form->textField($model, 'designerPrice', array('class' => 'span2', 'readonly' => 'readonly')); ?>
+		                        </div>
 				<?php } else if($role_id=='Designer'&&(!isset($buttons))){ ?>
 					<div class="controls controls-row row">
 						<label class="span2" for="Order_designerPrice">Дизайнеру</label>
@@ -249,6 +253,10 @@
 			<label class="lead span1 down7px">Оплата: </label>
 			<!-- <button id="addpayment" class="btn span1" type="button">&nbsp;<i class="icon-plus"></i></button> -->
 			<div class="span11" id="tablecontent"></div>
+		</div>
+                <div class="controls controls-row hidden">
+        		<?php echo $form->textField($model, 'clientPrice', array('class' => 'span2', 'readonly' => 'readonly')); ?>
+			<?php echo $form->textField($model, 'designerPrice', array('class' => 'span2', 'readonly' => 'readonly')); ?>
 		</div>
 		<?php } ?>
 		<hr>
