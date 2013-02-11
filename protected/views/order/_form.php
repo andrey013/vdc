@@ -238,6 +238,10 @@
 					<div class="controls controls-row row">
 						<label class="lead span2"><?php echo $model->designerPrice; ?></label>
 					</div>
+                                        <div class="controls controls-row hidden">
+                                		<?php echo $form->textField($model, 'clientPrice', array('class' => 'span2', 'readonly' => 'readonly')); ?>
+			                        <?php echo $form->textField($model, 'designerPrice', array('class' => 'span2', 'readonly' => 'readonly')); ?>
+		                        </div>
 				<?php } else { ?>
 					<div class="controls controls-row row">
 						<label class="span2" for="Order_clientPrice">Общая стоимость, руб.</label>
