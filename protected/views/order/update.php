@@ -111,6 +111,7 @@ tinyMCE.init({
         });
         $(".copy-button").on("click", function(){
             var form = $("#order-form");
+            $("#Order_clientPrice").val("");
             form.attr("action","<?php echo $this->createUrl('/order/create'); ?>");
             form.submit();
         });

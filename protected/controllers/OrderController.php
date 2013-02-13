@@ -38,7 +38,7 @@ public function accessRules() {
 		$model = new Order();
 		$this->performAjaxValidation($model, 'order-form');
 
-		if (isset($_POST['Order'])&&isset($_POST['Order']['clientPrice'])) {
+		if (isset($_POST['Order'])&&isset($_POST['Order']['clientPrice'])&&$_POST['Order']['clientPrice']!='') {
 			Yii::log('post is here', 'info');
 			$model->setAttributes($_POST['Order']);
 			Yii::log('attributes set', 'info');
