@@ -457,7 +457,9 @@ public function accessRules() {
 			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
-			$grid->addColumn('debt', 'Долг', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('dateformatted', 'Дата платежа', 'string');
+			$grid->addColumn('pay', 'Платеж', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('debtPrice', 'Долг', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('filter', ' ', 'string');
 			
 			$criteria1->order = $order;
@@ -524,6 +526,34 @@ public function accessRules() {
 				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
 				->findAll($criteria2)
 				);
+                if ($user->role_id=='Admin'){
+                        $finalResult = array();
+                        foreach ($result as $row) {
+                                $row->debtPrice=$row->client_price;
+                                $row->pay = 0;
+                                $payment = Payment::model()->findAll("order_id=:order_id", array(':order_id'=>$row->id));
+                                if(count($payment)==1){
+                                        $payments = PaymentHistory::model()->findAll("payment_id=:payment_id", array(':payment_id'=>$payment[0]->id));
+                                        if(count($payments)>0){
+                                                foreach ($payments as $pay) {
+                                                        $row->pay = $pay->amount;
+                                                        $row->dateformatted = $pay->create_date;
+                                                        $row->debtPrice=$row->debtPrice-$row->pay;
+                                                        $finalResult[] = clone $row;
+                                                        $row->client_price = 0;
+                                                        $row->designer_price = 0;
+                                                        $row->penny = 0;
+                                                }
+                                                
+                                        } else {
+                                                $finalResult[] = $row;
+                                        }
+                                } else {
+                                        $finalResult[] = $row;
+                                }
+                        }
+                        $result = $finalResult;
+                }
 		$this->layout=false;
 		// send data to the browser
 		$grid->renderJSON($result);

@@ -48,7 +48,22 @@
 					grid.setHeaderRenderer("penny", new CellRenderer({render: function(cell, value) {
 						$(cell).hide();
 					}}));
-					
+					grid.setCellRenderer("pay", new CellRenderer({render: function(cell, value) {
+				                //var rowId = grid.getRowId(cell.rowIndex);
+                                                if(value!=0) $(cell).append(value);
+			                }}));
+                                        grid.setCellRenderer("client_price", new CellRenderer({render: function(cell, value) {
+				                //var rowId = grid.getRowId(cell.rowIndex);
+                                                if(value!=0) $(cell).append(value);
+			                }}));
+                                        grid.setCellRenderer("designer_price", new CellRenderer({render: function(cell, value) {
+				                //var rowId = grid.getRowId(cell.rowIndex);
+                                                if(value!=0) $(cell).append(value);
+			                }}));
+                                        grid.setCellRenderer("penny", new CellRenderer({render: function(cell, value) {
+				                //var rowId = grid.getRowId(cell.rowIndex);
+                                                if(value!=0) $(cell).append(value);
+			                }}));
 					<?php } ?>
 
 					

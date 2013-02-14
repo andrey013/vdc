@@ -52,16 +52,19 @@ function updateSum(editableGrid){
 	var client_priceIndex = editableGrid.getColumnIndex("client_price");
 	var designer_priceIndex = editableGrid.getColumnIndex("designer_price");
 	var pennyIndex = editableGrid.getColumnIndex("penny");
-	var debtIndex = editableGrid.getColumnIndex("debt");
+	var payIndex = editableGrid.getColumnIndex("pay");
+        var debtIndex = editableGrid.getColumnIndex("debt");
 	var client_price = 0;
 	var designer_price = 0;
 	var penny = 0;
-	var debt = 0;
+	var pay = 0;
+        var debt = 0;
 	for(var i = 0; i < editableGrid.getRowCount() ; i++){
 		if(client_priceIndex >= 0) client_price += editableGrid.getValueAt(i, client_priceIndex);
 		if(designer_priceIndex >= 0) designer_price += editableGrid.getValueAt(i, designer_priceIndex);
 		if(pennyIndex >= 0) penny += editableGrid.getValueAt(i, pennyIndex);
-		if(debtIndex >= 0) debt += editableGrid.getValueAt(i, debtIndex);
+		if(payIndex >= 0) pay += editableGrid.getValueAt(i, payIndex);
+                if(debtIndex >= 0) debt += editableGrid.getValueAt(i, debtIndex);
 	}
 	var fmt = function(val){
 		return number_format(val, 0, ',', ' ');
@@ -70,7 +73,9 @@ function updateSum(editableGrid){
 	if(client_priceIndex >= 0) sum += fmt(client_price) + ' &nbsp; ';
 	if(designer_priceIndex >= 0) sum += fmt(designer_price) + ' &nbsp; ';
 	if(pennyIndex >= 0) sum += fmt(penny) + ' &nbsp; ';
-	if(debtIndex >= 0) sum += fmt(debt) + ' &nbsp; ';
+	if(payIndex >= 0) sum += fmt(pay) + ' &nbsp; ';
+        if(debtIndex >= 0) sum += fmt(debt) + ' &nbsp; ';
+        else if(client_priceIndex >= 0) sum += fmt(client_price - pay);
 	$("#sum").html('Итого: &nbsp; ' + sum);
 }
 

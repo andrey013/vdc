@@ -12,6 +12,9 @@ class Order extends BaseOrder
 	public $designerPrice;
 	public $debtPrice;
 
+        public $pay;
+        public $dateformatted;
+
 	public function relations() {
 		return parent::relations() + array(
 			//'maxDate' => array(self::HAS_ONE, 'OrderStatusHistory', 'order_id', 'select'=>'MAX(vdc_order_status_history.change_date) as maxDate'),
