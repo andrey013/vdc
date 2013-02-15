@@ -537,7 +537,7 @@ public function accessRules() {
                                         if(count($payments)>0){
                                                 foreach ($payments as $pay) {
                                                         $row->pay = $pay->amount;
-                                                        $row->dateformatted = $pay->create_date;
+                                                        $row->dateformatted = Yii::app()->dateFormatter->format('d.MM.yyyy', $pay->create_date);
                                                         $row->debtPrice=$row->debtPrice-$row->pay;
                                                         $finalResult[] = clone $row;
                                                         $row->client_price = 0;
