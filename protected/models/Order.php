@@ -150,7 +150,7 @@ class Order extends BaseOrder
 
 	public function getCreateDateFormatted()
 	{
-		return Yii::app()->dateFormatter->format('d.MM.yyyy', $this->create_date);
+		return Yii::app()->dateFormatter->format('d.MM.yyyy hh:mm:ss', $this->create_date);
 	}
 
 	public function getFilter(){

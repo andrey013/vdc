@@ -127,6 +127,12 @@ datagrid = new DatabaseGrid({
 				$("<div>").append(value).addClass("two-liner").appendTo(cell);
 			}}));
 
+                        grid.setCellRenderer("createdateformatted", new CellRenderer({render: function(cell, value) {
+				var rowId = grid.getRowId(cell.rowIndex);
+				var words = value.split(' ');
+				$(cell).append(words[0]).attr("title",value);
+			}}));
+
 			grid.setCellRenderer("orderStatusHist.statusformatted", new CellRenderer({render: function(cell, value) {
 				var rowId = grid.getRowId(cell.rowIndex);
 				var words = value.split(' ');
