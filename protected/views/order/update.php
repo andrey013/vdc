@@ -56,11 +56,7 @@ tinyMCE.init({
                     $("#Order_clientPrice").val(msg.clientPrice);
                     $("#Order_designerPrice").val(msg.designerPrice);
                     $(".submit-button").html("Сохранить<br> (новая цена "+ msg.clientPrice + " р.)");
-                } else {
-                    $("#Order_clientPrice").val(0);
-                    $("#Order_designerPrice").val(0);
                 }
-                
             });
         });
     });
