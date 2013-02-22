@@ -122,6 +122,9 @@ tinyMCE.init({
         $(".submit-button").on("click", function(){
             $(this).attr('disabled', true);
             var form = $("#order-form");
+            <?php if($role_id=='Manager'){ ?>
+                $("#Order_designer_id").remove();
+            <?php } ?>
             form.submit();
         });
 	// Initialize the jQuery File Upload widget:
