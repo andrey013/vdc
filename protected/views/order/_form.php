@@ -77,7 +77,7 @@
 					<button type="button" class="btn btn-large span2 hidden edit-button cancel-button">
 						Отмена
 					</button>
-					<button type="button" value="submit" class="btn btn-large btn-magenta span2 hidden edit-button submit-button">
+					<button type="button" value="submit" class="btn btn-large btn-magenta span3 hidden edit-button submit-button">
 						Сохранить
 					</button>
 				</div>
@@ -118,7 +118,10 @@
 				<label class="span1 down14px" for="Order_designer_id">дизайнер</label>
 			        <?php echo $form->dropDownList($model, 'designer_id',
 				        GxHtml::listDataEx($ownDesigners, null, 'profile.lastname'), array('class' => 'span2 down7px', 'empty' => 'Дизайнер ЕДЦ')); ?>
-			<?php }?>
+			<?php } else {?>
+                <?php echo $form->dropDownList($model, 'designer_id',
+				        GxHtml::listDataEx($ownDesigners, null, 'profile.lastname'), array('class' => 'span2 down7px hidden', 'empty' => 'Дизайнер ЕДЦ')); ?>
+            <?php }?>
 		</div>
 		<hr>
 		<div class="controls controls-row row">
@@ -290,7 +293,9 @@
 			</div>
 		</div>
 		<?php if(isset($buttons)) { ?>
-		
+		<div class="controls controls-row row pull-right" style="z-index: 9;">
+			<div class="span6" style="min-height : 480px" id="commentcontent"></div>
+		</div>
 		<?php } else { ?>
 		<div class="controls controls-row row pull-right" style="z-index: 9;">
 			<div class="span6" style="min-height : 500px" id="commentcontent"></div>
@@ -299,7 +304,6 @@
 <?php
 $this->endWidget();
 ?>
-		<?php if(!isset($buttons)) { ?>
 		<!-- <div class="clearfix"></div> -->
 		<hr class="span6">
 		<div class="controls controls-row pull-left">
@@ -377,13 +381,20 @@ $this->endWidget();
 											<i class="icon-plus icon-white"></i><i class="icon-file icon-white"></i>
 											<input type="file" name="files[]" multiple>
 										</span>
-                                                                                <span class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Manager') echo 'hidden'; ?>">
-                                                                                        <i class="icon-plus icon-white"></i><i class="icon-share icon-white"></i>
+                    <span
+                      id="addLink2"
+                      class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Manager') echo 'hidden'; ?>"
+                      data-content="<input type='text' id='addLink2Name' class='span5' placeholder='Имя файла'></input><br/><textarea id='addLink2Link' class='span5' placeholder='Ссылка'></textarea><button id='addLink2Button' type='button' class='btn btn-magenta'>Создать</button><button id='cancelLink2Button' type='button' class='btn'>Отмена</button>"
+                      rel="popover1"
+                      data-placement="right"
+                      data-original-title="Добавить ссылку"
+                    >
+                      <i class="icon-plus icon-white"></i><i class="icon-share icon-white"></i>
 										</span>
 									</th>
 								</tr>
 							</thead>
-							<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
+							<tbody class="files files2" data-toggle="modal-gallery" data-target="#modal-gallery">
 							</tbody>
 						</table>
 					</div>
@@ -424,13 +435,20 @@ $this->endWidget();
 											<i class="icon-plus icon-white"></i><i class="icon-file icon-white"></i>
 											<input type="file" name="files[]" multiple>
 										</span>
-                                                                                <span class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Manager') echo 'hidden'; ?>">
-                                                                                        <i class="icon-plus icon-white"></i><i class="icon-share icon-white"></i>
+                    <span
+                      id="addLink3"
+                      class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Manager') echo 'hidden'; ?>"
+                      data-content="<input type='text' id='addLink3Name' class='span5' placeholder='Имя файла'></input><br/><textarea id='addLink3Link' class='span5' placeholder='Ссылка'></textarea><button id='addLink3Button' type='button' class='btn btn-magenta'>Создать</button><button id='cancelLink3Button' type='button' class='btn'>Отмена</button>"
+                      rel="popover1"
+                      data-placement="right"
+                      data-original-title="Добавить ссылку"
+                    >
+                      <i class="icon-plus icon-white"></i><i class="icon-share icon-white"></i>
 										</span>
 									</th>
 								</tr>
 							</thead>
-							<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
+							<tbody class="files files3" data-toggle="modal-gallery" data-target="#modal-gallery">
 							</tbody>
 						</table>
 					</div>
@@ -452,7 +470,6 @@ $this->endWidget();
 			</form>
 		</div>
 		</div>
-		<?php } ?>
 
 		<div class="controls controls-row row">
 			<?php if(isset($buttons)) { ?>
@@ -477,19 +494,87 @@ $this->endWidget();
 					<button type="button" class="btn btn-large span2 hidden edit-button cancel-button">
 						Отмена
 					</button>
-					<button type="button" value="submit" class="btn btn-large btn-magenta span2 hidden edit-button submit-button">
+					<button type="button" value="submit" class="btn btn-large btn-magenta span3 hidden edit-button submit-button">
 						Сохранить
 					</button>
 				</div>
 			<?php } ?>
 		</div>
 
-		<?php if(isset($buttons)) { ?>
-			<div class="clearfix"> </div>
-			<div class="clearfix"> &nbsp;</div>
-			<div class="controls controls-row row">
-				<button type="button" value="files" class="btn btn-large btn-magenta span6 submit-button">
-					Прикрепить файлы
-				</button>
-			</div>
-		<?php } ?>
+
+
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% if (file.error) { %}
+            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
+        {% } else if (o.files.valid && !i) { %}
+            <!--<td>
+                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
+            </td>-->
+            <td class="start">{% if (!o.options.autoUpload) { %}
+                <button class="btn btn-mini pull-right">
+                    <i class="icon-upload"></i> Загрузить
+                </button>
+            {% } %}</td>
+        {% } else { %}
+            <td colspan="1"></td>
+        {% } %}
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        {% if (file.error) { %}
+            <td class="name"><span class="two-liner span3">{%=file.name%}</span></td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
+        {% } else { %}
+            <td class="name">
+                <div class="two-liner">
+                    <i class="icon-{% if (file.size == '') { %}share{% } else { %}file{% } %}">&nbsp;</i>
+                    <a target="_blank" href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name?file.name:file.name%}</a>
+                </div>
+            </td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% } %}
+        <td class="delete">
+            <button class="btn btn-mini pull-right" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+                <i class="icon-remove">&nbsp;</i>
+            </button>
+            <input class="hidden" type="checkbox" name="delete" value="1">
+        </td>
+    </tr>
+{% } %}
+</script>
+
+<script id="template-download-readonly" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        {% if (file.error) { %}
+            <td class="name"><span class="two-liner span3">{%=file.name%}</span></td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
+        {% } else { %}
+            <td class="name">
+                <div class="two-liner">
+                    <i class="icon-{% if (file.size == '') { %}share{% } else { %}file{% } %}">&nbsp;</i>
+                    <a target="_blank" href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name?file.name:file.name%}</a>
+                </div>
+            </td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% } %}
+        <td class="delete hidden">
+            <button class="btn btn-mini pull-right" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+                <i class="icon-remove">&nbsp;</i>
+            </button>
+            <input class="hidden" type="checkbox" name="delete" value="1">
+        </td>
+    </tr>
+{% } %}
+</script>

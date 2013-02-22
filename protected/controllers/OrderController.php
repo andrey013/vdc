@@ -54,6 +54,7 @@ public function accessRules() {
 					$model->designer_id = $next->id;
 				}
 			}
+            $model->id = $_POST['Order']['global_number'];
 			//$model->create_date = date('Y-m-d H:i:s', $model->create_date);
 			if ($model->save()) {
 				$model->setOrderStatus($_POST['Order']['orderStatusHist']);
@@ -89,8 +90,8 @@ public function accessRules() {
 				foreach ($users as $key => $value) {
 					if(is_null($value)) continue;
 					$message = new YiiMailMessage;
-					$message->setBody('Уважаемый(ая) '.$value->username
-						.'. Вам поступил в разработку новый заказ: '
+					$message->setBody('Уважаемый дизайнер '.$value->username
+						.', вам поступил в разработку новый заказ: '
 						.$model->customername.' '
 						.$model->client_number.' '
 						.' '.$model->orderType->name);
@@ -137,6 +138,7 @@ public function accessRules() {
 			$variables = Variables::model()->find();
 			$number = $variables->max_global_number + 1;
 			$model->global_number = $number;
+            $model->id = $number;
 			$variables->max_global_number = $number;
 			$variables->save();
 		}
@@ -189,7 +191,7 @@ public function accessRules() {
 					foreach ($users as $key => $value) {
 						if(is_null($value)) continue;
 						$message = new YiiMailMessage;
-						$message->setBody('Уважаемый(ая) '.$value->username
+						$message->setBody('Уважаемый пользователь ВДЦ '.$value->username
 							.' заказ '
 							.$model->customername.' '
 							.$model->client_number.' '
@@ -613,8 +615,8 @@ public function accessRules() {
 		foreach ($users as $key => $value) {
 			if(is_null($value)) continue;
 			$message = new YiiMailMessage;
-			$message->setBody('Уважаемый(ая) '.$value->username
-				.'. Вам поступил в разработку новый заказ: '
+			$message->setBody('Уважаемый дизайнер '.$value->username
+				.', вам поступил в разработку новый заказ: '
 				.$model->customername.' '
 				.$model->client_number.' '
 				.' '.$model->orderType->name);

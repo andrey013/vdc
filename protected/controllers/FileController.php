@@ -59,6 +59,10 @@ public function accessRules() {
                         $name = $_GET['name'];
 			$link = $_GET['link'];
 		}
+                $upload_dir = dirname($_SERVER['SCRIPT_FILENAME']).'/files/'.$id.'/'.$stage.'/';
+                if (!is_dir($upload_dir)) {
+                    mkdir($upload_dir, 0755, true);
+                }
                 $fileName = dirname($_SERVER['SCRIPT_FILENAME']).'/files/'.$id.'/'.$stage.'/@'.$name;
                 file_put_contents($fileName, $link);
 		Yii::app()->end();

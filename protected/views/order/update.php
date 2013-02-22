@@ -44,7 +44,7 @@ tinyMCE.init({
 
     $(function(){
         $('#paidSum').tooltip({placement:'right', html:true});
-        $("body").on("change", "#Order_order_type_id, #Order_difficulty_id", function(){
+        $("body").on("change", "#Order_order_type_id, #Order_difficulty_id, #Order_designer_id", function(){
             $.ajax({
                 type: "POST",
                 url: "<?php echo $this->createUrl('/price/getPrice'); ?>",
@@ -52,8 +52,15 @@ tinyMCE.init({
                         difficulty_id: $("#Order_difficulty_id").val()},
                 dataType: "json"
             }).done(function( msg ) {
-                $("#Order_clientPrice").val(msg.clientPrice);
-                $("#Order_designerPrice").val(msg.designerPrice);
+                if($("#Order_designer_id").val()==''){
+                    $("#Order_clientPrice").val(msg.clientPrice);
+                    $("#Order_designerPrice").val(msg.designerPrice);
+                    $(".submit-button").html("Сохранить<br> (новая цена "+ msg.clientPrice + " р.)");
+                } else {
+                    $("#Order_clientPrice").val(0);
+                    $("#Order_designerPrice").val(0);
+                }
+                
             });
         });
     });
@@ -110,12 +117,14 @@ tinyMCE.init({
             }
         });
         $(".copy-button").on("click", function(){
+            $(this).attr('disabled', true);
             var form = $("#order-form");
             $("#Order_clientPrice").val("");
             form.attr("action","<?php echo $this->createUrl('/order/create'); ?>");
             form.submit();
         });
         $(".submit-button").on("click", function(){
+            $(this).attr('disabled', true);
             var form = $("#order-form");
             form.submit();
         });
@@ -225,6 +234,29 @@ tinyMCE.init({
         			addLink(1,$("#addLink1Name").val(),$("#addLink1Link").val());
         		});
             $("#addLink1").popover({html:true});
+
+            $("body").off("click", "#cancelLink2Button");
+	          $("body").on("click", "#cancelLink2Button", function(){
+        			$("#addLink2").popover('hide');
+            });
+          	$("body").off("click", "#addLink2Button");
+        		$("body").on("click", "#addLink2Button", function(){
+              $("#addLink2").popover('hide');
+        			addLink(2,$("#addLink2Name").val(),$("#addLink2Link").val());
+        		});
+            $("#addLink2").popover({html:true});
+
+            $("body").off("click", "#cancelLink3Button");
+	          $("body").on("click", "#cancelLink3Button", function(){
+        			$("#addLink3").popover('hide');
+            });
+          	$("body").off("click", "#addLink3Button");
+        		$("body").on("click", "#addLink3Button", function(){
+              $("#addLink3").popover('hide');
+        			addLink(3,$("#addLink3Name").val(),$("#addLink3Link").val());
+        		});
+            $("#addLink3").popover({html:true});
+
 	});
       function addLink(stage, name, link)
       {
@@ -240,6 +272,8 @@ tinyMCE.init({
 		      },
 		      success: function (response) 
 		      { 
+                var status = $("#Order_orderStatusHist");
+                status.change();
             $(".files"+stage).empty()
 			      $.ajax({
                 url: $('#fileupload'+stage).fileupload('option', 'url'),
@@ -262,78 +296,3 @@ $this->renderPartial('_form', array(
 		'model' => $model));
 ?>
 
-<!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
-        <td class="name"><span>{%=file.name%}</span></td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        {% if (file.error) { %}
-            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
-        {% } else if (o.files.valid && !i) { %}
-            <!--<td>
-                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
-            </td>-->
-            <td class="start">{% if (!o.options.autoUpload) { %}
-                <button class="btn btn-mini pull-right">
-                    <i class="icon-upload"></i> Загрузить
-                </button>
-            {% } %}</td>
-        {% } else { %}
-            <td colspan="1"></td>
-        {% } %}
-    </tr>
-{% } %}
-</script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        {% if (file.error) { %}
-            <td class="name"><span class="two-liner span3">{%=file.name%}</span></td>
-            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
-        {% } else { %}
-            <td class="name">
-                <div class="two-liner">
-                    <i class="icon-{% if (file.size == '') { %}share{% } else { %}file{% } %}">&nbsp;</i>
-                    <a target="_blank" href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name?file.name:file.name%}</a>
-                </div>
-            </td>
-            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        {% } %}
-        <td class="delete">
-            <button class="btn btn-mini pull-right" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-                <i class="icon-remove">&nbsp;</i>
-            </button>
-            <input class="hidden" type="checkbox" name="delete" value="1">
-        </td>
-    </tr>
-{% } %}
-</script>
-
-<script id="template-download-readonly" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        {% if (file.error) { %}
-            <td class="name"><span class="two-liner span3">{%=file.name%}</span></td>
-            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
-        {% } else { %}
-            <td class="name">
-                <div class="two-liner">
-                    <i class="icon-{% if (file.size == '') { %}share{% } else { %}file{% } %}">&nbsp;</i>
-                    <a target="_blank" href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name?file.name:file.name%}</a>
-                </div>
-            </td>
-            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        {% } %}
-        <td class="delete hidden">
-            <button class="btn btn-mini pull-right" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-                <i class="icon-remove">&nbsp;</i>
-            </button>
-            <input class="hidden" type="checkbox" name="delete" value="1">
-        </td>
-    </tr>
-{% } %}
-</script>
