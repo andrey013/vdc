@@ -52,11 +52,12 @@ tinyMCE.init({
                         difficulty_id: $("#Order_difficulty_id").val()},
                 dataType: "json"
             }).done(function( msg ) {
-                if($("#Order_designer_id").val()==''){
-                    $("#Order_clientPrice").val(msg.clientPrice);
-                    $("#Order_designerPrice").val(msg.designerPrice);
-                    $(".submit-button").html("Сохранить<br> (новая цена "+ msg.clientPrice + " р.)");
-                }
+                <?php if($role_id!='Admin'){ ?>
+                    if($("#Order_designer_id").val()!='') return;
+                <?php } ?>
+                $("#Order_clientPrice").val(msg.clientPrice);
+                $("#Order_designerPrice").val(msg.designerPrice);
+                $(".submit-button").html("Сохранить<br> (новая цена "+ msg.clientPrice + " р.)");
             });
         });
     });
