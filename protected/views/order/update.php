@@ -123,7 +123,7 @@ tinyMCE.init({
         $(".submit-button").on("click", function(){
             $(this).attr('disabled', true);
             var form = $("#order-form");
-            <?php if($role_id=='Manager'){ ?>
+            <?php if($role_id!='Admin'){ ?>
                 $("#Order_designer_id").remove();
             <?php } ?>
             form.submit();
