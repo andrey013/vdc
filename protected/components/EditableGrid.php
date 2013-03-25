@@ -62,18 +62,17 @@ class EditableGrid {
 		}else{
 			$names = explode('.', $field);
 			if(count($names)==1){
-				$value = isset($row->$names[0]) ? $row->$names[0] : '';
+				$value = $row->$names[0];
 			} elseif(count($names)==2){
-				$value1 = isset($row->$names[0]) ? ($row->$names[0]) : NULL;
+				$value1 = $row->$names[0];
 				if(!is_null($value1))
-					$value = isset($value1->$names[1]) ? ($value1->$names[1]) : '';
+					$value = $value1->$names[1];
 			} elseif(count($names)==3){
-				$value1 = isset($row->$names[0]) ? ($row->$names[0]) : NULL;
+				$value1 = $row->$names[0];
 				if(!is_null($value1)){
-					$value2 = isset($value1->$names[1]) ? ($value1->$names[1]) : NULL;
+					$value2 = $value1->$names[1];
 					if(!is_null($value2)){
-						$value3 = isset($value2->$names[2]) ? ($value2->$names[2]) : '';
-					
+						$value = $value2->$names[2];
 					}
 				}
 			}

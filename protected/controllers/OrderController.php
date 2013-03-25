@@ -1,4 +1,47 @@
 <?php
+function mergesort(&$array, $cmp_function = 'strcmp') {
+    // Arrays of size < 2 require no action.
+    if (count($array) < 2) return $array;
+    // Split the array in half
+    $halfway = count($array) / 2;
+    $array1 = array_slice($array, 0, $halfway);
+    $array2 = array_slice($array, $halfway);
+    // Recurse to sort the two halves
+    mergesort($array1, $cmp_function);
+    mergesort($array2, $cmp_function);
+    // If all of $array1 is <= all of $array2, just append them.
+    if (call_user_func($cmp_function, end($array1), $array2[0]) < 1) {
+        $array = array_merge($array1, $array2);
+        return $array;
+    }
+    // Merge the two sorted arrays into a single sorted array
+    $array = array();
+    $ptr1 = $ptr2 = 0;
+    while ($ptr1 < count($array1) && $ptr2 < count($array2)) {
+        if (call_user_func($cmp_function, $array1[$ptr1], $array2[$ptr2]) < 1) {
+            $array[] = $array1[$ptr1++];
+        }
+        else {
+            $array[] = $array2[$ptr2++];
+        }
+    }
+    // Merge the remainder
+    while ($ptr1 < count($array1)) $array[] = $array1[$ptr1++];
+    while ($ptr2 < count($array2)) $array[] = $array2[$ptr2++];
+    return $array;
+}
+
+function cmp($a, $b)
+{
+    if ($a->create_date == $b->create_date ) {
+        return 0;
+    }
+    // floor to the midnight
+    $ad = $a->create_date - ($a->create_date % 86400);
+    $bd = $b->create_date - ($b->create_date % 86400);
+    //echo $a->create_date . $b->create_date;
+    return ($ad > $bd) ? -1 : 1;
+}
 
 class OrderController extends GxController {
 
@@ -277,10 +320,10 @@ public function accessRules() {
 					'select'=>false,
 					// but want to get only users with published posts
 					'joinType'=>'INNER JOIN',
-					'condition'=>'authAssignments.itemname=\'Designer\'',
+					'condition'=>'authAssignments.itemname=\'Designer\''
 				),
-			),
-			'profile'
+                                'profile'=>array()
+			)
 		)->findAll('disabled=0');
 
 		$start = '2000-01-01';
@@ -302,7 +345,7 @@ public function accessRules() {
 		$criteria2=new CDbCriteria();
 		//echo $user->role_id;
 
-		$order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order, global_number DESC';
+		$order = 'priority.sort_order DESC, orderStatus.sort_order DESC, global_number';
 
 		if($user->role_id=='Admin'){
 			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
@@ -376,12 +419,12 @@ public function accessRules() {
 		}
 
 		$result = array_merge(
-				  Order::model()
-				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
-				->findAll($criteria1)
-				, Order::model()
-				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
-				->findAll($criteria2)
+				  mergesort(Order::model()
+				->with('client_price', 'designer_price', 'penny', 'orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
+				->findAll($criteria1),"cmp")
+				, mergesort(Order::model()
+				->with('client_price', 'designer_price', 'penny', 'orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
+				->findAll($criteria2),"cmp")
 				);
 		$this->layout=false;
 		// send data to the browser
@@ -402,10 +445,10 @@ public function accessRules() {
 					'select'=>false,
 					// but want to get only users with published posts
 					'joinType'=>'INNER JOIN',
-					'condition'=>'authAssignments.itemname=\'Designer\'',
+					'condition'=>'authAssignments.itemname=\'Designer\''
 				),
-			),
-			'profile'
+                                'profile'=>array()
+			)
 		)->findAll('disabled=0');
 
 		$managers=User2::model()->with(array(
@@ -414,10 +457,10 @@ public function accessRules() {
 					'select'=>false,
 					// but want to get only users with published posts
 					'joinType'=>'INNER JOIN',
-					'condition'=>'authAssignments.itemname=\'Manager\'',
+					'condition'=>'authAssignments.itemname=\'Manager\''
 				),
-			),
-			'profile'
+                                'profile'=>array()
+			)
 		)->findAll('disabled=0');
 
 		$start = '2000-01-01';
@@ -439,8 +482,7 @@ public function accessRules() {
 		$criteria2=new CDbCriteria();
 		//echo $user->role_id;
 
-		$order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order, global_number DESC';
-
+                $order = 'priority.sort_order DESC, orderStatus.sort_order DESC, global_number';
 		if($user->role_id=='Admin'){
 			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
 			$grid->addColumn('priority.name', '!', 'integer');
@@ -521,12 +563,12 @@ public function accessRules() {
 		}
 
 		$result = array_merge(
-				  Order::model()
-				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
-				->findAll($criteria1)
-				, Order::model()
-				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
-				->findAll($criteria2)
+				  mergesort(Order::model()
+				->with('client_price', 'designer_price', 'penny', 'orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
+				->findAll($criteria1),"cmp")
+				, mergesort(Order::model()
+				->with('client_price', 'designer_price', 'penny', 'orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
+				->findAll($criteria2),"cmp")
 				);
                 if ($user->role_id=='Admin'){
                         $finalResult = array();

@@ -213,8 +213,8 @@ $managers=User2::model()->with(array(
 			'joinType'=>'INNER JOIN',
 			'condition'=>'authAssignments.itemname=\'Manager\'',
 		),
-	),
-	'profile'
+                'profile'=>array()
+	)
 )->findAll('disabled=0');
 $designers=User2::model()->with(array(
 		'authAssignments'=>array(
@@ -224,8 +224,8 @@ $designers=User2::model()->with(array(
 			'joinType'=>'INNER JOIN',
 			'condition'=>'authAssignments.itemname=\'Designer\'',
 		),
-	),
-	'profile'
+                'profile'=>array()
+	)
 )->findAll('disabled=0');
 ?>
 <div class="hidden">
