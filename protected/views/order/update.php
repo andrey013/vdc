@@ -44,6 +44,7 @@ tinyMCE.init({
 
     $(function(){
         $('#paidSum').tooltip({placement:'right', html:true});
+        <?php if($role_id=='Admin') { ?>
         $("body").on("change", "#Order_order_type_id, #Order_difficulty_id, #Order_designer_id", function(){
             $.ajax({
                 type: "POST",
@@ -60,6 +61,7 @@ tinyMCE.init({
                 $(".submit-button").html("Сохранить<br> (новая цена "+ msg.clientPrice + " р.)");
             });
         });
+        <?php } ?>
     });
 </script >
 
