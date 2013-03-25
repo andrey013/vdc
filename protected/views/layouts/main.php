@@ -110,9 +110,9 @@ $(function(){
 			<div class="container">
 				<a class="brand" href="<?php echo $this->createUrl('/order/list'); ?>">все для вас</a>
 				<ul class="nav">
-					<li <?php if($this->getRoute()=='order/list'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/order/list'); ?>">Заказы</a></li>
+					<li <?php if($this->getRoute()=='order/list'){ ?>class="active"<?php } ?>><a href="<?php echo $this->createUrl('/order/list'); ?>">Заказы</a></li>
 					<?php if($role_id=='Admin'){ ?>
-					<li <?php if($this->getRoute()=='designer/list'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/designer/list'); ?>">Дизайнеры</a></li>
+					<li <?php if($this->getRoute()=='designer/list'){ ?>class="active"<?php } ?>><a href="<?php echo $this->createUrl('/designer/list'); ?>">Дизайнеры</a></li>
 					<?php } ?>
 					<!-- <li><a href="#">Пользователи</a></li> -->
 					<li class="dropdown">
@@ -128,7 +128,7 @@ $(function(){
 							<?php }} ?>
 						</ul>
 					</li>
-					<li <?php if($this->getRoute()=='site/page'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/site/page', array('view'=>'about')); ?>">Контакты ВДЦ</a></li>
+					<li <?php if($this->getRoute()=='site/page'){ ?>class="active"<?php } ?>><a href="<?php echo $this->createUrl('/site/page', array('view'=>'about')); ?>">Контакты ВДЦ</a></li>
 				</ul>
 				<ul id="logout" class="nav pull-right">
 					<?php if($role_id=='Designer'){ ?>
@@ -159,7 +159,7 @@ $(function(){
 										  		'mailer/list',
 										  		'orderStatus/list'
 										  		)))
-								{ ?>class="active"<? } ?>>
+								{ ?>class="active"<?php } ?>>
 						<a href="<?php echo $this->createUrl('/client/list'); ?>">Настройки</a>
 					</li>
 					<?php } ?>
@@ -169,7 +169,7 @@ $(function(){
 						</a>
 					</li>
 					
-					<!-- <li <?php if($this->getRoute()=='site/login'){ ?>class="active"<? } ?>><a href="<?php echo $this->createUrl('/site/login'); ?>">Вход</a></li> -->
+					<!-- <li <?php if($this->getRoute()=='site/login'){ ?>class="active"<?php } ?>><a href="<?php echo $this->createUrl('/site/login'); ?>">Вход</a></li> -->
 					
 
 				</ul>
