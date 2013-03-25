@@ -84,9 +84,8 @@ class EditableGrid {
 		//		$value = $value1->hasAttribute($names[1]) ? ($value1->getAttribute($names[1])) : '';
 		//}
 		
-
 		// to avoid any issue with javascript not able to parse XML, ensure data is valid for encoding
-		return @iconv($this->encoding, $this->encoding."//IGNORE", $value);
+		return iconv($this->encoding, $this->encoding."//IGNORE", $value);
 	}
 
 	public function getXML($rows, $customRowAttributes=array(), $encodeCustomAttributes=false)
