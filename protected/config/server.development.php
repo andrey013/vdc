@@ -39,6 +39,11 @@ return array(
                     'class'=>'CFileLogRoute',
                     'levels'=>'error, warning, info',
                 ),
+                /*array(
+                    'class'=>'CFileLogRoute',
+                    'categories'=>'system.db.*',
+                    'logFile'=>'sql.log',
+                ),*/
                 // uncomment the following to show log messages on web pages
                 /*
                 array(
