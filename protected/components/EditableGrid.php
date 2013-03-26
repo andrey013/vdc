@@ -189,6 +189,7 @@ class EditableGrid {
 	
 	public function renderJSON($rows, $customRowAttributes=array(), $encodeCustomAttributes=false)
 	{
+                ob_start('ob_gzhandler');
 		header('Content-Type: text/json');
 		echo $this->getJSON($rows, $customRowAttributes, $encodeCustomAttributes);
 	}
