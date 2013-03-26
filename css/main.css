@@ -364,7 +364,7 @@ button.active i.icon-active-ok {
 
 .table-condensed th,
 .table-condensed td {
-  padding: 1px 5px !important;
+  padding: 1px 2px !important;
 }
 
 .input-append, .input-prepend {
