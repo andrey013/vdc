@@ -88,6 +88,12 @@ return array(
             // use 'site/error' action to display errors
             'errorAction'=>'site/error',
         ),
+        'cache'=>array(
+            'class'=>'system.caching.CMemCache',
+            'servers'=>array(
+                array('host'=>'localhost', 'port'=>11211)
+            ),
+        ),
     ),
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
