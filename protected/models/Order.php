@@ -93,7 +93,6 @@ class Order extends BaseOrder
                         $orderStatus->getRelated('orderStatus');
                         $cache['orderStatus'.$this->id]=$orderStatus;
                 }
-                //OrderStatusHistory::model()->find('change_date in (select MAX(change_date) from vdc_order_status_history group by order_id) and `order_id`=:order_id', array(':order_id'=>$this->id));
                 return $orderStatus;
 	}
 

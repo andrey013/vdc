@@ -169,7 +169,7 @@ public function accessRules() {
                                         $payments[0]->designer_price = $_POST['Order']['designerPrice'];
                                         $payments[0]->save();
                                 }
-				if($_POST['Order']['orderStatusHist'] != $model->orderStatusHist->orderStatus->key){
+				if($_POST['Order']['orderStatusHist'] != $model->orderStatus->orderStatus->key){
 					$model->setOrderStatus($_POST['Order']['orderStatusHist']);
 					$model->refresh();
 
@@ -196,7 +196,7 @@ public function accessRules() {
 							.$model->customername.' '
 							.$model->client_number.' '
 							.' '.$model->orderType->name
-							.' сменил свой статус - "'.$model->orderStatusHist->orderStatus->name.'"');
+							.' сменил свой статус - "'.$model->orderStatus->orderStatus->name.'"');
 						$message->subject = 'Смена статуса';
 						$message->addTo($value->email);
 						$message->from = Yii::app()->params['adminEmail'];
@@ -211,7 +211,7 @@ public function accessRules() {
 				$this->redirect(array('list'));
 			}
 		}
-		$model->orderStatusHist = $model->orderStatusHist->orderStatus->key;
+		$model->orderStatusHist = $model->orderStatus->orderStatus->key;
 		$model->clientPrice = $model->client_price;
 		$model->designerPrice = $model->designer_price;
 		$model->debtPrice = $model->debt;
