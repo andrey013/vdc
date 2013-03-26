@@ -21,16 +21,11 @@ class User2 extends BaseUser
 	{
 		$designers=User2::model()->with(array(
 				'authAssignments'=>array(
-					// we don't want to select posts
 					'select'=>false,
-					// but want to get only users with published posts
 					'joinType'=>'INNER JOIN',
 					'condition'=>'authAssignments.itemname=\'Designer\'',
 				),
                                 'profile'=>array(
-				        // we don't want to select posts
-				        'select'=>false,
-				        // but want to get only users with published posts
 				        'joinType'=>'INNER JOIN',
 				        'condition'=>'profile.client_id=\'3\'',
 			        ),
@@ -67,19 +62,19 @@ class User2 extends BaseUser
 	public function getJsonprojects()
 	{
 		$criteria1=new CDbCriteria();
-		$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and designer_id=:id and t.disabled=0';
+		$criteria1->condition = 'designer_id=:id and t.disabled=0';
 		$criteria1->params=array(':id'=>$this->id);
-		$res = Order::model()
-				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
-				->findAll($criteria1);
+		$res = Order::mergesort(Order::model()
+				->with('orderType', 'customer', 'priority')
+				->findAll($criteria1),"Order::cmp");
 		$result = array();
 		foreach ($res as $key => $value) {
+                        if ($value->orderStatus->order_status_id != 8)
 			$result[] = array(
 				'customerName' => $value->customerName,
 				'order_type' => $value->orderType->name,
 				'priority' => $value->priority->name,
-				'status' => $value->orderStatusHist->orderStatus->key,
+				'status' => $value->orderStatus->orderStatus->key,
 				);
 		}
 		return json_encode($result);
@@ -88,19 +83,19 @@ class User2 extends BaseUser
 	public function getHighpriorityjsonprojects()
 	{
 		$criteria1=new CDbCriteria();
-		$criteria1->order = 'DATE(t.create_date) DESC, priority.sort_order, orderStatus.sort_order';
-		$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and designer_id=:id and priority.code=1 and t.disabled=0';
+		$criteria1->condition = 'designer_id=:id and priority.code=1 and t.disabled=0';
 		$criteria1->params=array(':id'=>$this->id);
-		$res = Order::model()
-				->with('orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'designer', 'designer.profile', 'payments')
-				->findAll($criteria1);
+		$res = Order::mergesort(Order::model()
+				->with('orderType', 'customer', 'priority')
+				->findAll($criteria1),"Order::cmp");
 		$result = array();
 		foreach ($res as $key => $value) {
+                        if ($value->orderStatus->order_status_id != 8)
 			$result[] = array(
 				'customerName' => $value->customerName,
 				'order_type' => $value->orderType->name,
 				'priority' => $value->priority->name,
-				'status' => $value->orderStatusHist->orderStatus->key,
+				'status' => $value->orderStatus->orderStatus->key,
 				);
 		}
 		return json_encode($result);

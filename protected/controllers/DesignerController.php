@@ -46,8 +46,8 @@ public function accessRules() {
 					'joinType'=>'INNER JOIN',
 					'condition'=>'authAssignments.itemname=\'Designer\'',
 				),
-			),
-			'profile'
+                                'profile'=>array()
+			)
 		)->findAll('disabled=0');
 
 		// create a new EditableGrid object
