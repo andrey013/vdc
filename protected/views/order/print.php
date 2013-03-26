@@ -28,7 +28,7 @@
 						$(cell).hide();
 					}}));
 
-					grid.setCellRenderer("orderStatusHist.statusformatted", new CellRenderer({render: function(cell, value) {
+					grid.setCellRenderer("orderStatus.statusformatted", new CellRenderer({render: function(cell, value) {
 						var rowId = grid.getRowId(cell.rowIndex);
 						var words = value.split(' ');
 						if(words.length==2){

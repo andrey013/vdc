@@ -70,6 +70,7 @@ class Order extends BaseOrder
 
 	public function setOrderStatus($key)
 	{
+                $cache=Yii::app()->cache;
 		$orderStatus = OrderStatus::model()->find('`key`=:key', array(':key'=>$key));
 		if(!is_null($orderStatus)){
 			$orderStatusHistory = new OrderStatusHistory();
@@ -77,7 +78,23 @@ class Order extends BaseOrder
 			$orderStatusHistory->change_date = time();
 			$orderStatusHistory->order_status_id = $orderStatus->id;
 			$orderStatusHistory->save();
+                        $cache->delete('orderStatus'.$this->id);
+                        $orderStatusHistory->getRelated('orderStatus');
+                        $cache['orderStatus'.$this->id]=$orderStatusHistory;
 		}
+	}
+
+        public function getOrderStatus()
+	{
+                $cache=Yii::app()->cache;
+                $orderStatus=$cache['orderStatus'.$this->id];
+                if($orderStatus===false){
+                        $orderStatus = $this->orderStatusHist;
+                        $orderStatus->getRelated('orderStatus');
+                        $cache['orderStatus'.$this->id]=$orderStatus;
+                }
+                //OrderStatusHistory::model()->find('change_date in (select MAX(change_date) from vdc_order_status_history group by order_id) and `order_id`=:order_id', array(':order_id'=>$this->id));
+                return $orderStatus;
 	}
 
 	public function getCustomerName()
@@ -158,7 +175,7 @@ class Order extends BaseOrder
 		$result->order_type = $this->order_type_id;
 		$result->manager = $this->manager_id;
 		$result->designer = $this->designer_id;
-		$result->order_status = $this->orderStatusHist->orderStatus->key;
+		$result->order_status = $this->orderStatus->orderStatus->key;
 		$result->client = $this->client_id;
 		$result->paid = $this->paid;
 		$result->changed = count($this->payments)<=1?0:1;

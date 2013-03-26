@@ -33,14 +33,35 @@ function mergesort(&$array, $cmp_function = 'strcmp') {
 
 function cmp($a, $b)
 {
-    if ($a->create_date == $b->create_date ) {
-        return 0;
+
+    //$order = 'create_date, priority.sort_order DESC, orderStatus.sort_order DESC, global_number';
+
+    $ad = $a->orderStatus->order_status_id;
+    $bd = $b->orderStatus->order_status_id;
+    if (($ad == 8 && $bd == 8) || ($ad != 8 && $bd != 8)){
+        // floor to the midnight
+        $ad = $a->create_date - ($a->create_date % 86400);
+        $bd = $b->create_date - ($b->create_date % 86400);
+        if ($ad == $bd ) {
+            if ($a->priority->sort_order == $b->priority->sort_order){
+                if ($a->orderStatus->orderStatus->sort_order == $b->orderStatus->orderStatus->sort_order){
+                    if ($a->global_number == $b->global_number){
+                        return 0;
+                    } else {
+                        return ($a->global_number > $b->global_number) ? -1 : 1;
+                    }
+                } else {
+                    return ($a->orderStatus->orderStatus->sort_order < $b->orderStatus->orderStatus->sort_order) ? -1 : 1;
+                }
+            } else {
+                return ($a->priority->sort_order < $b->priority->sort_order) ? -1 : 1;
+            }
+        } else {
+            return ($ad > $bd) ? -1 : 1;
+        }
+    } else {
+        return ($bd == 8) ? -1 : 1;
     }
-    // floor to the midnight
-    $ad = $a->create_date - ($a->create_date % 86400);
-    $bd = $b->create_date - ($b->create_date % 86400);
-    //echo $a->create_date . $b->create_date;
-    return ($ad > $bd) ? -1 : 1;
 }
 
 class OrderController extends GxController {
@@ -345,8 +366,6 @@ public function accessRules() {
 		$criteria2=new CDbCriteria();
 		//echo $user->role_id;
 
-		$order = 'priority.sort_order DESC, orderStatus.sort_order DESC, global_number';
-
 		if($user->role_id=='Admin'){
 			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
 			$grid->addColumn('priority.name', '!', 'integer');
@@ -357,7 +376,7 @@ public function accessRules() {
 			$grid->addColumn('client.name', 'Клиент', 'string');
 			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
 				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), true);
-			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('orderStatus.statusformatted', 'Статус', 'string');
 			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
@@ -367,13 +386,9 @@ public function accessRules() {
 			$grid->addColumn('disabled', 'X', 'boolean', null, true);
 			$grid->addColumn('filter', ' ', 'string');
 
-			$criteria1->order = $order;
-			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.create_date between :start and :end and t.disabled=0';
+			$criteria1->condition = 't.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':start'=>$start, ':end'=>$end);
 
-			$criteria2->order = $order;
-			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.create_date between :start and :end and t.disabled=0';
-			$criteria2->params=array(':start'=>$start, ':end'=>$end);
 		}else if($user->role_id=='Manager'){
 			$grid->addColumn('priority.name', '!', 'integer');
 			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
@@ -383,19 +398,14 @@ public function accessRules() {
 			$grid->addColumn('client.name', 'Клиент', 'string');
 			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
 				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
-			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('orderStatus.statusformatted', 'Статус', 'string');
 			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('filter', ' ', 'string');
 
 			
-			$criteria1->order = $order;
-			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
+			$criteria1->condition = 't.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
 
-			$criteria2->order = $order;
-			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
-			$criteria2->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
-	
 		}else if($user->role_id=='Designer'){
 			$grid->addColumn('priority.name', '!', 'integer');
 			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
@@ -403,29 +413,19 @@ public function accessRules() {
 			$grid->addColumn('orderType.name', 'Вид', 'string');
 			$grid->addColumn('comment', 'Комментарий', 'string');
 			$grid->addColumn('client.name', 'Клиент', 'string');
-			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('orderStatus.statusformatted', 'Статус', 'string');
 			$grid->addColumn('designer_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('filter', ' ', 'string');
 
 			
-			$criteria1->order = $order;
-			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
+			$criteria1->condition = 't.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
-
-			$criteria2->order = $order;
-			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
-			$criteria2->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
 	
 		}
 
-		$result = array_merge(
-				  mergesort(Order::model()
-				->with('client_price', 'designer_price', 'penny', 'orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
-				->findAll($criteria1),"cmp")
-				, mergesort(Order::model()
-				->with('client_price', 'designer_price', 'penny', 'orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
-				->findAll($criteria2),"cmp")
-				);
+		$result = mergesort(Order::model()
+				->with('client_price', 'designer_price', 'penny', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
+				->findAll($criteria1),"cmp");
 		$this->layout=false;
 		// send data to the browser
 		$grid->renderJSON($result);
@@ -482,7 +482,6 @@ public function accessRules() {
 		$criteria2=new CDbCriteria();
 		//echo $user->role_id;
 
-                $order = 'priority.sort_order DESC, orderStatus.sort_order DESC, global_number';
 		if($user->role_id=='Admin'){
 			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
 			$grid->addColumn('priority.name', '!', 'integer');
@@ -497,7 +496,7 @@ public function accessRules() {
 			
 			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
 				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
-			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('orderStatus.statusformatted', 'Статус', 'string');
 			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
@@ -506,13 +505,9 @@ public function accessRules() {
 			$grid->addColumn('debtPrice', 'Долг', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('filter', ' ', 'string');
 			
-			$criteria1->order = $order;
-			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.create_date between :start and :end and t.disabled=0';
+			$criteria1->condition = 't.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':start'=>$start, ':end'=>$end);
 
-			$criteria2->order = $order;
-			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.create_date between :start and :end and t.disabled=0';
-			$criteria2->params=array(':start'=>$start, ':end'=>$end);
 		}else if($user->role_id=='Manager'){
 			$grid->addColumn('priority.name', '!', 'integer');
 			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
@@ -523,20 +518,14 @@ public function accessRules() {
 			$grid->addColumn('customer.name', 'Заказчик', 'string');
 			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
 				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
-			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('orderStatus.statusformatted', 'Статус', 'string');
 			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('debt', 'Долг', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('filter', ' ', 'string');
 
 			
-			$criteria1->order = $order;
-			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
+			$criteria1->condition = 't.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
-
-			$criteria2->order = $order;
-			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.client_id=:client_id and t.create_date between :start and :end and t.disabled=0';
-			$criteria2->params=array(':client_id'=>$user->profile->client_id, ':start'=>$start, ':end'=>$end);
-	
 		}else if($user->role_id=='Designer'){
 			$grid->addColumn('priority.name', '!', 'integer');
 			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
@@ -547,29 +536,18 @@ public function accessRules() {
 				$grid->fetch_pairs($managers, 'id', 'profile.lastname'), false);
 			$grid->addColumn('orderType.name', 'Вид заказа', 'string');
 			$grid->addColumn('customer.name', 'Заказчик', 'string');
-			$grid->addColumn('orderStatusHist.statusformatted', 'Статус', 'string');
+			$grid->addColumn('orderStatus.statusformatted', 'Статус', 'string');
 			$grid->addColumn('designer_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
 			$grid->addColumn('filter', ' ', 'string');
 
 			
-			$criteria1->order = $order;
-			$criteria1->condition = 'orderStatusHist.order_status_id!=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
+			$criteria1->condition = 't.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
 			$criteria1->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
-
-			$criteria2->order = $order;
-			$criteria2->condition = 'orderStatusHist.order_status_id=\'8\' and t.designer_id=:designer_id and t.create_date between :start and :end and t.disabled=0';
-			$criteria2->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
-	
 		}
 
-		$result = array_merge(
-				  mergesort(Order::model()
-				->with('client_price', 'designer_price', 'penny', 'orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
-				->findAll($criteria1),"cmp")
-				, mergesort(Order::model()
-				->with('client_price', 'designer_price', 'penny', 'orderStatusHist', 'orderStatusHist.orderStatus', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
-				->findAll($criteria2),"cmp")
-				);
+		$result = mergesort(Order::model()
+				->with('client_price', 'designer_price', 'penny', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
+				->findAll($criteria1),"cmp");
                 if ($user->role_id=='Admin'){
                         $finalResult = array();
                         foreach ($result as $row) {
