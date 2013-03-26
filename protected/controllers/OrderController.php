@@ -1,68 +1,4 @@
 <?php
-function mergesort(&$array, $cmp_function = 'strcmp') {
-    // Arrays of size < 2 require no action.
-    if (count($array) < 2) return $array;
-    // Split the array in half
-    $halfway = count($array) / 2;
-    $array1 = array_slice($array, 0, $halfway);
-    $array2 = array_slice($array, $halfway);
-    // Recurse to sort the two halves
-    mergesort($array1, $cmp_function);
-    mergesort($array2, $cmp_function);
-    // If all of $array1 is <= all of $array2, just append them.
-    if (call_user_func($cmp_function, end($array1), $array2[0]) < 1) {
-        $array = array_merge($array1, $array2);
-        return $array;
-    }
-    // Merge the two sorted arrays into a single sorted array
-    $array = array();
-    $ptr1 = $ptr2 = 0;
-    while ($ptr1 < count($array1) && $ptr2 < count($array2)) {
-        if (call_user_func($cmp_function, $array1[$ptr1], $array2[$ptr2]) < 1) {
-            $array[] = $array1[$ptr1++];
-        }
-        else {
-            $array[] = $array2[$ptr2++];
-        }
-    }
-    // Merge the remainder
-    while ($ptr1 < count($array1)) $array[] = $array1[$ptr1++];
-    while ($ptr2 < count($array2)) $array[] = $array2[$ptr2++];
-    return $array;
-}
-
-function cmp($a, $b)
-{
-
-    //$order = 'create_date, priority.sort_order DESC, orderStatus.sort_order DESC, global_number';
-
-    $ad = $a->orderStatus->order_status_id;
-    $bd = $b->orderStatus->order_status_id;
-    if (($ad == 8 && $bd == 8) || ($ad != 8 && $bd != 8)){
-        // floor to the midnight
-        $ad = $a->create_date - ($a->create_date % 86400);
-        $bd = $b->create_date - ($b->create_date % 86400);
-        if ($ad == $bd ) {
-            if ($a->priority->sort_order == $b->priority->sort_order){
-                if ($a->orderStatus->orderStatus->sort_order == $b->orderStatus->orderStatus->sort_order){
-                    if ($a->global_number == $b->global_number){
-                        return 0;
-                    } else {
-                        return ($a->global_number > $b->global_number) ? -1 : 1;
-                    }
-                } else {
-                    return ($a->orderStatus->orderStatus->sort_order < $b->orderStatus->orderStatus->sort_order) ? -1 : 1;
-                }
-            } else {
-                return ($a->priority->sort_order < $b->priority->sort_order) ? -1 : 1;
-            }
-        } else {
-            return ($ad > $bd) ? -1 : 1;
-        }
-    } else {
-        return ($bd == 8) ? -1 : 1;
-    }
-}
 
 class OrderController extends GxController {
 
@@ -363,8 +299,6 @@ public function accessRules() {
 		}
 
 		$criteria1=new CDbCriteria();
-		$criteria2=new CDbCriteria();
-		//echo $user->role_id;
 
 		if($user->role_id=='Admin'){
 			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
@@ -423,9 +357,9 @@ public function accessRules() {
 	
 		}
 
-		$result = mergesort(Order::model()
+		$result = Order::mergesort(Order::model()
 				->with('client_price', 'designer_price', 'penny', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
-				->findAll($criteria1),"cmp");
+				->findAll($criteria1),"Order::cmp");
 		$this->layout=false;
 		// send data to the browser
 		$grid->renderJSON($result);
@@ -479,8 +413,6 @@ public function accessRules() {
 		}
 
 		$criteria1=new CDbCriteria();
-		$criteria2=new CDbCriteria();
-		//echo $user->role_id;
 
 		if($user->role_id=='Admin'){
 			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
@@ -545,9 +477,9 @@ public function accessRules() {
 			$criteria1->params=array(':designer_id'=>$user->id, ':start'=>$start, ':end'=>$end);
 		}
 
-		$result = mergesort(Order::model()
+		$result = Order::mergesort(Order::model()
 				->with('client_price', 'designer_price', 'penny', 'client', 'orderType', 'customer', 'priority', 'payments', 'payments.paid', 'manager')
-				->findAll($criteria1),"cmp");
+				->findAll($criteria1),"Order::cmp");
                 if ($user->role_id=='Admin'){
                         $finalResult = array();
                         foreach ($result as $row) {
