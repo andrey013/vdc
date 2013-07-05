@@ -253,7 +253,7 @@ CommentGrid.prototype.initializeGrid = function(grid, link, addlink, removelink)
 	grid.setCellRenderer("comment", new CellRenderer({render: function(cell, value) {
 		var rowId = grid.getRowId(cell.rowIndex);
 		//alert(value.replace(/\r\n/g, "<br/>").replace(/\r/g, "<br/>").replace(/\n/g, "<br/>"));
-		var comment = $.parseJSON(value.replace(/\r\n/g, "<br/>").replace(/\r/g, "<br/>").replace(/\n/g, "<br/>"));
+		var comment = $.parseJSON(value.replace(/\r\n/g, "<br/>").replace(/\r/g, "<br/>").replace(/\n/g, "<br/>").replace(/\t/g, " "));
 		cell.innerHTML = 
 						'<div class="pull-left muted offset0'+comment.depth+'">' + 
 							comment.role + '&nbsp;<strong>' + comment.user + '</strong>&nbsp;' + comment.date +
