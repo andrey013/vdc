@@ -85,14 +85,8 @@
 		</div>
 		<hr>
 		<div class="controls controls-row row">
-			<label class="span2" for="Order_client_number">№ заказа оформленный<br>у клиента</label>
-			<?php if($role_id!='Designer') { ?>
-				<?php echo $form->textField($model, 'client_number', array('class' => 'span1 down7px')); ?>
-			<?php } else { ?>
-				<span class="lead span2 down7px"><?php echo $model->client_number; ?></span>
-			<?php }?>
-
-			<label class="span1 down7px" for="Order_client_id">клиент (редакция)</label>
+			
+			<label class="span2 down14px" for="Order_client_id">клиент (редакция)</label>
 			<?php if($role_id=='Admin') { ?>
 				<?php echo $form->dropDownList($model, 'client_id',
 					GxHtml::listDataEx(Client::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span2 down7px')); ?>
@@ -111,11 +105,11 @@
 			<?php }?>
 
 			<?php if($role_id=='Admin'){ ?>
-			<label class="span1 down14px" for="Order_designer_id">дизайнер</label>
+			<label class="span1 down14px" for="Order_designer_id">подрядчик</label>
 			<?php echo $form->dropDownList($model, 'designer_id',
 				GxHtml::listDataEx($designers, null, 'profile.lastname'), array('class' => 'span2 down7px', 'empty' => '--')); ?>
 			<?php } else if($role_id=='Manager'&&isset($buttons)){ ?>
-				<label class="span1 down14px" for="Order_designer_id">дизайнер</label>
+				<label class="span1 down14px" for="Order_designer_id">подрядчик</label>
 			        <?php echo $form->dropDownList($model, 'designer_id',
 				        GxHtml::listDataEx($ownDesigners, null, 'profile.lastname'), array('class' => 'span2 down7px', 'empty' => 'Дизайнер ЕДЦ')); ?>
 			<?php } else {?>
@@ -141,21 +135,14 @@
 				<span class="lead span2"><?php echo $model->orderType->name; ?></span>
 			<?php }?>
 
-			<label class="span1 down7px" for="Order_difficulty_id">Сложность</label>
+			<label class="span1 down7px" for="Order_order_count">Тираж</label>
 			<?php if($role_id!='Designer') { ?>
-				<?php echo $form->dropDownList($model, 'difficulty_id',
-					GxHtml::listDataEx(Difficulty::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span2')); ?>
+				<?php echo $form->textField($model, 'order_count', array('class' => 'span2')); ?>
 			<?php } else { ?>
-				<span class="lead span2"><?php echo $model->difficulty->name; ?></span>
+				<span class="lead span2"><?php echo $model->order_count; ?></span>
+				<?php echo $form->textField($model, 'order_count', array('class' => 'hidden')); ?>
 			<?php }?>
-
-			<label class="span1 down7px" for="Order_priority_id">Приоритет</label>
-			<?php if($role_id!='Designer') { ?>
-				<?php echo $form->dropDownList($model, 'priority_id',
-					GxHtml::listDataEx(Priority::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'), array('class' => 'span1')); ?>	
-			<?php } else { ?>
-				<span class="lead span1"><?php echo $model->priority->name; ?></span>
-			<?php }?>
+			
 		</div>
 		<div class="controls controls-row row">
 			<label class="span2" for="Order_comment">Комментарий к заказу</label>
@@ -248,11 +235,11 @@
 				<?php } else { ?>
 					<div class="controls controls-row row">
 						<label class="span2" for="Order_clientPrice">Общая стоимость, руб.</label>
-						<label class="span2" for="Order_designerPrice">Дизайнеру</label>
+						<label class="span2" for="Order_designerPrice">Себестоимось</label>
 					</div>
 					<div class="controls controls-row">
-						<?php echo $form->textField($model, 'clientPrice', array('class' => 'span2', 'readonly' => 'readonly')); ?>
-						<?php echo $form->textField($model, 'designerPrice', array('class' => 'span2', 'readonly' => 'readonly')); ?>
+						<?php echo $form->textField($model, 'clientPrice', array('class' => 'span2')); ?>
+						<?php echo $form->textField($model, 'designerPrice', array('class' => 'span2')); ?>
 					</div>
 				<?php }?>
 		<?php } else { ?>
@@ -267,7 +254,7 @@
 		</div>
 		<?php } ?>
 		<hr>
-		<div class="controls controls-row row">
+		<div class="hidden controls controls-row row">
 			<label class="lead span1 down7px">Статус: </label>
 			<div class="btn-group  pull-right" data-toggle="buttons-radio">
 				<button type="button" class="statusRadio btn btn-work" value="work"><i class="icon-active-ok"></i> в разработку</button>
@@ -280,140 +267,24 @@
 			</div>
 			<?php echo $form->textField($model, 'orderStatusHist', array('class' => 'hidden')); ?>
 		</div>
-		<hr>
 <!-- echo GxHtml::submitButton(Yii::t('app', 'Save')); -->
-		<div class="controls controls-row row">
-			<label class="lead span1 down7px">Текст: </label>
-			
-		</div>
-		<div class="controls controls-row row pull-left" style="z-index: 10;">
-			<div class="span6">
-				<?php echo $form->textArea($model, 'text', array('class' => 'span6', 'rows' => '15')); ?>
-				<!-- <textarea name="text" cols="200" rows="15" class="span7"></textarea> -->
-			</div>
-		</div>
 		<?php if(isset($buttons)) { ?>
 		<div class="controls controls-row row pull-right" style="z-index: 9;">
-			<div class="span6" style="min-height : 480px" id="commentcontent"></div>
+			<div class="span6" style="min-height : 1px" id="commentcontent"></div>
 		</div>
 		<?php } else { ?>
 		<div class="controls controls-row row pull-right" style="z-index: 9;">
-			<div class="span6" style="min-height : 500px" id="commentcontent"></div>
+			<div class="span6" style="min-height : 1px" id="commentcontent"></div>
 		</div>
 		<?php } ?>
 <?php
 $this->endWidget();
 ?>
 		<!-- <div class="clearfix"></div> -->
-		<hr class="span6">
 		<div class="controls controls-row pull-left">
 		<div class="controls controls-row row">
 			<label class="lead span6  down7px">Файлы: </label>
 			<a name="tofiles"></a> 
-		</div>
-		<div class="controls controls-row row">
-			<!-- The file upload form used as target for the file upload widget -->
-			<form id="fileupload1" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data" class="span6">
-				<input type="hidden" name="id" value="<?php echo $model->id; ?>">
-				<input type="hidden" name="stage" value="1">
-				<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-				<div class="row fileupload-buttonbar">
-					<!-- The table listing the files available for upload/download -->
-					<div class="span6">
-						<table role="presentation" class="table table-condensed lefted">
-							<thead>
-								<tr>
-									<th colspan="5">Для разработки
-										<!-- The fileinput-button span is used to style the file input field as button -->
-										<span class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Designer') echo 'hidden'; ?>">
-											<i class="icon-plus icon-white"></i><i class="icon-file icon-white"></i>
-											<input type="file" name="files[]" multiple>
-										</span>
-                    <span
-                      id="addLink1"
-                      class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Designer') echo 'hidden'; ?>"
-                      data-content="<input type='text' id='addLink1Name' class='span5' placeholder='Имя файла'></input><br/><textarea id='addLink1Link' class='span5' placeholder='Ссылка'></textarea><button id='addLink1Button' type='button' class='btn btn-magenta'>Создать</button><button id='cancelLink1Button' type='button' class='btn'>Отмена</button>"
-                      rel="popover1"
-                      data-placement="right"
-                      data-original-title="Добавить ссылку"
-                    >
-                      <i class="icon-plus icon-white"></i><i class="icon-share icon-white"></i>
-										</span>
-									</th>
-								</tr>
-							</thead>
-							<tbody class="files files1" data-toggle="modal-gallery" data-target="#modal-gallery">
-							</tbody>
-						</table>
-					</div>
-
-					<!-- The global progress information -->
-					<div class="span6 fileupload-progress fade">
-						<!-- The global progress bar -->
-						<div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-							<div class="bar" style="width:0%;"></div>
-						</div>
-						<!-- The extended global progress information -->
-						<div class="progress-extended">&nbsp;</div>
-					</div>
-				</div>
-				
-				<!-- The loading indicator is shown during file processing -->
-				<div class="fileupload-loading"></div>
-				<br>
-			</form>
-		</div>
-		<div class="controls controls-row row">
-			<!-- The file upload form used as target for the file upload widget -->
-			<form id="fileupload2" action="<?php echo $this->createUrl('/file/json'); ?>" method="POST" enctype="multipart/form-data" class="span6">
-				<input type="hidden" name="id" value="<?php echo $model->id; ?>">
-				<input type="hidden" name="stage" value="2">
-				<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-				<div class="row fileupload-buttonbar">
-					<!-- The table listing the files available for upload/download -->
-					<div class="span6">
-						<table role="presentation" class="table table-condensed lefted">
-							<thead>
-								<tr>
-									<th colspan="5">На утверждение
-										<!-- The fileinput-button span is used to style the file input field as button -->
-										<span class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Manager') echo 'hidden'; ?>">
-											<i class="icon-plus icon-white"></i><i class="icon-file icon-white"></i>
-											<input type="file" name="files[]" multiple>
-										</span>
-                    <span
-                      id="addLink2"
-                      class="btn btn-mini btn-magenta fileinput-button <?php if($role_id=='Manager') echo 'hidden'; ?>"
-                      data-content="<input type='text' id='addLink2Name' class='span5' placeholder='Имя файла'></input><br/><textarea id='addLink2Link' class='span5' placeholder='Ссылка'></textarea><button id='addLink2Button' type='button' class='btn btn-magenta'>Создать</button><button id='cancelLink2Button' type='button' class='btn'>Отмена</button>"
-                      rel="popover1"
-                      data-placement="right"
-                      data-original-title="Добавить ссылку"
-                    >
-                      <i class="icon-plus icon-white"></i><i class="icon-share icon-white"></i>
-										</span>
-									</th>
-								</tr>
-							</thead>
-							<tbody class="files files2" data-toggle="modal-gallery" data-target="#modal-gallery">
-							</tbody>
-						</table>
-					</div>
-
-					<!-- The global progress information -->
-					<div class="span6 fileupload-progress fade">
-						<!-- The global progress bar -->
-						<div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-							<div class="bar" style="width:0%;"></div>
-						</div>
-						<!-- The extended global progress information -->
-						<div class="progress-extended">&nbsp;</div>
-					</div>
-				</div>
-				
-				<!-- The loading indicator is shown during file processing -->
-				<div class="fileupload-loading"></div>
-				<br>
-			</form>
 		</div>
 		<div class="controls controls-row row">
 			<!-- The file upload form used as target for the file upload widget -->

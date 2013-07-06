@@ -61,7 +61,7 @@ $designers=User2::model()->with(array(
 			array('class' => 'span2', 'empty' => '* Имя менеджера')); ?>
 	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_designer', '',
 			GxHtml::listDataEx($designers, null, 'profile.lastname'),
-			array('class' => 'span2', 'empty' => '* Имя дизайнера')); ?>
+			array('class' => 'span2', 'empty' => '* Подрядчик')); ?>
 	<?php if($role_id=='Admin') echo GxHtml::dropDownList('filter_client', '',
 			GxHtml::listDataEx(Client::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'),
 			array('class' => 'span2', 'empty' => '* Редакция')); ?>
@@ -192,37 +192,6 @@ datagrid = new DatabaseGrid({
 					})
 				).append($("<br>")).append('<i class="icon-remove"></i>').appendTo(cell);
 			}}));
-			grid.setHeaderRenderer("paid", new CellRenderer({render: function(cell, value) {
-				$("<div>").append($("<input type='checkbox'>").on('click', function(){
-						var designer_paidIndex = grid.getColumnIndex("paid");
-						var idIndex = grid.getColumnIndex("id");
-						var ids = [];
-						for(var i = 0; i < grid.getRowCount() ; i++){
-							if(!grid.getValueAt(i, designer_paidIndex))
-								ids.push(grid.getRowId(i));
-						}
-						if(confirm('Оплатить ' + ids.length + ' зак.')){
-							$.ajax({
-								url: '<?php echo $this->createUrl('/order/jsonupdate'); ?>',
-								type: 'POST',
-								dataType: "html",
-								data: {
-									ids: ids,
-									colname: 'paid',
-									newvalue: 1
-								},
-								success: function (response) 
-								{ 
-								    grid.loadJSON(grid.fetchUrl);
-								},
-								async: true
-							});
-						} else {
-							$(this).attr("checked", false);
-						}
-					})
-				).append($("<br>")).append(value).appendTo(cell);
-			}}));
 			grid.setHeaderRenderer("designer_paid", new CellRenderer({render: function(cell, value) {
 				$("<div>").append(
 					$("<input type='checkbox'>").on('click', function(){
@@ -256,37 +225,6 @@ datagrid = new DatabaseGrid({
 					})
 				).append($("<br>")).append(value).appendTo(cell);
 			}}));
-			grid.setCellRenderer("paid", new CheckboxCellRenderer({render: function(element, value) {
-					// convert value to boolean just in case
-					value = (value && value != 0 && value != "false") ? true : false;
-
-					// if check box already created, just update its state
-					if (element.firstChild) { element.firstChild.checked = value; return; }
-					
-					// create and initialize checkbox
-					var htmlInput = document.createElement("input"); 
-					htmlInput.setAttribute("type", "checkbox");
-
-					// give access to the cell editor and element from the editor field
-					htmlInput.element = element;
-					htmlInput.cellrenderer = this;
-
-					// this renderer is a little special because it allows direct edition
-					var cellEditor = new CellEditor();
-					cellEditor.editablegrid = this.editablegrid;
-					cellEditor.column = this.column;
-					htmlInput.onclick = function(event) {
-						element.rowIndex = this.cellrenderer.editablegrid.getRowIndex(element.parentNode); // in case it has changed due to sorting or remove
-						element.isEditing = true;
-						cellEditor.applyEditing(element, htmlInput.checked ? true : false); 
-					};
-
-					if(!value)element.appendChild(htmlInput);
-					htmlInput.checked = value;
-					htmlInput.disabled = (!this.column.editable || !this.editablegrid.isEditable(element.rowIndex, element.columnIndex));
-					
-					element.className = "boolean";
-				}}));
 			<?php } ?>
 
 			
