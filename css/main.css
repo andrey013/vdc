@@ -192,7 +192,7 @@ select:focus {
 }
 
 .btn-work {
-  background-color: hsl(120, 100%, 74%);
+  background-color: hsl(120, 100%, 74%) !important;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e0ffe0", endColorstr="#7aff7a");
   background-image: -khtml-gradient(linear, left top, left bottom, from(#e0ffe0), to(#7aff7a));
@@ -209,7 +209,7 @@ select:focus {
 }
 
 .btn-confirm {
-  background-color: hsl(59, 100%, 70%);
+  background-color: hsl(59, 100%, 70%) !important;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fefecc", endColorstr="#fffc65");
   background-image: -khtml-gradient(linear, left top, left bottom, from(#fefecc), to(#fffc65));
@@ -227,7 +227,7 @@ select:focus {
 }
 
 .btn-agreed {
-  background-color: hsl(337, 58%, 74%);
+  background-color: hsl(337, 58%, 74%) !important;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f8e6ed", endColorstr="#e396b3");
   background-image: -khtml-gradient(linear, left top, left bottom, from(#f8e6ed), to(#e396b3));
@@ -244,7 +244,7 @@ select:focus {
 }
 
 .btn-changed {
-  background-color: hsl(0, 97%, 61%);
+  background-color: hsl(0, 97%, 61%) !important;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fd9f9f", endColorstr="#fc3b3b");
   background-image: -khtml-gradient(linear, left top, left bottom, from(#fd9f9f), to(#fc3b3b));
@@ -261,7 +261,7 @@ select:focus {
 }
 
 .btn-done {
-  background-color: hsl(0, 0%, 78%);
+  background-color: hsl(0, 0%, 78%) !important;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f9f9f9", endColorstr="#c6c6c6");
   background-image: -khtml-gradient(linear, left top, left bottom, from(#f9f9f9), to(#c6c6c6));
@@ -278,7 +278,7 @@ select:focus {
 }
 
 .btn-paused {
-  background-color: hsl(251, 27%, 55%);
+  background-color: hsl(251, 27%, 55%) !important;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b4aed0", endColorstr="#786dab");
   background-image: -khtml-gradient(linear, left top, left bottom, from(#b4aed0), to(#786dab));
@@ -296,7 +296,7 @@ select:focus {
 }
 
 .btn-cancelled {
-  background-color: hsl(31, 84%, 55%);
+  background-color: hsl(31, 84%, 55%) !important;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f4c189", endColorstr="#ec8f2b");
   background-image: -khtml-gradient(linear, left top, left bottom, from(#f4c189), to(#ec8f2b));
@@ -313,7 +313,7 @@ select:focus {
 }
 
 .btn-magenta {
-  background-color: hsl(324, 100%, 36%);
+  background-color: hsl(324, 100%, 36%) !important;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff1ea5", endColorstr="#b7006e");
   background-image: -khtml-gradient(linear, left top, left bottom, from(#ff1ea5), to(#b7006e));
@@ -324,7 +324,7 @@ select:focus {
   background-image: -o-linear-gradient(top, #ff1ea5, #b7006e);
   background-image: linear-gradient(#ff1ea5, #b7006e);
   border-color: #b7006e #b7006e hsl(324, 100%, 31%);
-  color: #fff;
+  color: #fff !important;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.33);
   -webkit-font-smoothing: antialiased;
 }
