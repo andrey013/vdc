@@ -29,6 +29,9 @@
  * @property string $text
  * @property integer $designer_paid
  * @property integer $disabled
+ * @property integer $pay_type
+ * @property integer $client_paid
+ * @property integer $order_count
  *
  * @property Comment[] $comments
  * @property MeasureUnit $measureUnit
@@ -64,13 +67,13 @@ abstract class BaseOrder extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('create_date, global_number, client_number, client_id, manager_id, customer_id, order_type_id, difficulty_id, priority_id', 'required'),
-			array('global_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, chromaticity_id, density_id, size_x, size_y, measure_unit_id, designer_paid, disabled', 'numerical', 'integerOnly'=>true),
-			array('client_number', 'length', 'max'=>20),
+			array('create_date, global_number, client_id, manager_id, customer_id, order_type_id, order_count', 'required'),
+			array('global_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, chromaticity_id, density_id, size_x, size_y, measure_unit_id, designer_paid, disabled, pay_type, client_paid, order_count', 'numerical', 'integerOnly'=>true),
+			array('client_number', 'length', 'max'=>30),
 			array('comment', 'length', 'max'=>200),
 			array('text', 'safe'),
-			array('designer_id, comment, chromaticity_id, density_id, size_x, size_y, measure_unit_id, text, designer_paid, disabled', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, create_date, global_number, client_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, comment, chromaticity_id, density_id, size_x, size_y, measure_unit_id, text, designer_paid, disabled', 'safe', 'on'=>'search'),
+			array('designer_id, comment, chromaticity_id, density_id, size_x, size_y, measure_unit_id, text, designer_paid, disabled, client_paid', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, create_date, global_number, client_number, client_id, manager_id, designer_id, customer_id, order_type_id, difficulty_id, priority_id, comment, chromaticity_id, density_id, size_x, size_y, measure_unit_id, text, designer_paid, disabled, pay_type, client_paid, order_count', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -119,6 +122,9 @@ abstract class BaseOrder extends GxActiveRecord {
 			'text' => Yii::t('app', 'Text'),
 			'designer_paid' => Yii::t('app', 'Designer Paid'),
 			'disabled' => Yii::t('app', 'Disabled'),
+			'pay_type' => Yii::t('app', 'Pay Type'),
+			'client_paid' => Yii::t('app', 'Client Paid'),
+			'order_count' => Yii::t('app', 'Order Count'),
 			'comments' => null,
 			'measureUnit' => null,
 			'client' => null,
@@ -158,6 +164,9 @@ abstract class BaseOrder extends GxActiveRecord {
 		$criteria->compare('text', $this->text, true);
 		$criteria->compare('designer_paid', $this->designer_paid);
 		$criteria->compare('disabled', $this->disabled);
+		$criteria->compare('pay_type', $this->pay_type);
+		$criteria->compare('client_paid', $this->client_paid);
+		$criteria->compare('order_count', $this->order_count);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

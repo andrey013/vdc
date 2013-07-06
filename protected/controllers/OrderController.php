@@ -302,21 +302,24 @@ public function accessRules() {
 
 		if($user->role_id=='Admin'){
 			//$grid->addColumn('id', 'ID', 'integer', NULL, false);
-			$grid->addColumn('priority.name', '!', 'integer');
+			//$grid->addColumn('priority.name', '!', 'integer');
+			$grid->addColumn('global_number', '№ заказа', 'string');
 			$grid->addColumn('createdateformatted', 'Дата', 'string');//'date');
 			$grid->addColumn('customer.name', 'Заказчик', 'string');
 			$grid->addColumn('orderType.name', 'Вид', 'string');
 			$grid->addColumn('comment', 'Комментарий', 'string');
 			$grid->addColumn('client.name', 'Клиент', 'string');
-			$grid->addColumn('designer_id', 'Дизайнер', 'integer',
-				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), true);
+			$grid->addColumn('designer_id', 'Подрядчик', 'integer',
+				$grid->fetch_pairs($designers, 'id', 'profile.lastname'), false);
 			$grid->addColumn('orderStatus.statusformatted', 'Статус', 'string');
-			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)');
-			$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)');
+			$grid->addColumn('client_price', 'Стоимость', 'double(,0,comma,&nbsp;,)', null, true);
+			$grid->addColumn('designer_price', ' ', 'double(,0,comma,&nbsp;,)', null, true);
 			$grid->addColumn('penny', ' ', 'double(,0,comma,&nbsp;,)');
-                        $grid->addColumn('debt', 'Долг', 'double(,0,comma,&nbsp;,)');
-			$grid->addColumn('paid', 'О', 'boolean', null, true);
-			$grid->addColumn('designer_paid', 'Д', 'boolean', null, true);
+			//$grid->addColumn('debt', 'Долг', 'double(,0,comma,&nbsp;,)');
+			//$grid->addColumn('paid', 'О', 'boolean', null, true);
+			$grid->addColumn('pay_type', 'Оплата', 'boolean', null, true);
+			$grid->addColumn('client_paid', 'Нам', 'boolean', null, true);
+			$grid->addColumn('designer_paid', 'Мы', 'boolean', null, true);
 			$grid->addColumn('disabled', 'X', 'boolean', null, true);
 			$grid->addColumn('filter', ' ', 'string');
 

@@ -24,7 +24,7 @@ return array(
             'dryRun' => true,
         ),
         'db'=>array(
-            'connectionString' => 'mysql:host=localhost;dbname=vdc',
+            'connectionString' => 'mysql:host=localhost;dbname=typografia',
             'username' => 'vdc',
             'password' => '123',
             'enableProfiling'=>true,
