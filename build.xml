@@ -7,6 +7,10 @@
     <property name="builddir" value="./build" override="true" />
     <property name="srcdir"   value="${project.basedir}" override="true" />
 
+    <!-- <property name="serverpath" value="htdocs" override="true" />
+    <property name="serverpath" value="stupino" override="true" /> -->
+    <property name="serverpath" value="tipografia" override="true" />
+
     <taskdef name="yuic" classname="phing.tasks.YuiCompressorTask" />
     <taskdef name="sync" classname="phing.tasks.ext.FileSyncTask" />
 
@@ -114,7 +118,7 @@
         <sync
             rsyncPath="cd ${builddir}; rsync"
             sourcedir="."
-            destinationdir="yankin013@vdvdesign.ru:~/htdocs"
+            destinationdir="yankin013@vdvdesign.ru:~/${serverpath}"
             itemizechanges="true"
             verbose="true"
             checksum="true"
@@ -128,7 +132,7 @@
         <sync
             rsyncPath="cd ${builddir}; rsync"
             sourcedir="."
-            destinationdir="yankin013@vdvdesign.ru:~/htdocs"
+            destinationdir="yankin013@vdvdesign.ru:~/${serverpath}"
             itemizechanges="true"
             verbose="true"
             checksum="true"
@@ -141,7 +145,7 @@
         <sync
             rsyncPath="cd ./protected/yii-1.1.12; rsync"
             sourcedir="."
-            destinationdir="yankin013@vdvdesign.ru:~/htdocs/protected/yii-1.1.12"
+            destinationdir="yankin013@vdvdesign.ru:~/${serverpath}/protected/yii-1.1.12"
             itemizechanges="true"
             verbose="true"
             checksum="true" />
