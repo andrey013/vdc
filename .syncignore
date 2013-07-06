@@ -1,3 +1,6 @@
 protected/runtime/*
 /files/[0-9]*
 /files/documents
+.htaccess
+index.php
+main.php
