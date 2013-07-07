@@ -176,7 +176,9 @@ class Order extends BaseOrder
 		$result->designer = $this->designer_id;
 		$result->order_status = $this->orderStatus->orderStatus->key;
 		$result->client = $this->client_id;
-		$result->paid = $this->paid;
+		$result->pay_type = $this->pay_type;
+		$result->client_paid = $this->client_paid;
+		$result->designer_paid = $this->designer_paid;
 		$result->changed = count($this->payments)<=1?0:1;
 		$result->filter = ''.$this->customer->name.' '
 							.$this->orderType->name.' '

@@ -65,9 +65,15 @@ $designers=User2::model()->with(array(
 	<?php if($role_id=='Admin') echo GxHtml::dropDownList('filter_client', '',
 			GxHtml::listDataEx(Client::model()->findAllAttributes(null, true, 'disabled=0'), null, 'name'),
 			array('class' => 'span2', 'empty' => '* Редакция')); ?>
-	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_paid', '',
-			array('1' => 'Оплаченные', '0' => 'Не оплаченные'),
+	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_pay_type', '',
+			array('1' => 'Нал', '0' => 'Безнал'),
 			array('class' => 'span2', 'empty' => '* Оплата')); ?>
+	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_client_paid', '',
+			array('1' => 'Зап-ли', '0' => 'Не з-и'),
+			array('class' => 'span2', 'empty' => '* Нам')); ?>
+	<?php if($role_id!='Designer') echo GxHtml::dropDownList('filter_designer_paid', '',
+			array('1' => 'Зап-ли', '0' => 'Не з-и'),
+			array('class' => 'span2', 'empty' => '* Мы')); ?>
 	<?php /*echo GxHtml::dropDownList('filter_changed', '',
 			array('1' => 'Измененные', '0' => 'Не измененные'),
 			array('class' => 'span2', 'empty' => '* Измененность')); */?>
